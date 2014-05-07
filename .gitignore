@@ -4,5 +4,6 @@ node_modules
 .SyncArchive
 .sass-cache
 .DS_Store
+.env
 dev
 bower_components

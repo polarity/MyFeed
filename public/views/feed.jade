@@ -1,3 +1,21 @@
-ul
-	for doc in docs
-		li!= doc.doc["nachname"]
+for row in rows
+	.Post
+		.Avatar
+			img(src="https://www.gravatar.com/avatar/"+user.emailhash)
+
+		.Content
+			.content-title!= row.doc.title
+			.content-content!= row.doc.content
+
+		if row.doc.attachments
+			for attachment in row.doc.attachments
+
+				if attachment.type == "url"
+					.UrlAttachment
+						.url-link
+							a(href!=attachment.url)!= attachment.url
+						.url-excerpt!= attachment.excerpt
+
+				if attachment.type == "image"
+					.ImageAttachment
+						.image-link

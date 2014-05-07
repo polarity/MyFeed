@@ -23,8 +23,11 @@ block body
 
 				article.post-article
 					.article-content
-						.content-title!= row.doc.title
-						.content-content!= row.doc.content
+						if row.doc.title
+							.content-title!= row.doc.title
+
+						if row.doc.content
+							.content-content!= row.doc.content
 
 					if row.doc.attachments
 						hr

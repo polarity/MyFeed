@@ -14,160 +14,55 @@ $space = 20px
 html
 	height: 100%
 
-body 
+body
 	@extend #FONTSIZE-NORMAL
 	@extend #FONT-MAIN
 	@extend #COLOR-BLACK
+	@extend #BG-GREY
+	@extend #LINE-HEIGHT
 	font-weight: 300
 	font-style: normal
 	height: 100%
+	min-width:400px
 
-h1 
-	@extend #FONTSIZE-MEGA
-	@extend #FONT-HEAD
-	@extend #CENTER
-	@extend #LINE-HEIGHT
-	max-width: 600px
-	font-weight: 200
-	font-style: normal
-	//position: relative
-	//top:  $space*25
-h2 
-	@extend #CENTER
-	@extend #FONTSIZE-BIG
-	@extend #MARGIN-BOTTOM-NORMAL
-	@extend #FONT-HEAD
-	@extend #LINE-HEIGHT
-	max-width: 600px
-	font-weight: 300
-	font-style: normal
-
-header
-	@extend #BG-DARK
-	@extend #COLOR-WHITE
-	@extend #MARGIN-BOTTOM-BIG
-	position: relative
-	height: $space*10
-	background-image: url(https://farm6.staticflickr.com/5471/13547284475_4f8564e136_b_d.jpg)
-	background-size: cover
-	background-position: center center
-	overflow: hidden
-
-header > *
-	position: relative
-	z-index: 1
-
-header .Videobox
-	height: 100%
-	margin: 0
-
-b
-	font-weight: bold
-
-i
-	font-style: italic
-
-p,code,blockquote,pre
-	@extend #MARGIN-BOTTOM-NORMAL
-	@extend #LINE-HEIGHT
-
-blockquote
-	@extend #PADDING-H-BIG
-	border-left: 1px solid black
-	padding-right: 0
-
-code 
+.Stream
 	@extend #PADDING-NORMAL
-	@extend #BG-DARK
-	@extend #COLOR-WHITE
 
-img, iframe
-	@extend #MARGIN-BOTTOM-BIG
-	@extend #CENTER
-	display: block
-	max-width: 100%
-	max-height: 90%
-
-img:last-child, iframe:last-child, p:last-child
-	margin-bottom: 0
+.Post
+	@extend #FONTSIZE-SMALL
+	@extend #PADDING-NORMAL
+	@extend #BG-WHITE
+	@extend #MARGIN-BOTTOM-NORMAL
+	@extend #BORDER-DARK
+	border-width: 1px
+	border-style: solid
 
 hr
-	@extend #MARGIN-V-BIG
-	@extend #BG-GREY
-	@extend #CENTER
-	border: 0
-	content: ""
-	display: block
-	width:680px
-	height: 1px
-
-.Grid-Maincontent
-	@extend #CENTER
-
-.Grid-Section
-	@extend #ROW
-
-.container
-	@extend #CENTER
-	@extend #PADDING-BIG
-	max-width: 600px
-	min-width: 600px
-
-.Shoutbox
-	@extend #ROW
-	@extend .container
-	display: flex
-	align-items: center
-	justify-content: center
-
-.shoutbox-avatar
 	@extend #BORDER-DARK
-	align-self: flex-start
-	box-shadow: 2px 2px 10px #cecece
-	border-width: 2px
+	@extend #MARGIN-V-NORMAL
+	border-width: 0px
+	border-top-width: 1px
 	border-style: solid
-	col(2, 12)
-	border-radius: 50%
-	overflow: hidden
-	background-image: url("../img/avatar.jpg")
-	background-size: cover
-	background-position: center
-	width: 100px
-	height: 100px
 
-.shoutbox-content
-	col(10, 12)
-	@extend #PADDING-H-NORMAL
-	padding-right: 0
-
-.Textbox
-	@extend .container
-
-.Gallerybox
+header.post-header
 	clearfix()
-	@extend #PADDING-V-BIG
-	text-align: center
-	line-height: 0
-	font-size: 0
+	@extend #MARGIN-BOTTOM-SMALL
+	.Avatar
+		float: left
+		img
+			max-width: 100%
+	.Meta
+		@extend #PADDING-H-NORMAL
+		float:left
 
-.Gallerybox img
-	display: inline
-	margin-bottom: 0
+		.meta-username
+			font-weight: bold
 
-.Videobox
-	@extend #COLOR-WHITE
-	@extend #MARGIN-V-BIG
-	overflow: hidden
-	position: relative
+article.post-article
+	.article-content
+		@extend #MARGIN-BOTTOM-NORMAL
 
-.Videobox > *
-	position: relative
-	z-index: 1
-
-.bgvideo
-	position: absolute
-	top: 0
-	left:0
-	min-width: 100%
-	min-height: 100%
-	z-index: 0
+		.content-title
+			@extend #FONTSIZE-BIG
+			@extend #LINE-HEIGHT
+			@extend #MARGIN-BOTTOM-SMALL

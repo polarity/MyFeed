@@ -2,7 +2,6 @@
   "name": "myfeed",
   "version": "0.0.1",
   "devDependencies": {
-    "jade": "~0.34.1",
     "grunt": "~0.4.1",
     "grunt-contrib-jade": "~0.8.0",
     "grunt-contrib-watch": "~0.5.1",

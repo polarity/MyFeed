@@ -7,6 +7,7 @@ dotenv = require "dotenv"
 dotenv.load()
 app = Express()
 app.set 'view engine', 'jade'
+app.use '/css', Express.static(__dirname + '/css')
 
 # db
 dbServer = CouchDB.srv(process.env.COUCHDB_URL)

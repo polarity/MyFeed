@@ -40,14 +40,6 @@ module.exports = (grunt) ->
 					'clean'
 				]
 
-			jade:
-				files: ['src/jade/**/*.jade']
-				tasks: ['jade:dev']
-
-			sass:
-				files: ['src/scss/*.scss']
-				tasks: ['sass:dev']
-
 			stylus:
 				files: ['src/stylus/*.styl']
 				tasks: ['stylus:dev']
@@ -76,7 +68,7 @@ module.exports = (grunt) ->
 					compress: false
 
 				files: [
-					"dev/css/main.css": "src/stylus/main.styl"
+					"www/css/main.css": "src/stylus/main.styl"
 				]
 
 		# compile scss files
@@ -105,42 +97,6 @@ module.exports = (grunt) ->
 			dev:
 				files:
 					'.tmp/js/concat.js': ['.tmp/coffee/concat.coffee']
-
-
-		# compile Jade files from the src folder
-		# to the dev folder
-		jade:
-			# target static html
-			dist:
-				options:
-					pretty: false
-
-				files: [
-					{
-						expand: true
-						cwd: "src/jade/_content/"
-						src: ["*.jade"]
-						dest: "dist/"
-						ext: ".html"
-					}
-				]
-
-			# target static html
-			dev:
-				options:
-					pretty: true
-					data:
-						dev: true
-						wp: false
-				files: [
-					{
-						expand: true
-						cwd: "src/jade/_content/"
-						src: ["*.jade"]
-						dest: "dev/"
-						ext: ".html"
-					}
-				]
 
 		copy:
 			dev_images:
@@ -201,7 +157,7 @@ module.exports = (grunt) ->
 			copy_complete_js:
 				files:
 					"dev/js/complete.js": [".tmp/js/complete.js"]
-			
+
 		uglify:
 			dev:
 				options:
@@ -312,7 +268,6 @@ module.exports = (grunt) ->
 	# load all needed tasks
 	# install them via "npm install"
 	# in the directory root
-	grunt.loadNpmTasks 'grunt-contrib-jade'
 	grunt.loadNpmTasks 'grunt-contrib-watch'
 	grunt.loadNpmTasks 'grunt-contrib-connect'
 	grunt.loadNpmTasks 'grunt-contrib-imagemin'
@@ -342,7 +297,6 @@ module.exports = (grunt) ->
 		"uglify:dev",
 		"clean",
 		"stylus:dev",
-		'jade:dev',
 		"copy:fonts",
 		"copy:svg",
 		"copy:dev_images"
@@ -356,7 +310,6 @@ module.exports = (grunt) ->
 		"uglify:dist",
 		"clean",
 		"stylus:dist",
-		'jade:dist',
 		"copy:dist_fonts",
 		"copy:dist_images",
 		"copy:dist_svg"

@@ -4,23 +4,6 @@ module.exports = (grunt) ->
 
 		pkg: '<json:package.json>'
 
-		connect:
-			server:
-				options:
-					middleware: (connect, options)->
-						[
-							(req, res, next)->
-								res.setHeader('Access-Control-Allow-Origin', '*')
-								res.setHeader('Access-Control-Allow-Methods', '*')
-								next()
-								return
-							connect.static(options.base) # position important!!
-						]
-					hostname: "*"
-					port: 8000
-					base: "./dev/"
-
-
 		# the watch task
 		# compile on file change
 		watch:
@@ -269,14 +252,12 @@ module.exports = (grunt) ->
 	# install them via "npm install"
 	# in the directory root
 	grunt.loadNpmTasks 'grunt-contrib-watch'
-	grunt.loadNpmTasks 'grunt-contrib-connect'
 	grunt.loadNpmTasks 'grunt-contrib-imagemin'
 	grunt.loadNpmTasks 'grunt-contrib-copy'
 	grunt.loadNpmTasks 'grunt-contrib-concat'
 	grunt.loadNpmTasks 'grunt-contrib-coffee'
 	grunt.loadNpmTasks 'grunt-replace'
 	grunt.loadNpmTasks 'grunt-contrib-uglify'
-	grunt.loadNpmTasks 'grunt-contrib-connect'
 	grunt.loadNpmTasks 'grunt-contrib-stylus'
 	grunt.loadNpmTasks 'grunt-bower-concat'
 
@@ -287,7 +268,7 @@ module.exports = (grunt) ->
 	# Default task:
 	# run all above configured tasks
 	# in this order when the user calls "grunt" in the project root
-	grunt.registerTask 'dev', ["connect","watch"]
+	grunt.registerTask 'dev', ["watch"]
 	grunt.registerTask 'default', [
 		'concat:coffee',
 		'coffee:dev',

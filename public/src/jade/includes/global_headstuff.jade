@@ -1,0 +1,18 @@
+mixin global_headstuff(options)
+	meta(content="utf-8")
+	title!= options.title
+	link(href="css/main.css", rel="stylesheet")
+	link(rel="shortcut icon", type="image/x-icon", href="")
+	meta(name="description", content="")
+
+	// Facebook Stuff
+	meta(property="og:image", content="")
+	meta(property="og:title", content="")
+	meta(property="og:url", content="")
+	meta(property="og:site_name", content="")
+	meta(property="og:type", content="")
+
+	// Apple Stuff
+	meta(name="viewport", content="width=device-width, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0")
+	meta(name="apple-mobile-web-app-status-bar-style", content="black")
+	link(rel="apple-touch-icon", href="")

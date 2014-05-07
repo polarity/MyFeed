@@ -1,0 +1,31 @@
+$break-small = 500
+$break-large = 854
+$break-mega = 1150
+
+$handhelds = "only screen and (max-width: "+$break-small+"px)"
+$medium = "only screen and (min-width: "+($break-small + 1)+"px) and (max-width: "+($break-large - 1)+"px)"
+$medium_beyond = "only screen and (min-width: "+($break-small + 1)+"px)"
+$big = "only screen and (min-width: "+($break-large + 1) +"px) and (max-width: "+($break-mega - 1)+"px)"
+$wide = "only screen and (min-width: "+$break-mega+"px)"
+
+respond($media) 
+
+	if $media == handhelds
+		@media $handhelds
+			{block}
+
+	else if $media == medium
+		@media $medium
+			{block}
+
+	else if $media == medium_beyond
+		@media $medium_beyond
+			{block}
+
+	else if $media == big
+		@media $big
+			{block}
+
+	else if $media == wide
+		@media $wide
+			{block}

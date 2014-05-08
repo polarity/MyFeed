@@ -1,0 +1,47 @@
+mixin Post(user, row)
+	.Post
+
+		header.post-header
+
+			.Avatar
+				img(src="https://www.gravatar.com/avatar/"+user.emailhash)
+
+			.Meta
+				.meta-username Robert Agthe
+				.meta-postcreated Just now
+
+		if row.doc && (row.doc.title || row.doc.content)
+
+			article.post-article
+
+				.article-content
+
+					if row.doc.title
+						.content-title!= row.doc.title
+
+					if row.doc.content
+						.content-content!= row.doc.content
+
+		if row.doc && row.doc.attachments
+				hr
+
+				.Attachments
+
+				for attachment in row.doc.attachments
+
+					if attachment.type == "url"
+						.UrlAttachment
+							if attachment.thumb
+								.url-thumb
+									img(src=attachment.thumb)
+							.url-meta
+								.url-link
+									if attachment.title
+										a(href!=attachment.url)!= attachment.title
+									else if attachment.url
+										a(href!=attachment.url)!= attachment.url
+								.url-excerpt!= attachment.excerpt
+
+					if attachment.type == "image"
+						.ImageAttachment
+							.image-link

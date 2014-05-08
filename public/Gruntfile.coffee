@@ -46,6 +46,8 @@ module.exports = (grunt) ->
 				]
 
 		coffee:
+			options:
+				bare: true
 			dev:
 				files:
 					'.tmp/js/concat.js': ['.tmp/coffee/concat.coffee']

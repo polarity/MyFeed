@@ -24,6 +24,9 @@ body
 	font-style: normal
 	height: 100%
 	min-width:400px
+a, a:link, a:visited
+	@extend #COLOR-BLUE
+	font-weight: bold
 
 .Stream
 	@extend #PADDING-NORMAL
@@ -33,12 +36,12 @@ body
 	@extend #PADDING-NORMAL
 	@extend #BG-WHITE
 	@extend #MARGIN-BOTTOM-NORMAL
-	@extend #BORDER-DARK
+	@extend #BORDER-BLUE
 	border-width: 1px
 	border-style: solid
 
 hr
-	@extend #BORDER-DARK
+	@extend #BORDER-BLUE
 	@extend #MARGIN-V-NORMAL
 	border-width: 0px
 	border-top-width: 1px
@@ -46,23 +49,40 @@ hr
 
 header.post-header
 	clearfix()
-	@extend #MARGIN-BOTTOM-SMALL
+	@extend #MARGIN-BOTTOM-NORMAL
 	.Avatar
+		height: 90px
+		width: 90px
 		float: left
 		img
-			max-width: 100%
+			@extend #BORDER-DARK
+			border-top-width: 1px
+			border-style: solid
+			border-radius: 40px
+			overflow: hidden
+			width: 100%
 	.Meta
 		@extend #PADDING-H-NORMAL
+		@extend #PADDING-V-NORMAL
 		float:left
-
 		.meta-username
 			font-weight: bold
 
 article.post-article
 	.article-content
 		@extend #MARGIN-BOTTOM-NORMAL
-
 		.content-title
 			@extend #FONTSIZE-BIG
 			@extend #LINE-HEIGHT
 			@extend #MARGIN-BOTTOM-SMALL
+.UrlAttachment
+	clearfix()
+	.url-thumb
+		@extend #PADDING-H-NORMAL
+		padding-left: 0
+		width: 90px
+		float: left
+		img
+			max-width: 100%
+	.url-meta
+		float: left

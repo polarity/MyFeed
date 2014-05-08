@@ -21,27 +21,32 @@ block body
 						.meta-username Robert Agthe
 						.meta-postcreated Just now
 
-				article.post-article
-					.article-content
-						if row.doc.title
-							.content-title!= row.doc.title
+				if row.doc.title || row.doc.content
+					article.post-article
+						.article-content
+							if row.doc.title
+								.content-title!= row.doc.title
 
-						if row.doc.content
-							.content-content!= row.doc.content
+							if row.doc.content
+								.content-content!= row.doc.content
 
-					if row.doc.attachments
-						hr
-						for attachment in row.doc.attachments
+						if row.doc.attachments
+							hr
+							for attachment in row.doc.attachments
 
-							if attachment.type == "url"
-								.UrlAttachment
-									.url-link
-										if attachment.title
-											a(href!=attachment.url)!= attachment.title
-										else if attachment.url
-											a(href!=attachment.url)!= attachment.url
-									.url-excerpt!= attachment.excerpt
+								if attachment.type == "url"
+									.UrlAttachment
+										if attachment.thumb
+											.url-thumb
+												img(src=attachment.thumb)
+										.url-meta
+											.url-link
+												if attachment.title
+													a(href!=attachment.url)!= attachment.title
+												else if attachment.url
+													a(href!=attachment.url)!= attachment.url
+											.url-excerpt!= attachment.excerpt
 
-							if attachment.type == "image"
-								.ImageAttachment
-									.image-link
+								if attachment.type == "image"
+									.ImageAttachment
+										.image-link

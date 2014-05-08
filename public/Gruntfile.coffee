@@ -18,7 +18,6 @@ module.exports = (grunt) ->
 					'coffee:dev',
 					"bower_concat",
 					"concat:app",
-					"replace:socket_config_dev",
 					"copy:copy_complete_js",
 					'clean'
 				]

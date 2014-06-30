@@ -2,6 +2,7 @@ Express = require "express"
 CouchDB = require "couchdb-api"
 md5 = require "md5"
 dotenv = require "dotenv"
+markdown = require("node-markdown").Markdown
 
 # init
 dotenv.load()
@@ -22,11 +23,18 @@ user = {}
 user.email = process.env.USER_EMAIL
 user.emailhash = md5.digest_s(user.email)
 
+sortByDate = (a,b)->
+	return (new Date(a.doc.created).getTime()) - (new Date(b.doc.created).getTime())
+
 # routes
 app.get "/feed", (req, res)->
 	db.allDocs {include_docs: true}, (err, docs)->
 		if docs
-			res.render("feed", {rows: docs.rows, user: user})
+			res.render("feed", {
+				rows: docs.rows.sort(sortByDate).reverse(), 
+				user: user,
+				markdown: markdown
+			})
 
 server = app.listen 8000, ()->
 	console.log "Listening....", server.address().port

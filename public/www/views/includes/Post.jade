@@ -8,7 +8,7 @@ mixin Post(user, row)
 
 			.Meta
 				.meta-username Robert Agthe
-				.meta-postcreated Just now
+				.meta-postcreated!= row.doc.created
 
 		if row.doc && (row.doc.title || row.doc.content)
 
@@ -20,7 +20,7 @@ mixin Post(user, row)
 						.content-title!= row.doc.title
 
 					if row.doc.content
-						.content-content!= row.doc.content
+						.content-content!= markdown(row.doc.content)
 
 		if row.doc && row.doc.attachments
 				hr
@@ -34,14 +34,34 @@ mixin Post(user, row)
 							if attachment.thumb
 								.url-thumb
 									img(src=attachment.thumb)
-							.url-meta
-								.url-link
-									if attachment.title
-										a(href!=attachment.url)!= attachment.title
-									else if attachment.url
-										a(href!=attachment.url)!= attachment.url
-								.url-excerpt!= attachment.excerpt
+
+							if attachment.thumb 
+								.url-meta
+									.url-link
+										if attachment.title
+											a(href!=attachment.url, title=attachment.title)!= attachment.title
+										else if attachment.url
+											a(href!=attachment.url)!= attachment.url
+									.url-excerpt!= attachment.excerpt
+							else
+								.url-meta-wide
+									.url-link
+										if attachment.title
+											a(href!=attachment.url, title=attachment.title)!= attachment.title
+										else if attachment.url
+											a(href!=attachment.url)!= attachment.url
+									.url-excerpt!= attachment.excerpt
 
 					if attachment.type == "image"
 						.ImageAttachment
-							.image-link
+							if attachment.thumb
+								if attachment.url
+									.image-thumb
+										a(href!=attachment.url)
+											img(src=attachment.thumb)
+										.image-link
+											p Quelle: 
+												a(href!=attachment.url)!= attachment.url
+								else
+									.image-thumb
+										img(src=attachment.thumb)

@@ -9,20 +9,7 @@ block head
 
 // extend block body
 block body
-	.Navigation-Left
 	.Stream
-		.CreatePost(ng-controller="CreatePostController")
-			textarea.createpost-input(ng-keyup="parseText()", ng-model="text") c
-			button.send send
-
-			h2 {{title}}
-
-			.text {{text}}
-
-			ul
-				li(ng-repeat="urls in PostObject.urls track by $index")
-					p Jo {{urls}}
-					a(href="{{urls}}") {{urls}}
-
+		//+CreatePost()
 		for row in rows
 			+Post(user, row)

@@ -4,7 +4,7 @@ clearfix()
 		display: block;
 		clear: both;
 
-#BORDER-BOX
+$BORDER-BOX
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
@@ -12,7 +12,7 @@ clearfix()
 /******************************************************
  * introduce a new row
  ******************************************************/
-#ROW
+$ROW
 	clearfix()
 	clear: both
 
@@ -23,7 +23,7 @@ clearfix()
  * 3, 12 = 40% on each div
  ******************************************************/
 col($num, $cols)
-	@extend #BORDER-BOX
+	@extend $BORDER-BOX
 	overflow: hidden
 	float: left
 	width: (100% / $cols) * $num - 0.000001%

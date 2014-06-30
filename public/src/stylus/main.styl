@@ -15,87 +15,144 @@ html
 	height: 100%
 
 body
-	@extend #FONTSIZE-NORMAL
-	@extend #FONT-MAIN
-	@extend #COLOR-BLACK
-	@extend #BG-GREY
-	@extend #LINE-HEIGHT
+	@extend $FONTSIZE-NORMAL
+	@extend $FONT-MAIN
+	@extend $COLOR-BLACK
+	@extend $BG-GREY
+	@extend $LINE-HEIGHT-NORMAL
 	font-weight: 300
 	font-style: normal
 	height: 100%
-	min-width:400px
+	min-width:200px
 
 a, a:link, a:visited
-	@extend #COLOR-BLUE
+	@extend $COLOR-BLUE
 	font-weight: bold
 
 .Stream
-	@extend #PADDING-NORMAL
+	@extend $CENTER
+	max-width: 800px
+	@media $handhelds
+		padding: 0
+	@media $medium_beyond
+		@extend $PADDING-NORMAL
+
 
 .Post
-	@extend #FONTSIZE-SMALL
-	@extend #PADDING-NORMAL
-	@extend #BG-WHITE
-	@extend #MARGIN-BOTTOM-NORMAL
-	@extend #BORDER-BLUE
+	@extend $FONTSIZE-SMALL
+	@extend $PADDING-NORMAL
+	@extend $BG-WHITE
+	@extend $MARGIN-BOTTOM-NORMAL
+	@extend $BORDER-BLUE
 	border-width: 1px
 	border-style: solid
 
 hr
-	@extend #BORDER-BLUE
-	@extend #MARGIN-V-NORMAL
+	@extend $BORDER-BLUE
+	@extend $MARGIN-V-NORMAL
 	border-width: 0px
 	border-top-width: 1px
 	border-style: solid
 
 header.post-header
 	clearfix()
-	@extend #MARGIN-BOTTOM-NORMAL
+	@extend $MARGIN-BOTTOM-NORMAL
 	.Avatar
-		height: 90px
-		width: 90px
-		float: left
+		@media $handhelds
+			col(3,12)
+		@media $medium_beyond
+			col(2,12)
 		img
-			@extend #BORDER-DARK
+			@extend $BORDER-DARK
 			border-top-width: 1px
 			border-style: solid
 			border-radius: 40px
 			overflow: hidden
 			width: 100%
 	.Meta
-		@extend #PADDING-H-NORMAL
-		@extend #PADDING-V-NORMAL
-		float:left
+		@media $handhelds
+			padding-top: 0
+			padding-bottom: 0
+			col(9,12)
+		@media $medium_beyond
+			col(10,12)
+			@extend $PADDING-V-NORMAL
+
+		@extend $PADDING-H-NORMAL
+
 		.meta-username
 			font-weight: bold
 
 article.post-article
 	.article-content
-		@extend #MARGIN-BOTTOM-NORMAL
+		@extend $MARGIN-BOTTOM-NORMAL
+		.content-content
+			@extend $FONTSIZE-NORMAL
+			@extend $LINE-HEIGHT-NORMAL
+			@extend $MARGIN-BOTTOM-SMALL
+			p
+				@extend $MARGIN-BOTTOM-NORMAL
+			code 
+				@extend $FONT-MONO
+				@extend $PADDING-NORMAL
+				@extend $BG-DARKGREY
+				@extend $COLOR-WHITE
+				display: block
+				white-space: pre
+
 		.content-title
-			@extend #FONTSIZE-BIG
-			@extend #LINE-HEIGHT
-			@extend #MARGIN-BOTTOM-SMALL
+			@extend $FONTSIZE-BIG
+			@extend $LINE-HEIGHT-NORMAL
+			@extend $MARGIN-BOTTOM-SMALL
+
 .UrlAttachment
+	@extend $FONTSIZE-SMALL
+	@extend $LINE-HEIGHT-NORMAL
+	@extend $MARGIN-BOTTOM-NORMAL
 	clearfix()
+	.url-link
+		@extend $MARGIN-BOTTOM-SMALL
+		@extend $OVERFLOW-NICE
+
 	.url-thumb
-		@extend #PADDING-H-NORMAL
+		@media $handhelds
+			col(3,12)
+		@media $medium_beyond
+			col(2,12)
+		@extend $PADDING-H-NORMAL
 		padding-left: 0
-		width: 90px
-		float: left
 		img
 			max-width: 100%
+
 	.url-meta
-		float: left
+		@media $handhelds
+			col(9,12)
+		@media $medium_beyond
+			col(10,12)
+
+	.url-meta-wide
+		clearfix()
+
+.ImageAttachment
+	@extend $MARGIN-BOTTOM-NORMAL
+	clearfix()
+	.image-thumb
+		col(12,12)
+		padding-left: 0
+		img
+			max-width: 100%
+	.image-link
+		@extend $FONTSIZE-TINY
+		@extend $OVERFLOW-NICE
 
 .CreatePost
 	clearfix()
-	@extend #MARGIN-BOTTOM-NORMAL
+	@extend $MARGIN-BOTTOM-NORMAL
 
 .createpost-input
-	@extend #BORDER-BOX
-	@extend #BORDER-BLUE
-	@extend #PADDING-SMALL
+	@extend $BORDER-BOX
+	@extend $BORDER-BLUE
+	@extend $PADDING-SMALL
 	-webkit-appearance: none
 	-moz-appearance: none
 	appearance: none

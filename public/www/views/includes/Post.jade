@@ -9,6 +9,8 @@ mixin Post(user, row)
 			.Meta
 				.meta-username Robert Agthe
 				.meta-postcreated!= row.doc.created
+				.meta-permalink
+					a(href!='/post/'+row.doc._id) Permalink
 
 		if row.doc && (row.doc.title || row.doc.content)
 

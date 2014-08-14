@@ -3,11 +3,14 @@ CouchDB = require "couchdb-api"
 md5 = require "md5"
 dotenv = require "dotenv"
 markdown = require("node-markdown").Markdown
+stylus = require 'stylus'
 
 # init
 dotenv.load()
 app = Express()
 app.set 'view engine', 'jade'
+
+app.use stylus.middleware({src: __dirname + '/stylus', dest: __dirname + '/css'})
 app.use '/css', Express.static(__dirname + '/css')
 app.use '/js', Express.static(__dirname + '/js')
 
@@ -29,6 +32,15 @@ sortByDate = (a,b)->
 # routes
 app.get "/feed", (req, res)->
 	db.allDocs {include_docs: true}, (err, docs)->
+		if docs
+			res.render("feed", {
+				rows: docs.rows.sort(sortByDate).reverse(), 
+				user: user,
+				markdown: markdown
+			})
+
+app.get "/post/:id", (req, res)->
+	db.allDocs {include_docs: true}, [req.params.id], (err, docs)->
 		if docs
 			res.render("feed", {
 				rows: docs.rows.sort(sortByDate).reverse(), 

@@ -1,1 +1,1 @@
-window.app = angular.module('MyFeed', ['ngSanitize'])
+window.app = angular.module('myFeed', ['ngSanitize'])

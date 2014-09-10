@@ -24,46 +24,44 @@ mixin Post(user, row)
 					if row.doc.content
 						.content-content!= markdown(row.doc.content)
 
-		if row.doc && row.doc.attachments
-				hr
-
+		if row.doc && row.doc.attachments && row.doc.attachments.length > 0
 				.Attachments
 
-				for attachment in row.doc.attachments
+					for attachment in row.doc.attachments
 
-					if attachment.type == "url"
-						.UrlAttachment
-							if attachment.thumb
-								.url-thumb
-									img(src=attachment.thumb)
-
-							if attachment.thumb 
-								.url-meta
-									.url-link
-										if attachment.title
-											a(href!=attachment.url, title=attachment.title)!= attachment.title
-										else if attachment.url
-											a(href!=attachment.url)!= attachment.url
-									.url-excerpt!= attachment.excerpt
-							else
-								.url-meta-wide
-									.url-link
-										if attachment.title
-											a(href!=attachment.url, title=attachment.title)!= attachment.title
-										else if attachment.url
-											a(href!=attachment.url)!= attachment.url
-									.url-excerpt!= attachment.excerpt
-
-					if attachment.type == "image"
-						.ImageAttachment
-							if attachment.thumb
-								if attachment.url
-									.image-thumb
-										a(href!=attachment.url)
-											img(src=attachment.thumb)
-										.image-link
-											p Quelle: 
-												a(href!=attachment.url)!= attachment.url
-								else
-									.image-thumb
+						if attachment.type == "url"
+							.UrlAttachment
+								if attachment.thumb
+									.url-thumb
 										img(src=attachment.thumb)
+
+								if attachment.thumb 
+									.url-meta
+										.url-link
+											if attachment.title
+												a(href!=attachment.url, title=attachment.title)!= attachment.title
+											else if attachment.url
+												a(href!=attachment.url)!= attachment.url
+										.url-excerpt!= attachment.excerpt
+								else
+									.url-meta-wide
+										.url-link
+											if attachment.title
+												a(href!=attachment.url, title=attachment.title)!= attachment.title
+											else if attachment.url
+												a(href!=attachment.url)!= attachment.url
+										.url-excerpt!= attachment.excerpt
+
+						if attachment.type == "image"
+							.ImageAttachment
+								if attachment.thumb
+									if attachment.url
+										.image-thumb
+											a(href!=attachment.url)
+												img(src=attachment.thumb)
+											.image-link
+												p Quelle: 
+													a(href!=attachment.url)!= attachment.url
+									else
+										.image-thumb
+											img(src=attachment.thumb)

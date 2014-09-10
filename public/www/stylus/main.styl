@@ -1,0 +1,203 @@
+$space = 20px
+
+@import url("http://brick.a.ssl.fastly.net/Lato:100,100i,200,200i,300,300i,400,500,600");
+@import url("http://fonts.googleapis.com/css?family=Lustria");
+
+@import reset
+@import fonts
+@import grid
+@import webcraft
+@import style-guide
+@import mediaqueries
+
+
+html
+	height: 100%
+
+body
+	@extend $FONTSIZE-NORMAL
+	@extend $FONT-MAIN
+	@extend $COLOR-BLACK
+	@extend $BG-GREY
+	@extend $LINE-HEIGHT-NORMAL
+	font-weight: 300
+	font-style: normal
+	height: 100%
+	min-width:200px
+
+a, a:link, a:visited
+	@extend $COLOR-BLUE
+	font-weight: bold
+
+.Stream
+	@extend $CENTER
+	max-width: 800px
+	@media $handhelds
+		padding: 0
+	@media $medium_beyond
+		@extend $PADDING-NORMAL
+
+
+.Post
+	@extend $PADDING-NORMAL
+	@extend $BG-WHITE
+	@extend $MARGIN-BOTTOM-NORMAL
+	@extend $BORDER-BLUE
+	border-width: 1px
+	border-style: solid
+	padding-bottom: 0
+
+.Post.new
+	@extend $BORDER-GREEN
+hr
+	@extend $BORDER-BLUE
+	@extend $MARGIN-V-NORMAL
+	border-width: 0px
+	border-top-width: 1px
+	border-style: solid
+
+.Post.tweet
+	position: relative
+	header.post-header
+		@extend $MARGIN-BOTTOM-NO
+		position: absolute
+		left: -200px
+
+	article.post-article
+		.article-content
+			@extend $MARGIN-BOTTOM-NO
+
+header.post-header
+	@extend $MARGIN-BOTTOM-NORMAL
+	@extend $VCENTER
+	clearfix()
+
+	.Avatar
+		@media $handhelds
+			col(1,12)
+		@media $medium_beyond
+			col(1,12)
+		img
+			@extend $BORDER-DARK
+			border-top-width: 1px
+			border-style: solid
+			border-radius: 40px
+			overflow: hidden
+			width: 100%
+	.Meta
+		@media $handhelds
+			padding-top: 0
+			padding-bottom: 0
+			col(11,12)
+
+		@media $medium_beyond
+			col(11,12)
+
+		@extend $PADDING-H-SMALL
+		@extend $FONTSIZE-TINY 
+		@extend $LINE-HEIGHT-SMALL
+		@extend $COLOR-GREY
+
+		a, a:link, a:visited
+			@extend $COLOR-GREY
+
+		.meta-username
+			font-weight: bold
+
+article.post-article
+	@extend $MARGIN-BOTTOM-NORMAL	
+	clearfix()
+	.article-content
+		clearfix()
+		@extend $MARGIN-BOTTOM-BIG
+		@extend $FONTSIZE-NORMAL
+		@extend $LINE-HEIGHT-NORMAL
+		.content-content
+			@extend $FONTSIZE-NORMAL
+			p, h1, h2
+				@extend $MARGIN-BOTTOM-NORMAL
+			h1
+				@extend $FONTSIZE-MEGA
+				@extend $PADDING-V-NORMAL
+				padding-bottom: 0px
+			h2
+				@extend $FONTSIZE-BIG
+				@extend $PADDING-V-NORMAL
+				padding-bottom: 0px
+			h3, h4, h5, h6
+				@extend $PADDING-V-NORMAL
+				padding-bottom: 0px
+				font-weight: bold
+			em
+				font-style: italic
+
+			code 
+				@extend $FONT-MONO
+				@extend $PADDING-NORMAL
+				@extend $BG-DARKGREY
+				@extend $COLOR-WHITE
+				display: block
+				white-space: pre
+
+		.content-title
+			@extend $FONTSIZE-BIG
+			@extend $MARGIN-BOTTOM-SMALL
+
+.Attachments
+	.UrlAttachment
+		@extend $FONTSIZE-SMALL
+		@extend $LINE-HEIGHT-NORMAL
+		@extend $MARGIN-BOTTOM-NORMAL
+		clearfix()
+		.url-link
+			@extend $MARGIN-BOTTOM-SMALL
+			@extend $OVERFLOW-NICE
+
+		.url-thumb
+			@media $handhelds
+				col(3,12)
+			@media $medium_beyond
+				col(2,12)
+			@extend $PADDING-H-NORMAL
+			padding-left: 0
+			img
+				@extend $BORDER-GREY
+				border-width: 1px
+				border-style: solid
+				max-width: 100%
+
+		.url-meta
+			@media $handhelds
+				col(9,12)
+			@media $medium_beyond
+				col(10,12)
+
+		.url-meta-wide
+			clearfix()
+
+	.ImageAttachment
+		@extend $MARGIN-BOTTOM-NORMAL
+		clearfix()
+		.image-thumb
+			@extend $TEXT-CENTER
+			col(12,12)
+			padding-left: 0
+			img
+				max-width: 100%
+		.image-link
+			@extend $FONTSIZE-TINY
+			@extend $OVERFLOW-NICE
+
+.CreatePost
+	clearfix()
+
+.createpost-input
+	@extend $BORDER-BOX
+	@extend $BORDER-BLUE
+	@extend $PADDING-SMALL
+	-webkit-appearance: none
+	-moz-appearance: none
+	appearance: none
+	border-width: 1px
+	width: 100%
+	height: $space*5

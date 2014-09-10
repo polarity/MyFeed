@@ -1,0 +1,15 @@
+// extend layout1
+extends includes/_layout2-admin
+
+// extend block head
+block head
+
+	// Head - Time for meta tags
+	+global_headstuff({title: "Robert Agthe"})
+
+// extend block body
+block body
+	.Stream
+		+CreatePost()
+		for row in rows
+			+Post(user, row)

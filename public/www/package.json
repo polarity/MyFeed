@@ -23,6 +23,9 @@
     "md5": "~1.0.0",
     "node-markdown": "~0.1.1",
     "dotenv": "~0.2.8",
-    "stylus": "~0.47.3"
+    "stylus": "~0.47.3",
+    "body-parser": "~1.7.0",
+    "request": "~2.40.0",
+    "cheerio": "~0.17.0"
   }
 }

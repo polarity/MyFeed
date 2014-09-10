@@ -110,6 +110,8 @@ module.exports = (grunt) ->
 				dest: '.tmp/js/libraries.js'
 				dependencies:
 					'freewall': 'jquery'
+				mainFiles:
+					'markdown': 'lib/markdown.js'
 
 	# init the Project configuration
 	# from above

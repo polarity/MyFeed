@@ -8,46 +8,4 @@ mixin CreatePost()
 
 		hr
 
-		.Post.new(ng-show="PostObject.content", ng-class="{tweet: PostObject.content.length < 141}")
-			header.post-header
-				.Avatar
-					img(src="https://www.gravatar.com/avatar/"+user.emailhash)
-				.Meta
-					.meta-username Robert Agthe
-					.meta-postcreated {{PostObject.created}}
-					.meta-permalink
-						a(href!='/post/') Permalink
-
-			article.post-article
-				.article-content
-					.content-content(ng-bind-html="PostObject.content|toHTML")
-
-
-			// Attachments
-			.Attachments(ng-show="PostObject.attachments.length > 0")
-
-				// Image Attachment
-				.ImageAttachment(ng-repeat="attachment in PostObject.attachments | filter:{type: 'image'} track by $index")
-					.attachment-remove(ng-click="removeAttachment(attachment)") X
-					.image-thumb
-						a(href="{{attachment.url}}")
-							img(ng-src="{{attachment.thumb}}")
-						.image-link
-							p Quelle: 
-								a(href="{{attachment.url}}") {{attachment.url}}
-
-				// URL Attachment
-				.UrlAttachment(ng-repeat="attachment in PostObject.attachments | filter:{type: 'url'}  track by $index")
-					.attachment-remove(ng-click="removeAttachment(attachment)") X
-					.url-thumb(ng-if="attachment.thumb")
-						img(ng-src="{{attachment.thumb}}")
-
-					.url-meta(ng-if="attachment.thumb")
-						.url-link
-							a(href="{{attachment.url}}", title="{{attachment.title}}") {{attachment.title}}
-						.url-excerpt {{attachment.excerpt}}
-
-					.url-meta-wide(ng-if="!attachment.thumb")
-						.url-link
-							a(href="{{attachment.url}}", title="{{attachment.title}}") {{attachment.title}}
-						.url-excerpt {{attachment.excerpt}}
+		+Post({type: 'new'})

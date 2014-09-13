@@ -1,67 +1,61 @@
-mixin Post(user, row)
-	.Post
+mixin Post(config)
 
+	// Post Element - can be normal or a tweet if short content
+	.Post(
+		ng-show="PostObject.content", 
+		ng-class="{tweet: PostObject.content.length < 141 && PostObject.attachments.length < 1}", 
+		class=config.type
+	)
+
+		// The Header - Avatar, Metadata and Stuff
 		header.post-header
-
 			.Avatar
-				img(src="https://www.gravatar.com/avatar/"+user.emailhash)
-
+				img(ng-src="https://www.gravatar.com/avatar/{{PostObject.user.emailhash}}")
 			.Meta
 				.meta-username Robert Agthe
-				.meta-postcreated!= row.doc.created
+				.meta-postcreated {{PostObject.created}}
 				.meta-permalink
-					a(href!='/post/'+row.doc._id) Permalink
+					a(href!='/post/') Permalink
 
-		if row.doc && (row.doc.title || row.doc.content)
+		// Main Content of the Post
+		article.post-article
+			.article-content
+				.content-content(ng-bind-html="PostObject.content | toHTML")
 
-			article.post-article
 
-				.article-content
+		// Attachments
+		.Attachments(ng-show="PostObject.attachments.length > 0")
 
-					if row.doc.title
-						.content-title!= row.doc.title
+			// Image Attachment
+			.ImageAttachment(ng-repeat="attachment in PostObject.attachments | filter:{type: 'image'} track by $index")
 
-					if row.doc.content
-						.content-content!= markdown(row.doc.content)
+				if config.type == 'new'
+					// remove this attachment
+					.attachment-remove(ng-click="removeAttachment(attachment)") X
 
-		if row.doc && row.doc.attachments && row.doc.attachments.length > 0
-				.Attachments
+				.image-thumb
+					a(href="{{attachment.url}}")
+						img(ng-src="{{attachment.thumb}}")
+					.image-link
+						p Quelle: 
+							a(href="{{attachment.url}}") {{attachment.url}}
 
-					for attachment in row.doc.attachments
+			// URL Attachment
+			.UrlAttachment(ng-repeat="attachment in PostObject.attachments | filter:{type: 'url'}  track by $index")
 
-						if attachment.type == "url"
-							.UrlAttachment
-								if attachment.thumb
-									.url-thumb
-										img(src=attachment.thumb)
+				if config.type == 'new'
+					// remove this attachment
+					.attachment-remove(ng-click="removeAttachment(attachment)") X
 
-								if attachment.thumb 
-									.url-meta
-										.url-link
-											if attachment.title
-												a(href!=attachment.url, title=attachment.title)!= attachment.title
-											else if attachment.url
-												a(href!=attachment.url)!= attachment.url
-										.url-excerpt!= attachment.excerpt
-								else
-									.url-meta-wide
-										.url-link
-											if attachment.title
-												a(href!=attachment.url, title=attachment.title)!= attachment.title
-											else if attachment.url
-												a(href!=attachment.url)!= attachment.url
-										.url-excerpt!= attachment.excerpt
+				.url-thumb(ng-if="attachment.thumb")
+					img(ng-src="{{attachment.thumb}}")
 
-						if attachment.type == "image"
-							.ImageAttachment
-								if attachment.thumb
-									if attachment.url
-										.image-thumb
-											a(href!=attachment.url)
-												img(src=attachment.thumb)
-											.image-link
-												p Quelle: 
-													a(href!=attachment.url)!= attachment.url
-									else
-										.image-thumb
-											img(src=attachment.thumb)
+				.url-meta(ng-if="attachment.thumb")
+					.url-link
+						a(href="{{attachment.url}}", title="{{attachment.title}}") {{attachment.title}}
+					.url-excerpt {{attachment.excerpt}}
+
+				.url-meta-wide(ng-if="!attachment.thumb")
+					.url-link
+						a(href="{{attachment.url}}", title="{{attachment.title}}") {{attachment.title}}
+					.url-excerpt {{attachment.excerpt}}

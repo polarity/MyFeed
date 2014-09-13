@@ -5,7 +5,7 @@ dotenv = require "dotenv"
 markdown = require("node-markdown").Markdown
 stylus = require 'stylus'
 bodyParser = require 'body-parser'
-myFeedScrape = require 'myFeedScrape'
+myFeedScrape = require 'myfeed-scrape'
 
 # passport authenticate
 passport = require('passport')

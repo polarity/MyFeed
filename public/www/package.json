@@ -26,6 +26,8 @@
     "stylus": "~0.47.3",
     "body-parser": "~1.7.0",
     "request": "~2.40.0",
-    "cheerio": "~0.17.0"
+    "cheerio": "~0.17.0",
+    "passport": "~0.2.1",
+    "passport-local": "~1.0.0"
   }
 }

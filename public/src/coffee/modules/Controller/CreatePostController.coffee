@@ -6,6 +6,7 @@ CreatePostController = ($scope, $timeout, $http) ->
 		content: ""
 		attachments: []
 		created: new Date()
+		user: {}
 	}
 
 	$scope.parseText = ()->

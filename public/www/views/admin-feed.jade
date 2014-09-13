@@ -10,6 +10,8 @@ block head
 // extend block body
 block body
 	.Stream
+		+AuthModule()
+
 		+CreatePost()
 
 		.Posts(ng-controller="PostListController")

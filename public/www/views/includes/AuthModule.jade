@@ -1,0 +1,18 @@
+mixin AuthModule()
+
+	.AuthModule(ng-controller="AuthController")
+		input.username(
+			type="text", 
+			placeholder="Username", 
+			ng-model="username", 
+			value="{{username}}"
+		)
+		input.password(
+			type="password", 
+			placeholder="Password", 
+			ng-model="password", 
+			value="{{password}}"
+		)
+		button.sendLogin(
+			ng-click="sendLogin(username,password)"
+		) Login !!

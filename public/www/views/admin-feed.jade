@@ -11,5 +11,7 @@ block head
 block body
 	.Stream
 		+CreatePost()
-		for row in rows
-			+Post(user, row)
+
+		.Posts(ng-controller="PostListController")
+			.iterate(ng-repeat="PostObject in Posts")
+				+Post({type: ''})

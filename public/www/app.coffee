@@ -35,10 +35,11 @@ dbServer.auth = [
 db = dbServer.db('items')
 
 user = {}
-user.id = "mamamamamamama"
+user.id = "myid"
 user.email = process.env.USER_EMAIL
 user.emailhash = md5.digest_s(user.email)
-user.password ="hastenichgesehn"
+user.password = process.env.USER_PASSWORD
+user.username = process.env.USER_NAME
 
 # Passport session setup.
 # To support persistent login sessions, Passport needs to be able to
@@ -118,14 +119,24 @@ app.get "/api/feed", (req, res)->
 app.post "/api/create", passport.authenticate('token', { session: false }), (req, res)->
 	doc = db.doc()
 	doc.body = req.body.doc
-	doc.save (doc)->
+	doc.body.user = {
+		email: user.email
+		emailhash: user.emailhash
+		username: user.username
+	}
+	doc.save ()->
 		# doc saved?
-		res.end("true")
+		res.json(doc.body._id)
 
 # login!
 app.post '/api/login', passport.authenticate('local', { session: false }), (req, res) ->
 	# send token back!
 	res.json({
+		user: {
+			email: user.email
+			emailhash: user.emailhash
+			username: user.username
+		},
 		token: jwt.encode({
 			username: req.user.username, 
 			password: req.user.password

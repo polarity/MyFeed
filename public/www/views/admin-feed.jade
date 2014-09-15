@@ -9,12 +9,12 @@ block head
 
 // extend block body
 block body
+	.Background
 	.Stream
 		+AuthModule()
 
 		+CreatePost()
 
 		.Posts(ng-controller="PostListController")
-			p(ng-init="tableReverseSort = true", ng-click="tableReverseSort = !tableReverseSort") Sortierung umkehren
-			.iterate(ng-repeat="PostObject in Posts | orderBy:'created':tableReverseSort track by $index")
+			.iterate(ng-repeat="PostObject in Posts | orderBy:'created':true track by $index")
 				+Post({type: ''})

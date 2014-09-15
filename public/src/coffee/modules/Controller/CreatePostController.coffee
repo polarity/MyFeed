@@ -13,7 +13,20 @@ window.app.controller "CreatePostController", ($scope, LoginService, $timeout, $
 			user: {}
 		}
 
+		# watch user login changed
+		# and stuff user data from the backend
+		# to the new post
+		$scope.$watch('login',( old, newval)->
+			$scope.PostObject.user = {
+				username: $scope.login.username
+				email: $scope.login.email
+				emailhash: $scope.login.emailhash
+			}
+		, true)
+
+	# create a new post object on init
 	$scope.initCurrentPost()
+
 
 	$scope.parseText = ()->
 		# url parsing
@@ -53,9 +66,12 @@ window.app.controller "CreatePostController", ($scope, LoginService, $timeout, $
 			method: "POST"
 			data: {doc: PostObject, "access_token": $scope.login.token}
 		})
-		.success (data)-> 
+		.success (docid)-> 
 			$timeout ()->
+				$scope.PostObject.id = docid
+				# push the post object to the PostList
 				$scope.posts.push($scope.PostObject)
+				# create a new post object on init
 				$scope.initCurrentPost()
 
 		.error( (err)-> console.log err )

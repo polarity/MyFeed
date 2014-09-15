@@ -1,8 +1,5 @@
 $space = 20px
 
-@import url("http://brick.a.ssl.fastly.net/Lato:100,100i,200,200i,300,300i,400,500,600");
-@import url("http://fonts.googleapis.com/css?family=Lustria");
-
 @import reset
 @import fonts
 @import grid
@@ -20,22 +17,39 @@ body
 	@extend $COLOR-BLACK
 	@extend $BG-GREY
 	@extend $LINE-HEIGHT-NORMAL
-	font-weight: 300
 	font-style: normal
 	height: 100%
 	min-width:200px
+
+.Background
+	background-image: url(http://fc04.deviantart.net/fs70/i/2012/139/4/a/the_ghost_nebula_by_tylercreatesworlds-d4zb5y3.jpg)
+	background-size: contains
+	background-position: fixed
+	position: fixed;
+	left: 0;
+	right: 0;
+	z-index: -1;
+	width: 100%
+	height: 100%
 
 a, a:link, a:visited
 	@extend $COLOR-BLUE
 	font-weight: bold
 
+input, button
+	@extend $FONTSIZE-SMALL
+	@extend $FONT-MAIN
+	@extend $PADDING-SMALL
+	@extend $MARGIN-BOTTOM-NORMAL
+	margin-left: 0
+
 .AuthModule
 	clearfix()
-	@extend $BG-DARKGREY
-	@extend $PADDING-NORMAL
-
-	input, button
-		@extend $PADDING-SMALL
+	@extend $PADDING-V-NORMAL
+	.showLogin
+		cursor: pointer
+	.showCreatePost
+		cursor: pointer
 
 .Stream
 	@extend $CENTER
@@ -48,7 +62,7 @@ a, a:link, a:visited
 
 .Post
 	@extend $PADDING-NORMAL
-	@extend $BG-WHITE
+	@extend $BG-WHITE-OP
 	@extend $MARGIN-BOTTOM-NORMAL
 	@extend $BORDER-BLUE
 	border-width: 1px
@@ -118,20 +132,21 @@ header.post-header
 			font-weight: bold
 
 article.post-article
-	@extend $MARGIN-BOTTOM-NORMAL	
+	@extend $MARGIN-BOTTOM-NO	
 	clearfix()
 	.article-content
 		clearfix()
-		@extend $MARGIN-BOTTOM-BIG
 		@extend $FONTSIZE-NORMAL
 		@extend $LINE-HEIGHT-NORMAL
+		@extend $OVERFLOW-NICE
 		.content-content
 			@extend $FONTSIZE-NORMAL
-			p, h1, h2
+			p, h1, h2, code
 				@extend $MARGIN-BOTTOM-NORMAL
 			h1
 				@extend $FONTSIZE-MEGA
 				@extend $PADDING-V-NORMAL
+				@extend $LINE-HEIGHT-NORMAL
 				padding-bottom: 0px
 			h2
 				@extend $FONTSIZE-BIG
@@ -143,14 +158,18 @@ article.post-article
 				font-weight: bold
 			em
 				font-style: italic
+			strong, b
+				font-weight: bold
 
 			code 
 				@extend $FONT-MONO
 				@extend $PADDING-NORMAL
-				@extend $BG-DARKGREY
-				@extend $COLOR-WHITE
+				@extend $BG-LIGHTGREY
+				@extend $COLOR-BLACK
+				@extend $FONTSIZE-SMALL
 				display: block
 				white-space: pre
+				overflow: scroll
 
 		.content-title
 			@extend $FONTSIZE-BIG
@@ -163,7 +182,6 @@ article.post-article
 		@extend $MARGIN-BOTTOM-NORMAL
 		clearfix()
 		.url-link
-			@extend $MARGIN-BOTTOM-SMALL
 			@extend $OVERFLOW-NICE
 
 		.url-thumb
@@ -196,7 +214,7 @@ article.post-article
 			col(12,12)
 			padding-left: 0
 			img
-				max-width: 100%
+				min-width: 100%
 		.image-link
 			@extend $FONTSIZE-TINY
 			@extend $OVERFLOW-NICE
@@ -205,9 +223,11 @@ article.post-article
 	clearfix()
 
 .createpost-input
+	@extend $FONT-MAIN
+	@extend $FONTSIZE-NORMAL
 	@extend $BORDER-BOX
 	@extend $BORDER-BLUE
-	@extend $PADDING-SMALL
+	@extend $PADDING-NORMAL
 	-webkit-appearance: none
 	-moz-appearance: none
 	appearance: none

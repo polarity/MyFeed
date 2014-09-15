@@ -1,11 +1,11 @@
 mixin AuthModule()
 
-	.AuthModule(ng-controller="AuthController")
-
+	.AuthModule(ng-controller="AuthController", ng-init="showLogin = false")
+		.showLogin(ng-click="showLogin = !showLogin") [=]
 		.info(ng-show="login.info")
 			p {{login.info}}
 
-		.not-loggedin(ng-hide="login.token")
+		.not-loggedin(ng-hide="login.token || !showLogin")
 			input.username(
 				type="text", 
 				placeholder="Username", 
@@ -22,7 +22,7 @@ mixin AuthModule()
 				ng-click="sendLogin(login.username,login.password)"
 			) Login !!
 
-		.loggedin(ng-show="login.token")
+		.loggedin(ng-show="login.token && showLogin")
 			button.sendLogin(
 				ng-click="sendLogout()"
 			) Logout !!

@@ -2,7 +2,7 @@ mixin Post(config)
 
 	// Post Element - can be normal or a tweet if short content
 	.Post(
-		ng-show="PostObject.content", 
+		ng-show="PostObject.content || PostObject.attachments.length > 0", 
 		ng-class="{tweet: PostObject.content.length < 141 && PostObject.attachments.length < 1}", 
 		class=config.type
 	)
@@ -10,12 +10,15 @@ mixin Post(config)
 		// The Header - Avatar, Metadata and Stuff
 		header.post-header
 			.Avatar
-				img(ng-src="https://www.gravatar.com/avatar/{{PostObject.user.emailhash}}")
+				img(
+					ng-src="https://www.gravatar.com/avatar/{{PostObject.user.emailhash}}"
+					title="{{PostObject.user.username}} ~ {{PostObject.created | dateFromNow}} ~ {{PostObject.created | dateFormat}}"
+				)
 			.Meta
-				.meta-username Robert Agthe
-				.meta-postcreated {{PostObject.created}}
+				.meta-username {{PostObject.user.username}}
+				.meta-postcreated {{PostObject.created | dateFromNow}} ~ {{PostObject.created | dateFormat}}
 				.meta-permalink
-					a(href!='/post/') Permalink
+					a(href!='/post/{{PostObject._id}}') Permalink
 
 		// Main Content of the Post
 		article.post-article

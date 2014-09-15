@@ -83,6 +83,16 @@ sortByDate = (a,b)->
 # routes
 #
 
+# get the feed overview
+app.get "/", (req, res)->
+	db.allDocs {include_docs: true}, (err, docs)->
+		if docs
+			res.render("admin-feed", {
+				rows: docs.rows.sort(sortByDate).reverse(), 
+				user: user,
+				markdown: markdown
+			})
+
 # get one specific blog post
 app.get "/post/:id", (req, res)->
 	db.allDocs {include_docs: true}, [req.params.id], (err, docs)->
@@ -92,17 +102,6 @@ app.get "/post/:id", (req, res)->
 				user: user,
 				markdown: markdown
 			})
-
-# get the feed overview
-app.get "/admin/feed", (req, res)->
-	db.allDocs {include_docs: true}, (err, docs)->
-		if docs
-			res.render("admin-feed", {
-				rows: docs.rows.sort(sortByDate).reverse(), 
-				user: user,
-				markdown: markdown
-			})
-
 
 # get the feed via json api
 app.get "/api/feed", (req, res)->

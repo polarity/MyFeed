@@ -64,22 +64,18 @@ input, button
 	@extend $PADDING-NORMAL
 	@extend $BG-WHITE-OP
 	@extend $MARGIN-BOTTOM-NORMAL
-	@extend $BORDER-BLUE
+	@extend $BORDER-DARKGREY
 	border-width: 1px
 	border-style: solid
 	padding-bottom: 0
 
 .Post.new
 	@extend $BORDER-GREEN
-hr
-	@extend $BORDER-BLUE
-	@extend $MARGIN-V-NORMAL
-	border-width: 0px
-	border-top-width: 1px
-	border-style: solid
+
 
 .Post.tweet
 	position: relative
+	border-radius: 15px
 	header.post-header
 		@extend $MARGIN-BOTTOM-NO
 		width: 50px
@@ -95,7 +91,7 @@ hr
 			@extend $MARGIN-BOTTOM-NO
 
 header.post-header
-	@extend $MARGIN-BOTTOM-NORMAL
+	@extend $MARGIN-BOTTOM-SMALL
 	@extend $VCENTER
 	clearfix()
 
@@ -105,8 +101,9 @@ header.post-header
 		@media $medium_beyond
 			col(1,12)
 		img
-			@extend $BORDER-DARK
-			border-top-width: 1px
+			@extend $BORDER-DARKGREY
+			@extend $BORDER-BOX
+			border-width: 1px
 			border-style: solid
 			border-radius: 40px
 			overflow: hidden
@@ -123,10 +120,10 @@ header.post-header
 		@extend $PADDING-H-SMALL
 		@extend $FONTSIZE-TINY 
 		@extend $LINE-HEIGHT-SMALL
-		@extend $COLOR-GREY
+		@extend $COLOR-DARKGREY
 
 		a, a:link, a:visited
-			@extend $COLOR-GREY
+			@extend $COLOR-DARKGREY
 
 		.meta-username
 			font-weight: bold
@@ -192,7 +189,7 @@ article.post-article
 			@extend $PADDING-H-NORMAL
 			padding-left: 0
 			img
-				@extend $BORDER-GREY
+				@extend $BORDER-DARKGREY
 				border-width: 1px
 				border-style: solid
 				max-width: 100%
@@ -226,7 +223,7 @@ article.post-article
 	@extend $FONT-MAIN
 	@extend $FONTSIZE-NORMAL
 	@extend $BORDER-BOX
-	@extend $BORDER-BLUE
+	@extend $BORDER-DARKGREY
 	@extend $PADDING-NORMAL
 	-webkit-appearance: none
 	-moz-appearance: none

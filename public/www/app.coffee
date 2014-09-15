@@ -6,10 +6,13 @@ markdown = require("node-markdown").Markdown
 stylus = require 'stylus'
 bodyParser = require 'body-parser'
 myFeedScrape = require 'myfeed-scrape'
+jwt = require('jwt-simple')
+secret = '9w384uwioejrkkweroo9i9o'
 
 # passport authenticate
 passport = require('passport')
 LocalStrategy = require('passport-local').Strategy
+TokenStrategy = require('passport-token-auth').Strategy
 
 # init
 dotenv.load()
@@ -49,17 +52,29 @@ passport.deserializeUser (id, done)->
 	done(err, user)
 
 # define the app auth strategy
-appStrategy = new LocalStrategy (username, password, done)->
+localStrategy = new LocalStrategy (username, password, done)->
 	
 	# wrong password?
 	if user.password != password
 		return done null, false, { message: 'Incorrect password.' }
 	else
-		# log in 
-		return done(null, user);
+		# log in, send token back
+		return done(null, user)
+
+# define the app auth strategy
+tokenStrategy = new TokenStrategy (token, done)->
+	# wrong password?
+	decodedToken = jwt.decode(token, secret)
+
+	if user.password != decodedToken.password
+		return done null, false, { message: 'Incorrect token, sorry!' }
+	else
+		# log in, send token back
+		return done(null, user)
 
 # use the app strategy
-passport.use(appStrategy)
+passport.use(localStrategy)
+passport.use(tokenStrategy)
 
 sortByDate = (a,b)->
 	return (new Date(a.doc.created).getTime()) - (new Date(b.doc.created).getTime())
@@ -100,23 +115,26 @@ app.get "/api/feed", (req, res)->
 			}
 
 # post a new post
-app.post "/api/create", (req, res)->
+app.post "/api/create", passport.authenticate('token', { session: false }), (req, res)->
 	doc = db.doc()
-	doc.body = req.body
+	doc.body = req.body.doc
 	doc.save (doc)->
 		# doc saved?
 		res.end("true")
 
 # login!
-app.post '/api/login', passport.authenticate('local', {}), (req, res) ->
-	if req.isAuthenticated() 
-		res.end("logged in!")
-	else
-		res.end("NOT logged in!")
-
+app.post '/api/login', passport.authenticate('local', { session: false }), (req, res) ->
+	# send token back!
+	res.json({
+		token: jwt.encode({
+			username: req.user.username, 
+			password: req.user.password
+		}, 
+		secret)
+	})
 
 # scrape a website url
-app.post "/api/scrapethis", (req, res)->
+app.post "/api/scrapethis", passport.authenticate('token', { session: false }), (req, res)->
 	myFeedScrape.scrape(req, res)
 
 server = app.listen 8000, ()->

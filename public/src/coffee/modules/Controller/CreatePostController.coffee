@@ -1,13 +1,19 @@
-CreatePostController = ($scope, $timeout, $http) ->
+window.app.controller "CreatePostController", ($scope, LoginService, $timeout, $http, PostsService) ->
 
-	# post ready post object
-	$scope.PostObject = {
-		title: ""
-		content: ""
-		attachments: []
-		created: new Date()
-		user: {}
-	}
+	$scope.posts = PostsService
+	$scope.login = LoginService
+
+	$scope.initCurrentPost = ()->
+		# post ready post object
+		$scope.PostObject = {
+			title: ""
+			content: ""
+			attachments: []
+			created: new Date().getTime()
+			user: {}
+		}
+
+	$scope.initCurrentPost()
 
 	$scope.parseText = ()->
 		# url parsing
@@ -30,7 +36,7 @@ CreatePostController = ($scope, $timeout, $http) ->
 		$http({
 			url: "/api/scrapethis/"
 			method: "POST"
-			data: {'url': url}
+			data: {'url': url, "access_token": $scope.login.token}
 		})
 		.success( (data)-> $scope.PostObject.attachments.push(data) )
 		.error( (err)-> console.log err )
@@ -45,10 +51,11 @@ CreatePostController = ($scope, $timeout, $http) ->
 		$http({
 			url: "/api/create/"
 			method: "POST"
-			data: PostObject
+			data: {doc: PostObject, "access_token": $scope.login.token}
 		})
-		.success( (data)-> console.log('success', data) )
-		.error( (err)-> console.log err )
+		.success (data)-> 
+			$timeout ()->
+				$scope.posts.push($scope.PostObject)
+				$scope.initCurrentPost()
 
-CreatePostController.$inject = ['$scope', '$timeout', '$http']
-window.app.controller "CreatePostController", CreatePostController
+		.error( (err)-> console.log err )

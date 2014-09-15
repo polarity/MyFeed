@@ -1,6 +1,6 @@
-PostListController = ($scope, $timeout, $http) ->
+window.app.controller "PostListController", ($scope, $timeout, $http, PostsService) ->
 
-	$scope.Posts = []
+	$scope.Posts = PostsService
 
 	# just parse all found url
 	$scope.getPosts = (url)->
@@ -15,6 +15,3 @@ PostListController = ($scope, $timeout, $http) ->
 		.error( (err)-> console.log err )
 
 	$scope.getPosts()
-
-CreatePostController.$inject = ['$scope', '$timeout', '$http']
-window.app.controller "CreatePostController", CreatePostController

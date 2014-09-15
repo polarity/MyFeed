@@ -1,18 +1,28 @@
 mixin AuthModule()
 
 	.AuthModule(ng-controller="AuthController")
-		input.username(
-			type="text", 
-			placeholder="Username", 
-			ng-model="username", 
-			value="{{username}}"
-		)
-		input.password(
-			type="password", 
-			placeholder="Password", 
-			ng-model="password", 
-			value="{{password}}"
-		)
-		button.sendLogin(
-			ng-click="sendLogin(username,password)"
-		) Login !!
+
+		.info(ng-show="login.info")
+			p {{login.info}}
+
+		.not-loggedin(ng-hide="login.token")
+			input.username(
+				type="text", 
+				placeholder="Username", 
+				ng-model="login.username", 
+				value="{{login.username}}"
+			)
+			input.password(
+				type="password", 
+				placeholder="Password", 
+				ng-model="login.password", 
+				value="{{login.password}}"
+			)
+			button.sendLogin(
+				ng-click="sendLogin(login.username,login.password)"
+			) Login !!
+
+		.loggedin(ng-show="login.token")
+			button.sendLogin(
+				ng-click="sendLogout()"
+			) Logout !!

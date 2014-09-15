@@ -1,6 +1,6 @@
 mixin CreatePost()
 
-	.CreatePost(ng-controller="CreatePostController")
+	.CreatePost(ng-controller="CreatePostController", ng-show="login.token")
 
 		textarea.createpost-input(ng-keyup="parseText()", ng-model="PostObject.content") c
 

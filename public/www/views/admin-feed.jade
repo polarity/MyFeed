@@ -15,5 +15,6 @@ block body
 		+CreatePost()
 
 		.Posts(ng-controller="PostListController")
-			.iterate(ng-repeat="PostObject in Posts")
+			p(ng-init="tableReverseSort = true", ng-click="tableReverseSort = !tableReverseSort") Sortierung umkehren
+			.iterate(ng-repeat="PostObject in Posts | orderBy:'created':tableReverseSort track by $index")
 				+Post({type: ''})

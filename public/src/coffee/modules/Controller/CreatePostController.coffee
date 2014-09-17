@@ -34,14 +34,16 @@ window.app.controller "CreatePostController", ($scope, LoginService, $timeout, $
 		urlArr = []
 		urlArr = $scope.PostObject.content.match(urlRegex)
 
+		console.log urlArr
 		if urlArr
 			urlArr.forEach (url)-> 
-				parse = true
-				$scope.PostObject.attachments.forEach (attachment)->
-					if attachment.url == url
-						parse = false
+				# find url
+				attachmentFound = $scope.PostObject.attachments.find (attachment)-> 
+					attachment.url == url
 
-				if parse
+				# scrape url only when 
+				# is not scraped yet
+				if !attachmentFound
 					$scope.scrapeUrls(url)
 
 	# just parse all found url

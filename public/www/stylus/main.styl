@@ -22,15 +22,20 @@ body
 	min-width:200px
 
 .Background
-	background-image: url(http://fc04.deviantart.net/fs70/i/2012/139/4/a/the_ghost_nebula_by_tylercreatesworlds-d4zb5y3.jpg)
-	background-size: contains
-	background-position: fixed
+	background-image: url(https://farm4.staticflickr.com/3924/14146565428_57002bbb48_h.jpg)
+	background-size: cover
+	background-position: center
 	position: fixed;
-	left: 0;
-	right: 0;
+	left: -10%;
+	top: -10%;
 	z-index: -1;
-	width: 100%
-	height: 100%
+	width: 120%
+	height: 120%
+	//-webkit-filter: blur(15px);
+	//-moz-filter: blur(15px);
+	//-o-filter: blur(15px);
+	//-ms-filter: blur(15px);
+	//filter: blur(15px);
 
 a, a:link, a:visited
 	@extend $COLOR-BLUE
@@ -45,17 +50,17 @@ input, button
 
 .AuthModule
 	clearfix()
-	@extend $PADDING-V-NORMAL
-	.showLogin
+	@extend $MARGIN-BOTTOM-NORMAL
+	.showCreatePost, .showLogin
 		cursor: pointer
-	.showCreatePost
-		cursor: pointer
+	.sendLogin
+		@extend $MARGIN-BOTTOM-NO
 
 .Stream
 	@extend $CENTER
 	max-width: 800px
 	@media $handhelds
-		padding: 0
+		@extend $PADDING-SMALL
 	@media $medium_beyond
 		@extend $PADDING-NORMAL
 
@@ -71,20 +76,30 @@ input, button
 
 .Post.new
 	@extend $BORDER-GREEN
-
+	border-width: 3px
+	border-style: dotted
 
 .Post.tweet
 	position: relative
 	border-radius: 15px
+	margin-left: 90px
 	header.post-header
 		@extend $MARGIN-BOTTOM-NO
-		width: 50px
+		justify-content: flex-start
+		width: 100%
 		position: absolute
-		left: -50px
 		.Avatar
-			width: 30px
+			position: absolute
+			left: -90px
+			top: -15px
 		.Meta
-			display: none
+			@extend $PADDING-NO
+			position: absolute
+			top: -15px
+		div
+			@extend $MARGIN-RIGHT-SMALL
+			display: inline-block
+
 
 	article.post-article
 		.article-content
@@ -94,10 +109,9 @@ header.post-header
 	@extend $MARGIN-BOTTOM-SMALL
 	@extend $VCENTER
 	clearfix()
-
 	.Avatar
 		@media $handhelds
-			col(1,12)
+			width: 50px
 		@media $medium_beyond
 			col(1,12)
 		img
@@ -125,19 +139,27 @@ header.post-header
 		a, a:link, a:visited
 			@extend $COLOR-DARKGREY
 
+		.meta-actions
+			div
+				@extend $MARGIN-RIGHT-SMALL
+				display: inline-block
 		.meta-username
 			font-weight: bold
+
+		.meta-delete
+			a
+				text-decoration: underline
+				cursor: pointer
 
 article.post-article
 	@extend $MARGIN-BOTTOM-NO	
 	clearfix()
 	.article-content
 		clearfix()
-		@extend $FONTSIZE-NORMAL
 		@extend $LINE-HEIGHT-NORMAL
 		@extend $OVERFLOW-NICE
+		@extend $FONTSIZE-NORMAL
 		.content-content
-			@extend $FONTSIZE-NORMAL
 			p, h1, h2, code
 				@extend $MARGIN-BOTTOM-NORMAL
 			h1
@@ -173,6 +195,12 @@ article.post-article
 			@extend $MARGIN-BOTTOM-SMALL
 
 .Attachments
+	.attachment-remove
+		@extend $FONTSIZE-SMALL
+		@extend $MARGIN-BOTTOM-SMALL
+		cursor: pointer
+		text-decoration: underline
+
 	.UrlAttachment
 		@extend $FONTSIZE-SMALL
 		@extend $LINE-HEIGHT-NORMAL

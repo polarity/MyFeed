@@ -16,9 +16,12 @@ mixin Post(config)
 				)
 			.Meta
 				.meta-username {{PostObject.user.username}}
-				.meta-postcreated {{PostObject.created | dateFromNow}} ~ {{PostObject.created | dateFormat}}
-				.meta-permalink
-					a(href!='/post/{{PostObject._id}}') Permalink
+				.meta-postcreated {{PostObject.created | dateFormat}} ({{PostObject.created | dateFromNow}})
+				.meta-actions
+					.meta-permalink(ng-show="PostObject._id")
+						a(href!='/post/{{PostObject._id}}') Permalink
+					.meta-delete(ng-show="PostObject._id && login.token")
+						a(ng-click="delete(PostObject)") Löschen
 
 		// Main Content of the Post
 		article.post-article
@@ -34,7 +37,7 @@ mixin Post(config)
 
 				if config.type == 'new'
 					// remove this attachment
-					.attachment-remove(ng-click="removeAttachment(attachment)") X
+					.attachment-remove(ng-click="removeAttachment(attachment)") entfernen
 
 				.image-thumb
 					a(href="{{attachment.url}}")
@@ -48,7 +51,7 @@ mixin Post(config)
 
 				if config.type == 'new'
 					// remove this attachment
-					.attachment-remove(ng-click="removeAttachment(attachment)") X
+					.attachment-remove(ng-click="removeAttachment(attachment)") entfernen
 
 				.url-thumb(ng-if="attachment.thumb")
 					img(ng-src="{{attachment.thumb}}")

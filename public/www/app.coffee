@@ -127,6 +127,13 @@ app.post "/api/create", passport.authenticate('token', { session: false }), (req
 		# doc saved?
 		res.json(doc.body._id)
 
+# post a new post
+app.post "/api/delete", passport.authenticate('token', { session: false }), (req, res)->
+	doc = db.doc(req.body.id)
+	doc.del ()->
+		# doc saved?
+		res.end("true")
+
 # login!
 app.post '/api/login', passport.authenticate('local', { session: false }), (req, res) ->
 	# send token back!

@@ -34,7 +34,6 @@ window.app.controller "CreatePostController", ($scope, LoginService, $timeout, $
 		urlArr = []
 		urlArr = $scope.PostObject.content.match(urlRegex)
 
-		console.log urlArr
 		if urlArr
 			urlArr.forEach (url)-> 
 				# find url
@@ -68,9 +67,10 @@ window.app.controller "CreatePostController", ($scope, LoginService, $timeout, $
 			method: "POST"
 			data: {doc: PostObject, "access_token": $scope.login.token}
 		})
-		.success (docid)-> 
+		.success (doc)-> 
 			$timeout ()->
-				$scope.PostObject.id = docid
+				$scope.PostObject._id = doc.id
+				$scope.PostObject._rev = doc.rev
 				# push the post object to the PostList
 				$scope.posts.push($scope.PostObject)
 				# create a new post object on init

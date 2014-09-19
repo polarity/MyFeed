@@ -1,5 +1,4 @@
 Express = require "express"
-CouchDB = require "couchdb-api"
 md5 = require "md5"
 dotenv = require "dotenv"
 markdown = require("node-markdown").Markdown
@@ -8,6 +7,8 @@ bodyParser = require 'body-parser'
 myFeedScrape = require 'myfeed-scrape'
 jwt = require('jwt-simple')
 secret = '9w384uwioejrkkweroo9i9o'
+PouchDB = require('pouchdb')
+pdb = new PouchDB('./_pouchdb')
 
 # passport authenticate
 passport = require('passport')
@@ -26,14 +27,7 @@ app.use bodyParser.json()
 app.use passport.initialize()
 app.use passport.session()
 
-# db
-dbServer = CouchDB.srv(process.env.COUCHDB_URL)
-dbServer.auth = [
-	process.env.COUCHDB_USER
-	process.env.COUCHDB_PW
-]
-db = dbServer.db('items')
-
+# admin user 
 user = {}
 user.id = "myid"
 user.email = process.env.USER_EMAIL
@@ -85,7 +79,7 @@ sortByDate = (a,b)->
 
 # get the feed overview
 app.get "/", (req, res)->
-	db.allDocs {include_docs: true}, (err, docs)->
+	pdb.allDocs {include_docs: true}, (err, docs)->
 		if docs
 			res.render("admin-feed", {
 				rows: docs.rows.sort(sortByDate).reverse(), 
@@ -95,7 +89,7 @@ app.get "/", (req, res)->
 
 # get one specific blog post
 app.get "/post/:id", (req, res)->
-	db.allDocs {include_docs: true}, [req.params.id], (err, docs)->
+	pdb.allDocs {include_docs: true}, [req.params.id], (err, docs)->
 		if docs
 			res.render("feed", {
 				rows: docs.rows.sort(sortByDate).reverse(), 
@@ -105,7 +99,7 @@ app.get "/post/:id", (req, res)->
 
 # get the feed via json api
 app.get "/api/feed", (req, res)->
-	db.allDocs {include_docs: true}, (err, docs)->
+	pdb.allDocs {include_docs: true}, (err, docs)->
 		if docs
 			res.setHeader 'Content-Type', 'application/json'
 			res.end JSON.stringify {
@@ -116,23 +110,26 @@ app.get "/api/feed", (req, res)->
 
 # post a new post
 app.post "/api/create", passport.authenticate('token', { session: false }), (req, res)->
-	doc = db.doc()
-	doc.body = req.body.doc
-	doc.body.user = {
+	doc = {}
+	doc = req.body.doc
+	doc.user = {
 		email: user.email
 		emailhash: user.emailhash
 		username: user.username
 	}
-	doc.save ()->
+	pdb.post(doc).then (response)->
 		# doc saved?
-		res.json(doc.body._id)
+		res.json(response)
 
 # post a new post
 app.post "/api/delete", passport.authenticate('token', { session: false }), (req, res)->
-	doc = db.doc(req.body.id)
-	doc.del ()->
-		# doc saved?
+	console.log req.body.id
+	pdb.remove(req.body._id, req.body._rev)
+	.then (response)->
+		# doc deleted?
 		res.end("true")
+	.catch (err)->
+		console.log err
 
 # login!
 app.post '/api/login', passport.authenticate('local', { session: false }), (req, res) ->

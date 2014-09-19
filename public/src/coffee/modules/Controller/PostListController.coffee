@@ -30,11 +30,12 @@ window.app.controller "PostListController", ($scope, $timeout, $http, PostsServi
 			url: "/api/delete"
 			method: "POST"
 			data: {
-				"id": PostObject._id, 
+				"_id": PostObject._id, 
+				"_rev": PostObject._rev, 
 				"access_token": $scope.login.token
 			}
 		})
 		.success( (data)->
-			console.log data
+			console.log 'gelöscht!'
 		)
 		.error( (err)-> console.log err )

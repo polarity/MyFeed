@@ -151,5 +151,5 @@ app.post '/api/login', passport.authenticate('local', { session: false }), (req,
 app.post "/api/scrapethis", passport.authenticate('token', { session: false }), (req, res)->
 	myFeedScrape.scrape(req, res)
 
-server = app.listen 8000, ()->
+server = app.listen process.env.SERVERPORT, ()->
 	console.log "Listening....", server.address().port

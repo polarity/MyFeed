@@ -8,7 +8,6 @@ myFeedScrape = require 'myfeed-scrape'
 jwt = require('jwt-simple')
 secret = '9w384uwioejrkkweroo9i9o'
 PouchDB = require('pouchdb')
-pdb = new PouchDB('./_pouchdb')
 
 # passport authenticate
 passport = require('passport')
@@ -16,13 +15,21 @@ LocalStrategy = require('passport-local').Strategy
 TokenStrategy = require('passport-token-auth').Strategy
 
 # init
-dotenv.load()
-app = Express()
-app.set 'view engine', 'jade'
+# dotenv.load()
+dotenv._getKeysAndValuesFromEnvFilePath(__dirname + '/.env')
+dotenv._setEnvs();
 
+app = Express()
+
+# database
+pdb = new PouchDB(__dirname + '/_pouchdb')
+
+# middleware
+app.set 'view engine', 'jade'
 app.use stylus.middleware({src: __dirname + '/stylus', dest: __dirname + '/css'})
 app.use '/css', Express.static(__dirname + '/css')
 app.use '/js', Express.static(__dirname + '/js')
+app.set 'views', __dirname + '/views'
 app.use bodyParser.json()
 app.use passport.initialize()
 app.use passport.session()
@@ -82,16 +89,6 @@ app.get "/", (req, res)->
 	pdb.allDocs {include_docs: true}, (err, docs)->
 		if docs
 			res.render("admin-feed", {
-				rows: docs.rows.sort(sortByDate).reverse(), 
-				user: user,
-				markdown: markdown
-			})
-
-# get one specific blog post
-app.get "/post/:id", (req, res)->
-	pdb.allDocs {include_docs: true}, [req.params.id], (err, docs)->
-		if docs
-			res.render("feed", {
 				rows: docs.rows.sort(sortByDate).reverse(), 
 				user: user,
 				markdown: markdown

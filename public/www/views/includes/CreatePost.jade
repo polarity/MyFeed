@@ -2,7 +2,10 @@ mixin CreatePost()
 
 	.CreatePost(ng-controller="CreatePostController", ng-show="login.token")
 
-		textarea.createpost-input(ng-keyup="parseText()", ng-model="PostObject.content") c
+		textarea.createpost-input(
+			ng-keyup="parseText()", 
+			ng-model="PostObject.content"
+			placeholder="Was machst du gerade?")
 
 		button.send(ng-click="sendPostObject(PostObject)") send
 

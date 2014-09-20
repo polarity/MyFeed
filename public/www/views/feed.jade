@@ -17,10 +17,8 @@ block body
 		.MyFeedTitle
 			h1!=user.username
 			p 
-				| Live 
 				a(href="https://github.com/polarity/MyFeed") MyFeed 
-				| of #{user.username}. Subscribe via RSS or follow via your own
-				| MyFeed Software.
+				| of #{user.username}. follow or subscribe via RSS
 
 	// Stream Start
 	.Stream(class="ng-cloak")

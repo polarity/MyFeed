@@ -1,28 +1,31 @@
 $space = 20px
 
+@import url('http://fonts.googleapis.com/css?family=Roboto+Condensed:300')
+
 @import reset
 @import fonts
 @import grid
 @import webcraft
 @import style-guide
 @import mediaqueries
+@import vendor-prefixed
 
-
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+	display: none !important;
+}
 html
 	height: 100%
 
 body
-	@extend $FONTSIZE-NORMAL
 	@extend $FONT-MAIN
 	@extend $COLOR-BLACK
-	@extend $BG-GREY
+	@extend $BG-LIGHTGREY
 	@extend $LINE-HEIGHT-NORMAL
 	font-style: normal
 	height: 100%
 	min-width:200px
 
 .Background
-	background-image: url(https://farm4.staticflickr.com/3924/14146565428_57002bbb48_h.jpg)
 	background-size: cover
 	background-position: center
 	position: fixed;
@@ -39,7 +42,7 @@ body
 
 a, a:link, a:visited
 	@extend $COLOR-BLUE
-	font-weight: bold
+	font-weight: 400
 
 input, button
 	@extend $FONTSIZE-SMALL
@@ -48,31 +51,63 @@ input, button
 	@extend $MARGIN-BOTTOM-NORMAL
 	margin-left: 0
 
-.AuthModule
-	clearfix()
+header.Siteheader
+	@extend $BORDER-BOX
+	@extend $PADDING-NORMAL
 	@extend $MARGIN-BOTTOM-NORMAL
-	.showCreatePost, .showLogin
-		cursor: pointer
-	.sendLogin
-		@extend $MARGIN-BOTTOM-NO
-
-.Stream
 	@extend $CENTER
 	max-width: 800px
-	@media $handhelds
-		@extend $PADDING-SMALL
-	@media $medium_beyond
-		@extend $PADDING-NORMAL
 
+	.AuthModule
+		@extend $PADDING-NORMAL
+		@extend $BG-GREY
+		.showCreatePost, .showLogin
+			cursor: pointer
+		.sendLogin
+			@extend $MARGIN-BOTTOM-NO
+
+header.MyFeedHeader
+	@extend $BORDER-BOX
+	@extend $PADDING-SMALL
+	@extend $MARGIN-BOTTOM-NO
+	@extend $CENTER
+	@extend $TEXT-CENTER
+	padding-top:0
+	max-width: 800px
+	.MyFeedTitle
+		@extend $PADDING-V-BIG
+		@extend $PADDING-H-NORMAL
+		@extend $BG-WHITE
+		@extend $COLOR-BLACK
+		@extend $BORDER-GREY
+		@extend $LINE-HEIGHT-SMALL
+		border-radius: 0 0 4px 4px
+		border-width: 0 1px 1px 1px
+		border-style: solid
+		h1
+			@extend $FONTSIZE-GIGA
+			@extend $FONT-HEAD
+			@extend $MARGIN-BOTTOM-SMALL
+			@extend $LINE-HEIGHT-NORMAL
+			text-transform: uppercase
+		p
+			@extend $FONTSIZE-TINY
+			@extend $LINE-HEIGHT-SMALL
+
+.Stream
+	@extend $BORDER-BOX
+	@extend $CENTER
+	@extend $PADDING-SMALL
+	max-width: 800px
 
 .Post
 	@extend $PADDING-NORMAL
-	@extend $BG-WHITE-OP
+	@extend $BG-WHITE
 	@extend $MARGIN-BOTTOM-NORMAL
-	@extend $BORDER-DARKGREY
+	@extend $BORDER-GREY
 	border-width: 1px
 	border-style: solid
-	padding-bottom: 0
+	border-radius: 4px
 
 .Post.new
 	@extend $BORDER-GREEN
@@ -82,62 +117,60 @@ input, button
 .Post.tweet
 	position: relative
 	border-radius: 15px
-	margin-left: 90px
+	flex-display()
+	flex-align-items(center)
+	flex-justify-content(flex-start)
 	header.post-header
 		@extend $MARGIN-BOTTOM-NO
-		justify-content: flex-start
-		width: 100%
-		position: absolute
+		@extend $BORDER-GREY
+		@extend $PADDING-H-NORMAL
+		padding-left:0
+		border-right-width: 1px
+		border-style: dotted
+		flex(3)
+		flex-display()
+		flex-direction(column)
+		flex-align-items(center)
 		.Avatar
-			position: absolute
-			left: -90px
-			top: -15px
+			@extend $MARGIN-BOTTOM-SMALL
 		.Meta
 			@extend $PADDING-NO
-			position: absolute
-			top: -15px
-		div
-			@extend $MARGIN-RIGHT-SMALL
-			display: inline-block
-
+			@extend $TEXT-CENTER
 
 	article.post-article
-		.article-content
+		@extend $PADDING-H-NORMAL
+		@extend $TEXT-CENTER
+		padding-right:0
+		flex(6)
+		.content-content p:last-of-type
 			@extend $MARGIN-BOTTOM-NO
 
 header.post-header
 	@extend $MARGIN-BOTTOM-SMALL
-	@extend $VCENTER
-	clearfix()
+	flex-display()
+	flex-align-items(center)
+	flex-justify-content(left)
 	.Avatar
-		@media $handhelds
-			width: 50px
-		@media $medium_beyond
-			col(1,12)
+		width: 20%
+		min-width: 50px
+		max-width: 80px
 		img
 			@extend $BORDER-DARKGREY
 			@extend $BORDER-BOX
+			display: block
 			border-width: 1px
 			border-style: solid
 			border-radius: 40px
 			overflow: hidden
 			width: 100%
 	.Meta
-		@media $handhelds
-			padding-top: 0
-			padding-bottom: 0
-			col(11,12)
-
-		@media $medium_beyond
-			col(11,12)
-
 		@extend $PADDING-H-SMALL
 		@extend $FONTSIZE-TINY 
 		@extend $LINE-HEIGHT-SMALL
 		@extend $COLOR-DARKGREY
 
 		a, a:link, a:visited
-			@extend $COLOR-DARKGREY
+			@extend $COLOR-BLUE
 
 		.meta-actions
 			div
@@ -159,13 +192,14 @@ article.post-article
 		@extend $LINE-HEIGHT-NORMAL
 		@extend $OVERFLOW-NICE
 		@extend $FONTSIZE-NORMAL
+
 		.content-content
 			p, h1, h2, code
 				@extend $MARGIN-BOTTOM-NORMAL
 			h1
 				@extend $FONTSIZE-MEGA
 				@extend $PADDING-V-NORMAL
-				@extend $LINE-HEIGHT-NORMAL
+				@extend $LINE-HEIGHT-SMALL
 				padding-bottom: 0px
 			h2
 				@extend $FONTSIZE-BIG
@@ -194,9 +228,19 @@ article.post-article
 			@extend $FONTSIZE-BIG
 			@extend $MARGIN-BOTTOM-SMALL
 
+
 .Attachments
+	@extend $PADDING-V-NORMAL
+	@extend $BORDER-GREY
+	padding-bottom: 0
+	border-top-width: 1px
+	border-style: dotted
+
+	div:last-of-type
+		@extend $MARGIN-BOTTOM-NO
+
 	.attachment-remove
-		@extend $FONTSIZE-SMALL
+		@extend $FONTSIZE-TINY
 		@extend $MARGIN-BOTTOM-SMALL
 		cursor: pointer
 		text-decoration: underline
@@ -205,6 +249,7 @@ article.post-article
 		@extend $FONTSIZE-SMALL
 		@extend $LINE-HEIGHT-NORMAL
 		@extend $MARGIN-BOTTOM-NORMAL
+		@extend $COLOR-DARKGREY
 		clearfix()
 		.url-link
 			@extend $OVERFLOW-NICE
@@ -239,7 +284,7 @@ article.post-article
 			col(12,12)
 			padding-left: 0
 			img
-				min-width: 100%
+				width: 100%
 		.image-link
 			@extend $FONTSIZE-TINY
 			@extend $OVERFLOW-NICE
@@ -251,8 +296,10 @@ article.post-article
 	@extend $FONT-MAIN
 	@extend $FONTSIZE-NORMAL
 	@extend $BORDER-BOX
-	@extend $BORDER-DARKGREY
+	@extend $BORDER-GREY
 	@extend $PADDING-NORMAL
+	@extend $BG-WHITE
+	border-radius: 4px
 	-webkit-appearance: none
 	-moz-appearance: none
 	appearance: none

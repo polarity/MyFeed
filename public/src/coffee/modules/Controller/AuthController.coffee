@@ -2,15 +2,6 @@ window.app.controller "AuthController", ($scope, LoginService, $http, $timeout) 
 
 	$scope.login = LoginService
 
-	# check if user logged already in
-	# via checking the local storage for
-	# credentials
-	if window.localStorage && localStorage['token']
-		$scope.login.token = localStorage['token']
-		$scope.login.username = localStorage['username']
-		$scope.login.email = localStorage['email']
-		$scope.login.emailhash = localStorage['emailhash']
-
 	# send username and passwort from the login
 	# inputs to the server for validation
 	$scope.sendLogin = (username, password)->

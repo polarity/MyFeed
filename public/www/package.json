@@ -29,6 +29,7 @@
     "myfeed-scrape": "*",
     "jwt-simple": "~0.2.0",
     "passport-token-auth": "~0.1.2",
-    "pouchdb": "~3.0.5"
+    "pouchdb": "~3.0.5",
+    "express-livereload": "0.0.24"
   }
 }

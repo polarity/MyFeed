@@ -1,0 +1,17 @@
+// extend layout1
+extends includes/_layout
+
+// extend block head
+block head
+
+	// Head - Time for meta tags
+	+global_headstuff({title: user.username+" ~ MyFeed"})
+
+// extend block body
+block body
+
+	.Background
+
+	header.Siteheader
+		// Auth Module
+		+AuthModule()

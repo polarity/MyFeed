@@ -7,6 +7,7 @@ bodyParser = require 'body-parser'
 myFeedScrape = require 'myfeed-scrape'
 jwt = require('jwt-simple')
 secret = '9w384uwioejrkkweroo9i9o'
+livereload = require('express-livereload')
 PouchDB = require('pouchdb')
 
 # passport authenticate
@@ -20,6 +21,7 @@ dotenv._getKeysAndValuesFromEnvFilePath(__dirname + '/.env')
 dotenv._setEnvs();
 
 app = Express()
+livereload(app, {watchDir: __dirname+'/stylus'})
 
 # database
 pdb = new PouchDB(__dirname + '/_pouchdb')
@@ -88,11 +90,19 @@ sortByDate = (a,b)->
 app.get "/", (req, res)->
 	pdb.allDocs {include_docs: true}, (err, docs)->
 		if docs
-			res.render("admin-feed", {
+			res.render("feed", {
 				rows: docs.rows.sort(sortByDate).reverse(), 
 				user: user,
 				markdown: markdown
 			})
+
+# get the feed overview
+app.get "/login", (req, res)->
+	res.render("login", {
+		user: user,
+		domain: process.env.DOMAIN_URL
+		markdown: markdown
+	})
 
 # get the feed via json api
 app.get "/api/feed", (req, res)->

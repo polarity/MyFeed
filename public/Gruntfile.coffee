@@ -8,7 +8,7 @@ module.exports = (grunt) ->
 		# compile on file change
 		watch:
 			options:
-				livereload: true
+				livereload: false
 				spawn: false
 
 			coffee:

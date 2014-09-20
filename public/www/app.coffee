@@ -21,7 +21,10 @@ dotenv._getKeysAndValuesFromEnvFilePath(__dirname + '/.env')
 dotenv._setEnvs();
 
 app = Express()
-livereload(app, {watchDir: __dirname+'/stylus'})
+
+# use live reload on the developer env
+if process.env.USE == "DEVELOPMENT"
+	livereload(app, {watchDir: __dirname+'/stylus'})
 
 # database
 pdb = new PouchDB(__dirname + '/_pouchdb')
@@ -91,17 +94,19 @@ app.get "/", (req, res)->
 	pdb.allDocs {include_docs: true}, (err, docs)->
 		if docs
 			res.render("feed", {
-				rows: docs.rows.sort(sortByDate).reverse(), 
-				user: user,
+				rows: docs.rows.sort(sortByDate).reverse()
+				user: user
 				markdown: markdown
+				environment: process.env.USE
 			})
 
 # get the feed overview
 app.get "/login", (req, res)->
 	res.render("login", {
-		user: user,
+		user: user
 		domain: process.env.DOMAIN_URL
 		markdown: markdown
+		environment: process.env.USE
 	})
 
 # get the feed via json api
@@ -110,8 +115,8 @@ app.get "/api/feed", (req, res)->
 		if docs
 			res.setHeader 'Content-Type', 'application/json'
 			res.end JSON.stringify {
-				rows: docs.rows.sort(sortByDate).reverse(), 
-				user: user,
+				rows: docs.rows.sort(sortByDate).reverse()
+				user: user
 				markdown: markdown
 			}
 

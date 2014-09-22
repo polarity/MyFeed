@@ -86,6 +86,25 @@ passport.use(tokenStrategy)
 sortByDate = (a,b)->
 	return (new Date(a.doc.created).getTime()) - (new Date(b.doc.created).getTime())
 
+# database migration? 
+# change keys to current
+correctDocKeys = (docs)->
+	# change db keys if wrong
+	docs.rows.forEach (doc)->
+		if doc.doc.attachments
+			doc.doc.attachments.forEach (att)->
+				if att.excerpt
+					att.description = att.excerpt
+					delete att.excerpt
+				if att.thumb
+					att.thumbnail = att.thumb
+					delete att.thumb
+
+			console.log '\n\n'
+			console.log '-----------'
+			console.log doc.doc
+			pdb.put(doc.doc)
+
 # routes
 #
 
@@ -113,6 +132,8 @@ app.get "/login", (req, res)->
 app.get "/api/feed", (req, res)->
 	pdb.allDocs {include_docs: true}, (err, docs)->
 		if docs
+			#correctDocKeys(docs)
+
 			res.setHeader 'Content-Type', 'application/json'
 			res.end JSON.stringify {
 				rows: docs.rows.sort(sortByDate).reverse()

@@ -292,6 +292,20 @@ article.post-article
 			@extend $FONTSIZE-TINY
 			@extend $OVERFLOW-NICE
 
+	.VideoAttachment
+		@extend $MARGIN-BOTTOM-NORMAL
+		clearfix()
+		.video-embed
+			clearfix()
+			@extend $TEXT-CENTER
+			col(12,12)
+			padding-left: 0
+			img
+				width: 100%
+		.video-link
+			@extend $FONTSIZE-TINY
+			@extend $OVERFLOW-NICE
+
 .CreatePost
 	clearfix()
 

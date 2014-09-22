@@ -33,6 +33,21 @@ mixin Post(config)
 		.Attachments(ng-show="PostObject.attachments.length > 0")
 
 			// Image Attachment
+			.VideoAttachment(ng-repeat="attachment in PostObject.attachments | filter:{type: 'video'} track by $index")
+
+				if config.type == 'new'
+					// remove this attachment
+					.attachment-remove(ng-click="removeAttachment(attachment)") entfernen
+
+				.video-embed
+					video-embed(code="{{attachment.url}}")
+
+				.video-link
+					p Quelle:&nbsp;
+						a(href="{{attachment.url}}") {{attachment.url}}
+					
+
+			// Image Attachment
 			.ImageAttachment(ng-repeat="attachment in PostObject.attachments | filter:{type: 'image'} track by $index")
 
 				if config.type == 'new'
@@ -41,7 +56,7 @@ mixin Post(config)
 
 				.image-thumb
 					a(href="{{attachment.url}}")
-						img(ng-src="{{attachment.thumb}}")
+						img(ng-src="{{attachment.thumbnail}}")
 					.image-link
 						p Quelle:&nbsp;
 							a(href="{{attachment.url}}") {{attachment.url}}
@@ -53,15 +68,15 @@ mixin Post(config)
 					// remove this attachment
 					.attachment-remove(ng-click="removeAttachment(attachment)") entfernen
 
-				.url-thumb(ng-if="attachment.thumb")
-					img(ng-src="{{attachment.thumb}}")
+				.url-thumb(ng-if="attachment.thumbnail")
+					img(ng-src="{{attachment.thumbnail}}")
 
-				.url-meta(ng-if="attachment.thumb")
+				.url-meta(ng-if="attachment.thumbnail")
 					.url-link
 						a(href="{{attachment.url}}", title="{{attachment.title}}") {{attachment.title}}
-					.url-excerpt {{attachment.excerpt}}
+					.url-excerpt {{attachment.description}}
 
-				.url-meta-wide(ng-if="!attachment.thumb")
+				.url-meta-wide(ng-if="!attachment.thumbnail")
 					.url-link
 						a(href="{{attachment.url}}", title="{{attachment.title}}") {{attachment.title}}
-					.url-excerpt {{attachment.excerpt}}
+					.url-excerpt {{attachment.description}}

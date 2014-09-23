@@ -10,11 +10,9 @@ $space = 20px
 @import mediaqueries
 @import vendor-prefixed
 
-[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-	display: none !important;
-}
 html
 	height: 100%
+	min-height: 100%
 
 body
 	@extend $FONT-MAIN
@@ -23,6 +21,7 @@ body
 	@extend $LINE-HEIGHT-NORMAL
 	font-style: normal
 	height: 100%
+	min-height: 100%
 	min-width:200px
 
 .Background
@@ -41,6 +40,7 @@ body
 	//filter: blur(15px);
 
 a, a:link, a:visited
+	transition: all 0.5s ease
 	@extend $COLOR-BLUE
 	font-weight: 400
 
@@ -97,11 +97,18 @@ header.MyFeedHeader
 			opacity: 0.5
 			max-width: 60%
 
+
 .Stream
 	@extend $BORDER-BOX
 	@extend $CENTER
 	@extend $PADDING-SMALL
 	max-width: 800px
+
+.Single
+	@extend .Stream
+	min-height: 100%
+	flex-display()
+	flex-align-items(center)
 
 .Post
 	@extend $PADDING-NORMAL
@@ -166,6 +173,10 @@ header.post-header
 			border-radius: 40px
 			overflow: hidden
 			width: 100%
+		img:hover
+			@extend $BORDER-BLUE
+			border-width: 2px
+
 	.Meta
 		@extend $PADDING-H-SMALL
 		@extend $FONTSIZE-TINY 
@@ -173,14 +184,18 @@ header.post-header
 		@extend $COLOR-DARKGREY
 
 		a, a:link, a:visited
+			@extend $COLOR-DARKGREY
+		a:active, a:hover
 			@extend $COLOR-BLUE
 
 		.meta-actions
 			div
 				@extend $MARGIN-RIGHT-SMALL
 				display: inline-block
-		.meta-username
+
+		.meta-username, .meta-username a
 			font-weight: bold
+
 
 		.meta-delete
 			a
@@ -227,6 +242,15 @@ article.post-article
 				white-space: pre
 				overflow: scroll
 
+			blockquote 
+				@extend $PADDING-H-NORMAL
+				@extend $BORDER-LIGHTGREY
+				@extend $COLOR-BLACK
+				border-left-width: $space
+				border-style: solid
+				display: block
+
+
 		.content-title
 			@extend $FONTSIZE-BIG
 			@extend $MARGIN-BOTTOM-SMALL
@@ -241,7 +265,10 @@ article.post-article
 
 	div:last-of-type
 		@extend $MARGIN-BOTTOM-NO
-
+	a, a:link, a:visited
+		@extend $COLOR-DARKGREY
+	a:active, a:hover
+		@extend $COLOR-BLUE
 	.attachment-remove
 		@extend $FONTSIZE-TINY
 		@extend $MARGIN-BOTTOM-SMALL
@@ -323,3 +350,7 @@ article.post-article
 	border-width: 1px
 	width: 100%
 	height: $space*5
+
+.ng-cloak, .x-ng-cloak {
+	display: none !important
+}

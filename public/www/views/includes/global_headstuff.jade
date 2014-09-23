@@ -3,14 +3,15 @@ mixin global_headstuff(options)
 	title!= options.title
 	link(href="/css/main.css", rel="stylesheet")
 	link(rel="shortcut icon", type="image/x-icon", href="")
-	meta(name="description", content="")
+	meta(name="description", content=options.description)
 
 	// Facebook Stuff
-	meta(property="og:image", content="")
-	meta(property="og:title", content="")
-	meta(property="og:url", content="")
-	meta(property="og:site_name", content="")
-	meta(property="og:type", content="")
+	meta(property="og:image", content=options.fb_image)
+	meta(property="og:title", content=options.fb_title)
+	meta(property="og:description", content=options.fb_description)
+	meta(property="og:url", content=options.fb_url)
+	meta(property="og:site_name", content=options.fb_sitename)
+	meta(property="og:type", content=options.fb_type)
 
 	// Apple Stuff
 	meta(name="viewport", content="width=device-width, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0")

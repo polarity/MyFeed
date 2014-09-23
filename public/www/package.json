@@ -30,6 +30,7 @@
     "jwt-simple": "~0.2.0",
     "passport-token-auth": "~0.1.2",
     "pouchdb": "~3.0.5",
-    "express-livereload": "0.0.24"
+    "express-livereload": "0.0.24",
+    "truncate": "~1.0.2"
   }
 }

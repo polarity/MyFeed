@@ -8,6 +8,7 @@ myFeedScrape = require 'myfeed-scrape'
 jwt = require('jwt-simple')
 secret = '9w384uwioejrkkweroo9i9o'
 livereload = require('express-livereload')
+truncate = require('truncate')
 PouchDB = require('pouchdb')
 
 # passport authenticate
@@ -46,6 +47,7 @@ user.email = process.env.USER_EMAIL
 user.emailhash = md5.digest_s(user.email)
 user.password = process.env.USER_PASSWORD
 user.username = process.env.USER_NAME
+user.domain = process.env.DOMAIN_URL
 
 # Passport session setup.
 # To support persistent login sessions, Passport needs to be able to
@@ -105,6 +107,22 @@ correctDocKeys = (docs)->
 			console.log doc.doc
 			pdb.put(doc.doc)
 
+# generates a title from the post information
+# when theres no content, we take the
+# title of the first attachment
+generateTitleFromPost = (doc)->
+
+	# are there some content?
+	if doc.content && doc.content.length > 0
+		# take the first 80 chars and use it as a title
+		return truncate(markdown(doc.content).replace(/<(?:.|\n)*?>|[\n\r]/gm, ''), 80)
+
+	# no content? maybe some attachments there?
+	else if doc.attachments && doc.attachments.length == 1 && doc.attachments[0].title
+		# take the title of the first 
+		# attachment and use it as title
+		return doc.attachments[0].title
+
 # routes
 #
 
@@ -116,6 +134,23 @@ app.get "/", (req, res)->
 				rows: docs.rows.sort(sortByDate).reverse()
 				user: user
 				markdown: markdown
+				environment: process.env.USE
+			})
+
+# get the feed overview
+app.get "/post/:id", (req, res)->
+	pdb.get req.params.id, (err, doc)->
+		console.log doc
+		if !doc.title
+			doc.title = generateTitleFromPost(doc)
+			#pdb.put(doc)
+
+		if doc
+			res.render("single", {
+				doc: doc
+				user: user
+				markdown: markdown
+				truncate: truncate
 				environment: process.env.USE
 			})
 

@@ -10,12 +10,13 @@ mixin Post(config)
 		// The Header - Avatar, Metadata and Stuff
 		header.post-header
 			.Avatar
-				img(
-					ng-src="https://www.gravatar.com/avatar/{{PostObject.user.emailhash}}"
-					title="{{PostObject.user.username}} ~ {{PostObject.created | dateFromNow}} ~ {{PostObject.created | dateFormat}}"
-				)
+				a(href=user.domain)
+					img(
+						ng-src="https://www.gravatar.com/avatar/{{PostObject.user.emailhash}}"
+						title="{{PostObject.user.username}} ~ {{PostObject.created | dateFromNow}} ~ {{PostObject.created | dateFormat}}"
+					)
 			.Meta
-				.meta-username {{PostObject.user.username}}
+				.meta-username: a(href=user.domain) {{PostObject.user.username}}
 				.meta-postcreated {{PostObject.created | dateFormat}} ({{PostObject.created | dateFromNow}})
 				.meta-actions
 					.meta-permalink(ng-show="PostObject._id")
@@ -74,7 +75,7 @@ mixin Post(config)
 				.url-meta(ng-if="attachment.thumbnail")
 					.url-link
 						a(href="{{attachment.url}}", title="{{attachment.title}}") {{attachment.title}}
-					.url-excerpt {{attachment.description}}
+					.url-excerpt {{attachment.description | limitTo: 350}}
 
 				.url-meta-wide(ng-if="!attachment.thumbnail")
 					.url-link

@@ -1,0 +1,24 @@
+// extend layout1
+extends includes/_layout
+
+// extend block head
+block head
+	// Head - Time for meta tags
+	+global_headstuff({
+		title: doc.title+" ~ "+user.username+"MyFeed",
+		description: truncate(markdown(doc.content).replace(/<(?:.|\n)*?>|[\n\r]/gm, ''), 230),
+		fb_title: doc.title+" ~ "+user.username+"MyFeed",
+		fb_description: truncate(markdown(doc.content).replace(/<(?:.|\n)*?>|[\n\r]/gm, ''), 230),
+		fb_sitename: "MyFeed "+user.username
+	})
+
+// extend block body
+block body
+
+	.Background
+
+	// Stream Start
+	.Single(class="ng-cloak" ng-cloak)
+		.Posts(ng-controller="PostListController")
+			.iterate(ng-repeat="PostObject in Posts | orderBy:'created':true | filter:'"+doc._id+"' track by $index")
+				+Post({type: ''})

@@ -301,6 +301,8 @@ article.post-article
 		@extend $MARGIN-BOTTOM-NORMAL
 		@extend $COLOR-DARKGREY
 		clearfix()
+		flex-display()
+		flex-align-items(center)
 		.url-link
 			@extend $OVERFLOW-NICE
 
@@ -313,6 +315,7 @@ article.post-article
 			padding-left: 0
 			img
 				@extend $BORDER-DARKGREY
+				display: block
 				border-width: 1px
 				border-style: solid
 				max-width: 100%

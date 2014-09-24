@@ -7,6 +7,7 @@ mixin CreatePost()
 			ng-model="PostObject.content"
 			placeholder="Was machst du gerade?")
 
-		button.send(ng-click="sendPostObject(PostObject)") send
+		.Buttonbar
+			button.send(ng-click="sendPostObject(PostObject)") Posten
 
 		+Post({type: 'new'})

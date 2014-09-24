@@ -49,7 +49,20 @@ input, button
 	@extend $FONT-MAIN
 	@extend $PADDING-SMALL
 	@extend $MARGIN-BOTTOM-NORMAL
+	@extend $BG-LIGHTBLUE
+	@extend $COLOR-WHITE
+	@extend $BORDER-BLUE
+	border-radius: 2px
+	border-style: solid
+	border-width: 1px
 	margin-left: 0
+
+button
+	transition: all 0.5s ease-out
+	cursor: pointer
+
+button:hover
+	@extend $BG-BLUE
 
 header.Siteheader
 	@extend $BORDER-BOX
@@ -258,6 +271,12 @@ article.post-article
 
 .Attachments.only
 	@extend $FONTSIZE-NORMAL
+	border: 0
+	padding-top: 0
+	a, a:link, a:visited
+		@extend $COLOR-BLUE
+	a:active, a:hover
+		@extend $COLOR-BLUE
 
 .Attachments
 	@extend $FONTSIZE-SMALL
@@ -353,6 +372,10 @@ article.post-article
 	border-width: 1px
 	width: 100%
 	height: $space*5
+
+.Buttonbar
+	flex-display()
+	flex-justify-content(flex-end)
 
 .ng-cloak, .x-ng-cloak {
 	display: none !important

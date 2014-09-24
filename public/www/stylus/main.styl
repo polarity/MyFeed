@@ -43,6 +43,7 @@ a, a:link, a:visited
 	transition: all 0.5s ease
 	@extend $COLOR-BLUE
 	font-weight: 400
+	cursor: pointer
 
 input, button
 	@extend $FONTSIZE-SMALL
@@ -175,8 +176,8 @@ header.post-header
 	flex-justify-content(left)
 	.Avatar
 		width: 20%
-		min-width: 50px
-		max-width: 80px
+		min-width: 30px
+		max-width: 50px
 		img
 			@extend $BORDER-DARKGREY
 			@extend $BORDER-BOX
@@ -198,6 +199,8 @@ header.post-header
 
 		a, a:link, a:visited
 			@extend $COLOR-DARKGREY
+			text-decoration: none
+
 		a:active, a:hover
 			@extend $COLOR-BLUE
 
@@ -209,11 +212,6 @@ header.post-header
 		.meta-username, .meta-username a
 			font-weight: bold
 
-
-		.meta-delete
-			a
-				text-decoration: underline
-				cursor: pointer
 
 article.post-article
 	@extend $MARGIN-BOTTOM-NO	

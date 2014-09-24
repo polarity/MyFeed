@@ -31,7 +31,7 @@ mixin Post(config)
 
 
 		// Attachments
-		.Attachments(ng-show="PostObject.attachments.length > 0")
+		.Attachments(ng-show="PostObject.attachments.length > 0", ng-class="{only: PostObject.content.length < 1}")
 
 			// Image Attachment
 			.VideoAttachment(ng-repeat="attachment in PostObject.attachments | filter:{type: 'video'} track by $index")

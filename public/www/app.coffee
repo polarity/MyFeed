@@ -114,11 +114,20 @@ generateTitleFromPost = (doc)->
 
 	# are there some content?
 	if doc.content && doc.content.length > 0
-		# take the first 80 chars and use it as a title
-		return truncate(markdown(doc.content).replace(/<(?:.|\n)*?>|[\n\r]/gm, ''), 80)
+		strippedContent = markdown(doc.content).replace(/<(?:.|\n)*?>/gm, '')
+
+		# try to get the first line (100chars max) & until a line break
+		strippedTitle = strippedContent.match(/^([\S\s]{0,100}\n)/g)
+		if strippedTitle
+			strippedTitle = strippedTitle[0].replace(/(\n)+/g, '')
+			# take the first 80 chars and use it as a title
+			return strippedTitle
+		else
+			# nothing found? just take 100 chars off the content
+			return truncate(strippedContent, 100)
 
 	# no content? maybe some attachments there?
-	else if doc.attachments && doc.attachments.length == 1 && doc.attachments[0].title
+	else if doc.attachments && doc.attachments.length > 0 && doc.attachments[0].title
 		# take the title of the first 
 		# attachment and use it as title
 		return doc.attachments[0].title
@@ -140,7 +149,6 @@ app.get "/", (req, res)->
 # get the feed overview
 app.get "/post/:id", (req, res)->
 	pdb.get req.params.id, (err, doc)->
-		console.log doc
 		if !doc.title
 			doc.title = generateTitleFromPost(doc)
 			#pdb.put(doc)

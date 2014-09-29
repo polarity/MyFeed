@@ -162,7 +162,7 @@ app.get "/rss", (req, res)->
 				if item.doc.content || item.doc.attachments.length > 0
 					console.log 
 					feed.item({
-						title: generateTitleFromPost(item.doc)
+						title: item.doc.title
 						description: item.doc.content
 						url: process.env.DOMAIN_URL+'post/'+item.doc._id
 						author: process.env.USER_NAME
@@ -179,7 +179,7 @@ app.get "/post/:id", (req, res)->
 	pdb.get req.params.id, (err, doc)->
 		if !doc.title
 			doc.title = generateTitleFromPost(doc)
-			#pdb.put(doc)
+			pdb.put(doc)
 
 		if doc
 			res.render("single", {
@@ -216,6 +216,7 @@ app.get "/api/feed", (req, res)->
 app.post "/api/create", passport.authenticate('token', { session: false }), (req, res)->
 	doc = {}
 	doc = req.body.doc
+	doc.title = generateTitleFromPost(doc)
 	doc.user = {
 		email: user.email
 		emailhash: user.emailhash

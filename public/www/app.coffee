@@ -10,6 +10,7 @@ secret = '9w384uwioejrkkweroo9i9o'
 livereload = require('express-livereload')
 truncate = require('truncate')
 PouchDB = require('pouchdb')
+RSS = require('rss')
 
 # passport authenticate
 passport = require('passport')
@@ -48,6 +49,15 @@ user.emailhash = md5.digest_s(user.email)
 user.password = process.env.USER_PASSWORD
 user.username = process.env.USER_NAME
 user.domain = process.env.DOMAIN_URL
+
+# RSS Feed Setup
+feed = new RSS({
+	title: 'MyFeed of '+ user.username
+	description: "MyFeed Profile Page Feed"
+	feed_url: process.env.DOMAIN_URL + 'feed'
+	site_url: process.env.DOMAIN_URL
+
+})
 
 # Passport session setup.
 # To support persistent login sessions, Passport needs to be able to
@@ -146,6 +156,23 @@ app.get "/", (req, res)->
 				environment: process.env.USE
 			})
 
+app.get "/rss", (req, res)->
+	pdb.allDocs {include_docs: true}, (err, docs)->
+		if docs
+			docs.rows.forEach (item)->
+				feed.item({
+					title: generateTitleFromPost(item.doc)
+					description: item.doc.content
+					url: process.env.DOMAIN_URL+'post/'+item.doc._id
+					author: process.env.USER_NAME
+					date: item.doc.created
+					guid: item.doc._id
+				})
+
+			# send xml
+			res.set('Content-Type', 'application/rss+xml')
+			res.send feed.xml()
+
 # get the feed overview
 app.get "/post/:id", (req, res)->
 	pdb.get req.params.id, (err, doc)->
@@ -159,7 +186,7 @@ app.get "/post/:id", (req, res)->
 				user: user
 				markdown: markdown
 				truncate: truncate
-				environment: process.env.USE
+				environment: process.env.USER_NAME
 			})
 
 # get the feed overview

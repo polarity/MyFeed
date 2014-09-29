@@ -31,6 +31,7 @@
     "passport-token-auth": "~0.1.2",
     "pouchdb": "~3.0.5",
     "express-livereload": "0.0.24",
-    "truncate": "~1.0.2"
+    "truncate": "~1.0.2",
+    "rss": "~1.0.0"
   }
 }

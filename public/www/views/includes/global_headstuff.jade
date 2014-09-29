@@ -3,6 +3,7 @@ mixin global_headstuff(options)
 	title!= options.title
 	link(href="/css/main.css", rel="stylesheet")
 	link(rel="shortcut icon", type="image/x-icon", href="")
+	link(rel="alternate",type="application/rss+xml", title="",href="/feed")
 	meta(name="description", content=options.description)
 
 	// Facebook Stuff

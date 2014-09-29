@@ -50,15 +50,6 @@ user.password = process.env.USER_PASSWORD
 user.username = process.env.USER_NAME
 user.domain = process.env.DOMAIN_URL
 
-# RSS Feed Setup
-feed = new RSS({
-	title: 'MyFeed of '+ user.username
-	description: "MyFeed Profile Page Feed"
-	feed_url: process.env.DOMAIN_URL + 'feed'
-	site_url: process.env.DOMAIN_URL
-
-})
-
 # Passport session setup.
 # To support persistent login sessions, Passport needs to be able to
 # serialize users into and deserialize users out of the session.  Typically,
@@ -159,18 +150,28 @@ app.get "/", (req, res)->
 app.get "/rss", (req, res)->
 	pdb.allDocs {include_docs: true}, (err, docs)->
 		if docs
+			# RSS Feed Setup
+			feed = new RSS({
+				title: 'MyFeed of '+ user.username
+				description: "MyFeed Profile Page Feed"
+				feed_url: process.env.DOMAIN_URL + 'feed'
+				site_url: process.env.DOMAIN_URL
+				pubDate: new Date()
+			})
 			docs.rows.forEach (item)->
-				feed.item({
-					title: generateTitleFromPost(item.doc)
-					description: item.doc.content
-					url: process.env.DOMAIN_URL+'post/'+item.doc._id
-					author: process.env.USER_NAME
-					date: item.doc.created
-					guid: item.doc._id
-				})
+				if item.doc.content || item.doc.attachments.length > 0
+					console.log 
+					feed.item({
+						title: generateTitleFromPost(item.doc)
+						description: item.doc.content
+						url: process.env.DOMAIN_URL+'post/'+item.doc._id
+						author: process.env.USER_NAME
+						date: new Date(item.doc.created)
+						guid: item.doc._id
+					})
 
 			# send xml
-			res.set('Content-Type', 'application/rss+xml')
+			# res.set('Content-Type', 'application/rss+xml')
 			res.send feed.xml()
 
 # get the feed overview

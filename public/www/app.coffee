@@ -138,7 +138,11 @@ generateTitleFromPost = (doc)->
 
 # get the feed overview
 app.get "/", (req, res)->
-	pdb.allDocs {include_docs: true}, (err, docs)->
+	# query/map method
+	query = (doc, emit)=>
+		emit(doc._id, doc) if !doc.type || doc.type == 'post'
+
+	pdb.query query, {include_docs: true}, (err, docs)->
 		if docs
 			res.render("feed", {
 				rows: docs.rows.sort(sortByDate).reverse()
@@ -148,7 +152,11 @@ app.get "/", (req, res)->
 			})
 
 app.get "/rss", (req, res)->
-	pdb.allDocs {include_docs: true}, (err, docs)->
+	# query/map method
+	query = (doc, emit)=>
+		emit(doc._id, doc) if !doc.type || doc.type == 'post' 
+
+	pdb.query query, {include_docs: true}, (err, docs)->
 		if docs
 			# RSS Feed Setup
 			feed = new RSS({
@@ -178,6 +186,7 @@ app.get "/rss", (req, res)->
 app.get "/post/:id", (req, res)->
 	pdb.get req.params.id, (err, doc)->
 		if !doc.title
+			doc.type = 'post'
 			doc.title = generateTitleFromPost(doc)
 			pdb.put(doc)
 
@@ -201,7 +210,11 @@ app.get "/login", (req, res)->
 
 # get the feed via json api
 app.get "/api/feed", (req, res)->
-	pdb.allDocs {include_docs: true}, (err, docs)->
+	# query/map method
+	query = (doc, emit)=>
+		emit(doc._id, doc) if doc.type == 'post' || !doc.type
+
+	pdb.query query, {include_docs: true}, (err, docs)->
 		if docs
 			#correctDocKeys(docs)
 
@@ -217,10 +230,12 @@ app.post "/api/create", passport.authenticate('token', { session: false }), (req
 	doc = {}
 	doc = req.body.doc
 	doc.title = generateTitleFromPost(doc)
+	doc.type = "post"
 	doc.user = {
 		email: user.email
 		emailhash: user.emailhash
 		username: user.username
+		domain: user.domain
 	}
 	pdb.post(doc).then (response)->
 		# doc saved?
@@ -255,6 +270,36 @@ app.post '/api/login', passport.authenticate('local', { session: false }), (req,
 # scrape a website url
 app.post "/api/scrapethis", passport.authenticate('token', { session: false }), (req, res)->
 	myFeedScrape.scrape(req, res)
+
+# add a new follower
+app.post "/api/follow", passport.authenticate('token', { session: false }), (req, res)->
+	doc = {}
+	doc = req.body.doc
+	doc.type = "follow"
+	pdb.post(doc).then (response)->
+		# doc saved?
+		res.json(doc)
+
+# list all followers
+app.get "/api/followed", (req, res)->
+	# query/map method
+	query = (doc, emit)=>
+		emit(doc._id, doc) if doc.type == 'follow'
+
+	pdb.query query, {include_docs: true}, (err, docs)->
+		if docs
+			res.setHeader 'Content-Type', 'application/json'
+			res.end JSON.stringify {
+				rows: docs.rows
+			}
+
+app.post "/api/remove_follow", passport.authenticate('token', { session: false }), (req, res)->
+	pdb.remove(req.body._id, req.body._rev)
+	.then (response)->
+		# doc deleted?
+		res.end("true")
+	.catch (err)->
+		console.log err
 
 server = app.listen process.env.SERVERPORT, ()->
 	console.log "Listening....", server.address().port

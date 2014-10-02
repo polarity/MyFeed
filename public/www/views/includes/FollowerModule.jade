@@ -1,0 +1,10 @@
+mixin FollowerModule()
+
+	.FollowerModule(ng-controller="FollowerController")
+		.FollowForm
+			input(type="text", ng-model="domain", placeholder="post url to follow this MyFeed")
+			button(value="follow", ng-click="addFollower(domain)")
+		.FollowedList
+			ul()
+				li(ng-repeat="following in followed") {{following.domain}} ~ 
+					span(ng-click="removeFollower(following)") X

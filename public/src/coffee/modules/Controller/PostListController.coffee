@@ -2,20 +2,38 @@ window.app.controller "PostListController", ($scope, $timeout, $http, PostsServi
 
 	$scope.Posts = PostsService
 	$scope.login = LoginService
+	$scope.start = false
+	$scope.end = false
 
 	# just parse all found url
-	$scope.getPosts = (url)->
+	$scope.getPosts = (id, start)->
+		id = false if !id
+		start = false if !start
+
 		$http({
 			url: "/api/feed"
-			method: "GET"
+			method: "POST"
+			data: {
+				id: id
+				start: start
+			}
 		})
 		.success( (data)->
 			data.rows.forEach (item)->
 				$scope.Posts.push(item.doc)
+
+			# remember last id
+			if data.rows.length > 0
+				$scope.end = data.rows[data.rows.length-1].id
+				console.log $scope.end
 		)
 		.error( (err)-> console.log err )
 
 	$scope.getPosts()
+
+	$scope.showMore = ()->
+		console.log
+		$scope.getPosts(false, $scope.end)
 
 	$scope.delete = (PostObject)->
 		# find index of this post object in our list

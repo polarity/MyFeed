@@ -138,18 +138,11 @@ generateTitleFromPost = (doc)->
 
 # get the feed overview
 app.get "/", (req, res)->
-	# query/map method
-	query = (doc, emit)=>
-		emit(doc._id, doc) if !doc.type || doc.type == 'post'
-
-	pdb.query query, {include_docs: true}, (err, docs)->
-		if docs
-			res.render("feed", {
-				rows: docs.rows.sort(sortByDate).reverse()
-				user: user
-				markdown: markdown
-				environment: process.env.USE
-			})
+	res.render("feed", {
+		user: user
+		markdown: markdown
+		environment: process.env.USE
+	})
 
 app.get "/rss", (req, res)->
 	# query/map method
@@ -209,18 +202,36 @@ app.get "/login", (req, res)->
 	})
 
 # get the feed via json api
-app.get "/api/feed", (req, res)->
-	# query/map method
-	query = (doc, emit)=>
-		emit(doc._id, doc) if doc.type == 'post' || !doc.type
+app.post "/api/feed", (req, res)->
 
-	pdb.query query, {include_docs: true}, (err, docs)->
+	
+
+	# query/map method
+	map = (doc, emit)=>
+		emit([doc._id, doc.created], 1) if !doc.type || doc.type == 'post'
+
+	options = {
+		limit: 5
+		include_docs: true
+		descending: true
+	}
+
+	# skip if startkey set
+	if req.body.start
+		options.startkey = [req.body.start, {}]
+		options.skip = 1
+
+	console.log options
+	# query db
+	pdb.query map, options, (err, docs)->
+		if err 
+			console.log err
 		if docs
 			#correctDocKeys(docs)
 
 			res.setHeader 'Content-Type', 'application/json'
 			res.end JSON.stringify {
-				rows: docs.rows.sort(sortByDate).reverse()
+				rows: docs.rows
 				user: user
 				markdown: markdown
 			}
@@ -243,7 +254,6 @@ app.post "/api/create", passport.authenticate('token', { session: false }), (req
 
 # post a new post
 app.post "/api/delete", passport.authenticate('token', { session: false }), (req, res)->
-	console.log req.body.id
 	pdb.remove(req.body._id, req.body._rev)
 	.then (response)->
 		# doc deleted?

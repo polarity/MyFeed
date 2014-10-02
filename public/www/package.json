@@ -32,6 +32,7 @@
     "pouchdb": "~3.0.5",
     "express-livereload": "0.0.24",
     "truncate": "~1.0.2",
-    "rss": "~1.0.0"
+    "rss": "~1.0.0",
+    "coffee-middleware": "~0.2.1"
   }
 }

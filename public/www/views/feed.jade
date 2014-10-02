@@ -26,5 +26,8 @@ block body
 		+CreatePost()
 
 		.Posts(ng-controller="PostListController")
-			.iterate(ng-repeat="PostObject in Posts | orderBy:'created':true track by $index")
+			//.iterate(ng-repeat="PostObject in Posts | orderBy:'created':true track by $index")
+			.iterate(ng-repeat="PostObject in Posts track by $index")
 				+Post({type: ''})
+
+			.showMore(ng-click="showMore()") show more

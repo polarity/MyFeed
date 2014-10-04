@@ -1,8 +1,10 @@
 mixin global_headstuff(options)
 	meta(content="utf-8")
+
+	// google, open web stuff
 	title!= options.title
 	link(href="/css/main.css", rel="stylesheet")
-	link(rel="shortcut icon", type="image/x-icon", href="")
+	link(rel="shortcut icon", type="image/x-icon", href!=options.favicon)
 	link(rel="alternate",type="application/rss+xml", title="",href="/feed")
 	meta(name="description", content=options.description)
 
@@ -17,4 +19,4 @@ mixin global_headstuff(options)
 	// Apple Stuff
 	meta(name="viewport", content="width=device-width, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0")
 	meta(name="apple-mobile-web-app-status-bar-style", content="black")
-	link(rel="apple-touch-icon", href="")
+	link(rel="apple-touch-icon", href=options.appletouchicon)

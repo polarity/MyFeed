@@ -3,9 +3,18 @@ extends includes/_layout
 
 // extend block head
 block head
-
-	// Head - Time for meta tags
-	+global_headstuff({title: user.username+" ~ MyFeed"})
+	+global_headstuff({
+		title: user.username+" ~ MyFeed",
+		favicon: "http://www.gravatar.com/avatar/"+user.emailhash,
+		description: "Stream of Media, Thoughts, Things and Cats from "+ user.username,
+		fb_title: user.username+"´s MyFeed",
+		fb_sitename: "MyFeed of "+user.username,
+		fb_description: "Stream of Media, Thoughts, Things and Cats from "+ user.username,
+		fb_image: "http://www.gravatar.com/avatar/"+user.emailhash,
+		fb_url: user.domain,
+		fb_type: "website",
+		appletouchicon: "http://www.gravatar.com/avatar/"+user.emailhash
+	})
 
 // extend block body
 block body

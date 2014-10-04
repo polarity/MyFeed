@@ -11,6 +11,12 @@ livereload = require('express-livereload')
 truncate = require('truncate')
 PouchDB = require('pouchdb')
 RSS = require('rss')
+urlify = require('urlify').create
+	addEToUmlauts:true,
+	szToSs:true,
+	spaces:"-",
+	nonPrintable:"-",
+	trim:true
 
 # passport authenticate
 passport = require('passport')
@@ -94,29 +100,39 @@ sortByDate = (a,b)->
 correctDocKeys = (docs)->
 	# change db keys if wrong
 	docs.rows.forEach (doc)->
-		if doc.doc.attachments
-			doc.doc.attachments.forEach (att)->
-				if att.excerpt
-					att.description = att.excerpt
-					delete att.excerpt
-				if att.thumb
-					att.thumbnail = att.thumb
-					delete att.thumb
+		# create new doc
+		newDoc = {}
+		newDoc.title = generateTitleFromPost(doc.doc)
+		newDoc._id = doc.doc.created+'-'+urlify(newDoc.title)
+		newDoc.created = doc.doc.created
+		newDoc.content = doc.doc.content
+		newDoc.attachments = doc.doc.attachments
+		newDoc.type = doc.doc.type
+		newDoc.user = doc.doc.user
 
-			console.log '\n\n'
-			console.log '-----------'
-			console.log doc.doc
-			pdb.put(doc.doc)
+		# delete old doc
+		pdb.remove(doc.doc._id, doc.doc._rev)
+			.then (res)->
+				# save new doc!
+				pdb.put(newDoc)
+					.then (res)->
+						# console.log "Success Save New Doc: ",newDoc
+						return
+					.catch (err)->
+						console.log "Fehler Save New Doc: ",err
+
+			.catch (err)->
+				console.log "Fehler Delete Old Doc: ",err
+
 
 # generates a title from the post information
 # when theres no content, we take the
 # title of the first attachment
 generateTitleFromPost = (doc)->
-
 	# are there some content?
 	if doc.content && doc.content.length > 0
-		strippedContent = markdown(doc.content).replace(/<(?:.|\n)*?>/gm, '')
-
+		strippedContent = markdown(doc.content).replace(/<(?:.|\n)*?>/gm, '').trim()
+		# console.log strippedContent
 		# try to get the first line (100chars max) & until a line break
 		strippedTitle = strippedContent.match(/^([\S\s]{0,100}\n)/g)
 		if strippedTitle
@@ -132,6 +148,8 @@ generateTitleFromPost = (doc)->
 		# take the title of the first 
 		# attachment and use it as title
 		return doc.attachments[0].title
+	else
+		return "rnd-"+Math.random()
 
 # routes
 #
@@ -161,7 +179,6 @@ app.get "/rss", (req, res)->
 			})
 			docs.rows.forEach (item)->
 				if item.doc.content || item.doc.attachments.length > 0
-					console.log 
 					feed.item({
 						title: item.doc.title
 						description: item.doc.content
@@ -178,11 +195,6 @@ app.get "/rss", (req, res)->
 # get the feed overview
 app.get "/post/:id", (req, res)->
 	pdb.get req.params.id, (err, doc)->
-		if !doc.title
-			doc.type = 'post'
-			doc.title = generateTitleFromPost(doc)
-			pdb.put(doc)
-
 		if doc
 			res.render("single", {
 				doc: doc
@@ -203,32 +215,27 @@ app.get "/login", (req, res)->
 
 # get the feed via json api
 app.post "/api/feed", (req, res)->
-
-	
-
 	# query/map method
 	map = (doc, emit)=>
-		emit([doc._id, doc.created], 1) if !doc.type || doc.type == 'post'
+		emit(doc._id) if !doc.type || doc.type == 'post'
 
 	options = {
-		limit: 5
+		#limit: 5
 		include_docs: true
 		descending: true
 	}
 
 	# skip if startkey set
 	if req.body.start
-		options.startkey = [req.body.start, {}]
+		options.startkey = req.body.start
 		options.skip = 1
 
-	console.log options
 	# query db
 	pdb.query map, options, (err, docs)->
 		if err 
 			console.log err
 		if docs
-			#correctDocKeys(docs)
-
+			correctDocKeys(docs)
 			res.setHeader 'Content-Type', 'application/json'
 			res.end JSON.stringify {
 				rows: docs.rows
@@ -241,6 +248,7 @@ app.post "/api/create", passport.authenticate('token', { session: false }), (req
 	doc = {}
 	doc = req.body.doc
 	doc.title = generateTitleFromPost(doc)
+	doc._id = doc.created+'_'+urlify(doc.title)
 	doc.type = "post"
 	doc.user = {
 		email: user.email
@@ -248,7 +256,7 @@ app.post "/api/create", passport.authenticate('token', { session: false }), (req
 		username: user.username
 		domain: user.domain
 	}
-	pdb.post(doc).then (response)->
+	pdb.put(doc).then (response)->
 		# doc saved?
 		res.json(response)
 

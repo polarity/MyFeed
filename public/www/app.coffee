@@ -194,6 +194,11 @@ app.get "/rss", (req, res)->
 
 # get the feed overview
 app.get "/post/:id", (req, res)->
+
+	# db get for meta tags :)
+	# todo: google should  still parse
+	# the website when we build everything
+	# in the frontend!
 	pdb.get req.params.id, (err, doc)->
 		if doc
 			res.render("single", {
@@ -215,33 +220,54 @@ app.get "/login", (req, res)->
 
 # get the feed via json api
 app.post "/api/feed", (req, res)->
+
 	# query/map method
 	map = (doc, emit)=>
 		emit(doc._id) if !doc.type || doc.type == 'post'
 
+	# query options
 	options = {
-		#limit: 5
+		limit: 5
 		include_docs: true
 		descending: true
 	}
+
+	# after the db query
+	callback = (err, docs)->
+		if err 
+			console.log err
+
+		if docs
+			# weve done a list query
+			if docs.rows
+				correctDocKeys(docs)
+				docs = docs.rows
+
+			# we requested one document
+			else
+				docs = [{doc: docs}]
+
+			# send it back to client
+			res.setHeader 'Content-Type', 'application/json'
+			res.end JSON.stringify {
+				rows: docs
+				user: user
+				markdown: markdown
+			}
 
 	# skip if startkey set
 	if req.body.start
 		options.startkey = req.body.start
 		options.skip = 1
 
-	# query db
-	pdb.query map, options, (err, docs)->
-		if err 
-			console.log err
-		if docs
-			correctDocKeys(docs)
-			res.setHeader 'Content-Type', 'application/json'
-			res.end JSON.stringify {
-				rows: docs.rows
-				user: user
-				markdown: markdown
-			}
+	# check if we only need one
+	# document or a list
+	if req.body.id
+		# get one entry
+		pdb.get req.body.id, callback
+	else
+		# query db for more
+		pdb.query map, options, callback
 
 # post a new post
 app.post "/api/create", passport.authenticate('token', { session: false }), (req, res)->

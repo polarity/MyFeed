@@ -34,7 +34,7 @@ block body
 
 		+CreatePost()
 
-		.Posts(ng-controller="PostListController")
+		.Posts(ng-controller="PostListController", ng-init="getPosts()")
 			//.iterate(ng-repeat="PostObject in Posts | orderBy:'created':true track by $index")
 			.iterate(ng-repeat="PostObject in Posts track by $index")
 				+Post({type: ''})

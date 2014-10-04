@@ -23,13 +23,10 @@ window.app.controller "PostListController", ($scope, $timeout, $http, PostsServi
 				$scope.Posts.push(item.doc)
 
 			# remember last id
-			if data.rows.length > 0
+			if data.rows.length > 1
 				$scope.end = data.rows[data.rows.length-1].id
-				console.log $scope.end
 		)
 		.error( (err)-> console.log err )
-
-	$scope.getPosts()
 
 	$scope.showMore = ()->
 		console.log

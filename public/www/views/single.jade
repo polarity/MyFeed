@@ -10,10 +10,10 @@ block head
 		fb_title: doc.title+" ~ "+user.username+"MyFeed",
 		fb_sitename: "MyFeed of "+user.username,
 		fb_description: truncate(markdown(doc.content).replace(/<(?:.|\n)*?>|[\n\r]/gm, ''), 230),
-		fb_image: "http://www.gravatar.com/avatar/"+user.emailhash,
-		fb_url: user.domain,
+		fb_image: "http://www.gravatar.com/avatar/"+user.emailhash+'?s=1200',
+		fb_url: user.domain+doc._id,
 		fb_type: "website",
-		appletouchicon: "http://www.gravatar.com/avatar/"+user.emailhash
+		appletouchicon: "http://www.gravatar.com/avatar/"+user.emailhash+'?s=640'
 	})
 
 // extend block body

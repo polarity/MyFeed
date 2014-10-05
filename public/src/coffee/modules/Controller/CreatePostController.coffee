@@ -43,6 +43,7 @@ window.app.controller "CreatePostController", ($scope, LoginService, $timeout, $
 				# scrape url only when 
 				# is not scraped yet
 				if !attachmentFound
+					console.log $scope.PostObject.attachments, attachmentFound
 					$scope.scrapeUrls(url)
 
 	# just parse all found url

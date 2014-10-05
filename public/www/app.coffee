@@ -240,7 +240,7 @@ app.post "/api/feed", (req, res)->
 		if docs
 			# weve done a list query
 			if docs.rows
-				correctDocKeys(docs)
+				#correctDocKeys(docs)
 				docs = docs.rows
 
 			# we requested one document

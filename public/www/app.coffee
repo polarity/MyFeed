@@ -173,7 +173,7 @@ app.get "/rss", (req, res)->
 			feed = new RSS({
 				title: 'MyFeed of '+ user.username
 				description: "MyFeed Profile Page Feed"
-				feed_url: process.env.DOMAIN_URL + 'feed'
+				feed_url: process.env.DOMAIN_URL + 'rss'
 				site_url: process.env.DOMAIN_URL
 				pubDate: new Date()
 			})

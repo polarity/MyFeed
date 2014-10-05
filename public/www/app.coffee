@@ -189,7 +189,7 @@ app.get "/rss", (req, res)->
 					})
 
 			# send xml
-			# res.set('Content-Type', 'application/rss+xml')
+			res.set('Content-Type', 'application/rss+xml')
 			res.send feed.xml()
 
 # get the feed overview

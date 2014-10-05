@@ -189,7 +189,7 @@ app.get "/rss", (req, res)->
 					})
 
 			# send xml
-			res.set('Content-Type', 'application/rss+xml')
+			res.set('Content-Type', 'text/xml')
 			res.send feed.xml()
 
 # get the feed overview
@@ -274,7 +274,7 @@ app.post "/api/create", passport.authenticate('token', { session: false }), (req
 	doc = {}
 	doc = req.body.doc
 	doc.title = generateTitleFromPost(doc)
-	doc._id = doc.created+'_'+urlify(doc.title)
+	doc._id = doc.created+'-'+urlify(doc.title)
 	doc.type = "post"
 	doc.user = {
 		email: user.email

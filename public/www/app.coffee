@@ -164,10 +164,16 @@ app.get "/", (req, res)->
 
 app.get "/rss", (req, res)->
 	# query/map method
-	query = (doc, emit)=>
+	map = (doc, emit)=>
 		emit(doc._id, doc) if !doc.type || doc.type == 'post' 
 
-	pdb.query query, {include_docs: true}, (err, docs)->
+	# query options
+	options = {
+		include_docs: true
+		descending: true
+	}
+
+	pdb.query map, options, (err, docs)->
 		if docs
 			# RSS Feed Setup
 			feed = new RSS({
@@ -227,7 +233,7 @@ app.post "/api/feed", (req, res)->
 
 	# query options
 	options = {
-		limit: 5
+		limit: 15
 		include_docs: true
 		descending: true
 	}

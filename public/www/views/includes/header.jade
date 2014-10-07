@@ -1,2 +1,12 @@
-mixin header(options)
-	header
+mixin Header(options)
+
+	// MyFeed Header
+	header.MyFeedHeader
+		.MyFeedTitle
+			h1!=user.username
+			p 
+				a(href="https://github.com/polarity/MyFeed") MyFeed 
+				| of 
+				a(href!=user.domain) #{user.username}. 
+				| Follow or 
+				a(href!=user.domain+'rss') subscribe via RSS

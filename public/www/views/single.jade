@@ -18,11 +18,5 @@ block head
 
 // extend block body
 block body
-
 	.Background
-
-	// Stream Start
-	.Single(class="ng-cloak" ng-cloak)
-		.Posts(ng-controller="PostListController", ng-init="getPosts( '#{doc._id}' )")
-			.iterate(ng-repeat="PostObject in Posts | orderBy:'created':true | filter:'"+doc._id+"' track by $index")
-				+Post({type: ''})
+	+Single()

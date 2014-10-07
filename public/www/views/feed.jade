@@ -18,24 +18,6 @@ block head
 
 // extend block body
 block body
-
 	.Background
-
-	// MyFeed Header
-	header.MyFeedHeader
-		.MyFeedTitle
-			h1!=user.username
-			p 
-				a(href="https://github.com/polarity/MyFeed") MyFeed 
-				| of #{user.username}. follow or subscribe via RSS
-
-	// Stream Start
-	.Stream(class="ng-cloak" ng-cloak)
-
-		+CreatePost()
-
-		.Posts(ng-controller="PostListController", ng-init="getPosts()")
-			.iterate(ng-repeat="PostObject in Posts | orderBy:'created':true track by $index")
-				+Post({type: ''})
-
-			button.showMore(ng-click="showMore()") show more
+	+Header()
+	+Stream()

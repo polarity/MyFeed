@@ -2,7 +2,7 @@ window.app.directive "videoEmbed", ($sce)->
 	restrict: 'EA'
 	scope: { code: '@'}
 	replace: true
-	template: '<div style="width:100%; height:0; padding-bottom: 56%;"><iframe ng-src="{{url}}" width="100%" height="100%" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></div>'
+	template: '<div style="width:100%; height:0; padding-bottom: 56%; position: relative;"><iframe style="position: absolute; left: 0; top: 0;" ng-src="{{url}}" width="100%" height="100%" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></div>'
 	link: (scope)->
 		scope.$watch 'code', (newVal)->
 

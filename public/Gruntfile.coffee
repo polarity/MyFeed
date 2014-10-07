@@ -18,7 +18,7 @@ module.exports = (grunt) ->
 					'coffee:dev',
 					"bower_concat",
 					"concat:app",
-					"copy:copy_complete_js",
+					"uglify:dev",
 					'clean'
 				]
 
@@ -87,7 +87,7 @@ module.exports = (grunt) ->
 		uglify:
 			dev:
 				options:
-					compress: false
+					compress: true
 					beautify: false
 					report: true
 				files:

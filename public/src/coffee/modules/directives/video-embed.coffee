@@ -1,4 +1,4 @@
-window.app.directive "videoEmbed", ($sce)->
+Directive = ($sce)->
 	restrict: 'EA'
 	scope: { code: '@'}
 	replace: true
@@ -18,3 +18,14 @@ window.app.directive "videoEmbed", ($sce)->
 				scope.url = $sce.trustAsResourceUrl('http://player.vimeo.com/video/'+video_id+'?title=0&amp;byline=0&amp;portrait=0&amp;color=24a8bf')
 			if newVal && platform == 'youtube'
 				scope.url = $sce.trustAsResourceUrl('https://www.youtube.com/embed/'+video_id)
+
+# Angular Foo
+# Since Angular infers the controller's dependencies from the 
+# names of arguments to the controller's constructor function, 
+# if you were to minify the JavaScript code for PhoneListCtrl 
+# controller, all of its function arguments would be minified 
+# as well, and the dependency injector would not be able to 
+# identify services correctly.
+# http://docs.angularjs.org/tutorial/step_05
+Directive.$inject = ['$sce']
+window.app.directive 'videoEmbed', Directive

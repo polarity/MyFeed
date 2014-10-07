@@ -1,10 +1,10 @@
-window.app.directive "loading", ($http)->
+Directive = ($http)->
 	restrict: 'E'
 	replace: true
 	transclude: true
 	template: '<div class="loading"><span class="loadingText">Loading....</span><div ng-transclude style="display: none"></div></div>'
 	link: (scope, element, attr)->
-		console.log element.text()
+
 		scope.isLoading = ()->
 			return $http.pendingRequests.length > 0
 
@@ -15,3 +15,14 @@ window.app.directive "loading", ($http)->
 			else
 				$(element).find('span').hide()
 				$(element).find('div').show()
+
+# Angular Foo
+# Since Angular infers the controller's dependencies from the 
+# names of arguments to the controller's constructor function, 
+# if you were to minify the JavaScript code for PhoneListCtrl 
+# controller, all of its function arguments would be minified 
+# as well, and the dependency injector would not be able to 
+# identify services correctly.
+# http://docs.angularjs.org/tutorial/step_05
+Directive.$inject = ['$http']
+window.app.directive 'loading', Directive

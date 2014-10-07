@@ -33,7 +33,21 @@ mixin Post(config)
 		// Attachments
 		.Attachments(ng-show="PostObject.attachments.length > 0", ng-class="{only: PostObject.content.length < 1}")
 
-			// Image Attachment
+			// Sound Attachment
+			.SoundAttachment(ng-repeat="attachment in PostObject.attachments | filter:{type: 'sound'} track by $index")
+
+				if config.type == 'new'
+					// remove this attachment
+					.attachment-remove(ng-click="removeAttachment(attachment)") entfernen
+
+				.sound-embed
+					sound-embed(code="{{attachment.url}}")
+
+				.sound-link
+					p Quelle:&nbsp;
+						a(href="{{attachment.url}}") {{attachment.url}}
+
+			// Video Attachment
 			.VideoAttachment(ng-repeat="attachment in PostObject.attachments | filter:{type: 'video'} track by $index")
 
 				if config.type == 'new'
@@ -58,9 +72,10 @@ mixin Post(config)
 				.image-thumb
 					a(href="{{attachment.url}}")
 						img(ng-src="{{attachment.thumbnail}}")
-					.image-link
-						p Quelle:&nbsp;
-							a(href="{{attachment.url}}") {{attachment.url}}
+
+				.image-link
+					p Quelle:&nbsp;
+						a(href="{{attachment.url}}") {{attachment.url}}
 
 			// URL Attachment
 			.UrlAttachment(ng-repeat="attachment in PostObject.attachments | filter:{type: 'url'}  track by $index")

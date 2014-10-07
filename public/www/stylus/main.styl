@@ -347,13 +347,14 @@ article.post-article
 		clearfix()
 		.image-thumb
 			@extend $TEXT-CENTER
-			col(12,12)
 			padding-left: 0
 			img
 				width: 100%
+
 		.image-link
 			@extend $FONTSIZE-TINY
 			@extend $OVERFLOW-NICE
+			@extend $TEXT-CENTER
 
 	.VideoAttachment
 		@extend $MARGIN-BOTTOM-NORMAL
@@ -361,13 +362,27 @@ article.post-article
 		.video-embed
 			clearfix()
 			@extend $TEXT-CENTER
-			col(12,12)
 			padding-left: 0
 			img
 				width: 100%
 		.video-link
 			@extend $FONTSIZE-TINY
 			@extend $OVERFLOW-NICE
+			@extend $TEXT-CENTER
+
+	.SoundAttachment
+		@extend $MARGIN-BOTTOM-NORMAL
+		clearfix()
+		.sound-embed
+			clearfix()
+			@extend $TEXT-CENTER
+			padding-left: 0
+			img
+				width: 100%
+		.sound-link
+			@extend $FONTSIZE-TINY
+			@extend $OVERFLOW-NICE
+			@extend $TEXT-CENTER
 
 .CreatePost
 	clearfix()

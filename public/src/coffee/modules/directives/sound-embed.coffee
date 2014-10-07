@@ -5,20 +5,7 @@ Directive = ($sce, $http)->
 	template: '<div style="width:100%; height="450" ng-bind-html="embedHTML"></div>'
 	link: (scope)->
 		scope.$watch 'code', (newVal)->
-
-			if(newVal.indexOf('soundcloud.com') != -1)
-				$http({
-					url: 'http://soundcloud.com/oembed'
-					params: {
-						format: 'json'
-						url: 'https://soundcloud.com/insight-music/sets/vacant-trauma-ep'
-					}
-				})
-				.success (res)->
-					scope.embedHTML = $sce.trustAsHtml(res.html)
-
-				.catch (err)->
-					console.log err
+			scope.embedHTML = $sce.trustAsHtml(newVal)
 
 # Angular Foo
 # Since Angular infers the controller's dependencies from the 

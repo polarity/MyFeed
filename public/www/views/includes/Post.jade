@@ -35,13 +35,12 @@ mixin Post(config)
 
 			// Sound Attachment
 			.SoundAttachment(ng-repeat="attachment in PostObject.attachments | filter:{type: 'sound'} track by $index")
-
 				if config.type == 'new'
 					// remove this attachment
 					.attachment-remove(ng-click="removeAttachment(attachment)") entfernen
 
 				.sound-embed
-					sound-embed(code="{{attachment.url}}")
+					sound-embed(code="{{attachment.embed}}")
 
 				.sound-link
 					p Quelle:&nbsp;

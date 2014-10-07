@@ -27,7 +27,6 @@ Controller = ($scope, LoginService, $timeout, $http, PostsService) ->
 	# create a new post object on init
 	$scope.initCurrentPost()
 
-
 	$scope.parseText = ()->
 		# url parsing
 		urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig

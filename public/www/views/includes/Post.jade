@@ -10,7 +10,7 @@ mixin Post(config)
 		// The Header - Avatar, Metadata and Stuff
 		header.post-header
 			.Avatar
-				a(href=user.domain)
+				a(href="{{PostObject.user.domain}}")
 					img(
 						ng-src="https://www.gravatar.com/avatar/{{PostObject.user.emailhash}}"
 						title="{{PostObject.user.username}} ~ {{PostObject.created | dateFromNow}} ~ {{PostObject.created | dateFormat}}"

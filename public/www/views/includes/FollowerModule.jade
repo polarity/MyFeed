@@ -1,9 +1,14 @@
 mixin FollowerModule()
 
-	.FollowerModule(ng-controller="FollowerController")
+	.FollowerModule.FrontendModule(ng-controller="FollowerController")
+
+		h2.ModuleTitle Follower
+		p Add or remove MyFeed domains to follow on your timeline
+
 		.FollowForm
 			input(type="text", ng-model="domain", placeholder="post url to follow this MyFeed")
-			button(value="follow", ng-click="addFollower(domain)")
+			button(value="follow", ng-click="addFollower(domain)", title="add a myfeed domain to follow") + add
+
 		.FollowedList
 			ul()
 				li(ng-repeat="following in followed") {{following.domain}} ~ 

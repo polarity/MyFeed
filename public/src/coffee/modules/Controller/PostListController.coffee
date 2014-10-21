@@ -3,12 +3,14 @@ Controller = ($scope, $timeout, $http, PostsService, LoginService) ->
 		$scope.Posts = PostsService
 		$scope.login = LoginService
 		$scope.start = false
+		$scope.type = false
 		$scope.end = false
 
-		# just parse all found url
-		$scope.getPosts = (id, start)->
+		# get all posts from the backend
+		$scope.getPosts = (id, start, type)->
 			id = false if !id
 			start = false if !start
+			type = false if !type
 
 			$http({
 				url: "/api/feed"
@@ -16,6 +18,7 @@ Controller = ($scope, $timeout, $http, PostsService, LoginService) ->
 				data: {
 					id: id
 					start: start
+					type: type
 				}
 			})
 			.success( (data)->
@@ -29,10 +32,12 @@ Controller = ($scope, $timeout, $http, PostsService, LoginService) ->
 			.error( (err)-> console.log err )
 
 		$scope.showMore = ()->
-			console.log
 			$scope.getPosts(false, $scope.end)
 
 		$scope.delete = (PostObject)->
+			# no login, no delete
+			return false if !$scope.login.token
+
 			# find index of this post object in our list
 			postIndex = $scope.Posts.findIndex (item) -> item._id == PostObject._id
 			# delete it

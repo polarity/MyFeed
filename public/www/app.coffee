@@ -1,3 +1,4 @@
+# node modules
 Express = require "express"
 md5 = require "md5"
 dotenv = require "dotenv"
@@ -151,6 +152,10 @@ generateTitleFromPost = (doc)->
 	else
 		return "rnd-"+Math.random()
 
+# app modules
+require('./cronjob.coffee')(pdb, 50000)
+
+
 # routes
 #
 
@@ -207,12 +212,20 @@ app.get "/post/:id", (req, res)->
 	# in the frontend!
 	pdb.get req.params.id, (err, doc)->
 		if doc
+
+			# what kind of og:image
+			if doc.attachments.length > 0 && doc.attachments[0].thumbnail
+				thumbnail = doc.attachments[0].thumbnail
+			else
+				thumbnail = "http://www.gravatar.com/avatar/"+user.emailhash+'?s=1200'
+
 			res.render("single", {
 				doc: doc
 				user: user
 				markdown: markdown
 				truncate: truncate
-				environment: process.env.USER_NAME
+				thumbnail: thumbnail
+				environment: process.env.USE
 			})
 
 # get the feed overview
@@ -229,7 +242,15 @@ app.post "/api/feed", (req, res)->
 
 	# query/map method
 	map = (doc, emit)=>
-		emit(doc._id) if !doc.type || doc.type == 'post'
+		# get own and foreign posts when 
+		# api is used to get the timeline
+		if req.body.type == "timeline"
+			emit(doc._id) if doc.type == 'post' || doc.type == 'foreign_post'
+
+		# only emit our own posts
+		# when no type specified
+		else
+			emit(doc._id) if doc.type == 'post'
 
 	# query options
 	options = {

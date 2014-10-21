@@ -1,10 +1,9 @@
 mixin AuthModule()
 
-	.AuthModule(ng-controller="AuthController")
-		h1 Hi 
+	.AuthModule.FrontendModule(ng-controller="AuthController")
+		h2.ModuleTitle Hi 
 			span!=user.username
-		p please login or logout. thx.
-		p Back to your 
+		p please login or logout. thx. Back to your 
 			a(href=domain) MyFeed
 
 		.info(ng-show="login.info")

@@ -5,6 +5,15 @@ db = false
 # do something with the data
 onFollowerResonse = (error, response, html, domain)->
 
+	# clean the received domain string
+	cleanDomain = domain
+					.replace('http://','')
+					.replace('https://','')
+					.replace('www.', '')
+					.replace(/\-/g, '_')
+					.replace(/\./g, '_')
+					.replace(/\//g, '_')
+
 	if response.statusCode == 200
 
 		receivedData = JSON.parse(response.body)
@@ -16,8 +25,13 @@ onFollowerResonse = (error, response, html, domain)->
 			newDoc = {}
 			newDoc = row.doc
 			newDoc.type = "foreign_post"
-			newDoc._id = domain+'-'+row.doc._id
+			newDoc._id = row.doc._id+'#'+cleanDomain
 			delete newDoc._rev # remove this key
+
+			# check received domain strings
+			if newDoc.user.domain && newDoc.user.domain.slice(-1) == '/'
+				# remove trailing slash if exists
+				newDoc.user.domain = newDoc.user.domain.slice(0,-1)
 
 			# look for existing doc in db
 			db.get(newDoc._id).then (otherDoc)->
@@ -31,7 +45,7 @@ onFollowerResonse = (error, response, html, domain)->
 			# catch when theres no doc in the db
 			.catch (err)->
 				# es gibt wohl noch kein dokument
-				console.log "hier insert? "+err
+				console.log "Kein Dokument da. Also insert! "+err
 
 				# create a new entry (no _rev)
 				db.put(newDoc)

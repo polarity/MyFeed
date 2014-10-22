@@ -4,7 +4,7 @@ extends includes/_layout
 // extend block head
 block head
 	+global_headstuff({
-		title: user.username+" ~ MyFeed",
+		title: 'Timeline of '+user.username+" ~ MyFeed",
 		favicon: "http://www.gravatar.com/avatar/"+user.emailhash,
 		description: "Stream of Media, Thoughts, Things and Cats from "+ user.username,
 		fb_title: user.username+"´s MyFeed",
@@ -19,5 +19,4 @@ block head
 // extend block body
 block body
 	.Background
-	+Header()
-	+Stream({type: false})
+	+Stream({type: 'timeline'})

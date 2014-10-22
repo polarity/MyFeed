@@ -167,6 +167,14 @@ app.get "/", (req, res)->
 		environment: process.env.USE
 	})
 
+# get the feed overview
+app.get "/timeline", (req, res)->
+	res.render("timeline", {
+		user: user
+		markdown: markdown
+		environment: process.env.USE
+	})
+
 app.get "/rss", (req, res)->
 	# query/map method
 	map = (doc, emit)=>
@@ -236,6 +244,20 @@ app.get "/login", (req, res)->
 		markdown: markdown
 		environment: process.env.USE
 	})
+
+# get the feed via json api
+app.get "/api/deleteforeign", (req, res)->
+
+	map = (doc, emit)=>
+		emit(doc._id) if doc.type == 'foreign_post'
+
+	pdb.query map, {include_docs: true}, (err, docs)->
+		if docs
+			docs.rows.forEach (doc)->
+				console.log("delete: ", doc.id)
+				pdb.remove(doc.doc._id, doc.doc._rev)
+
+		res.end "cool";
 
 # get the feed via json api
 app.post "/api/feed", (req, res)->

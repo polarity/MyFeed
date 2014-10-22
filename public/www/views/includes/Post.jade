@@ -20,7 +20,8 @@ mixin Post(config)
 				.meta-postcreated {{PostObject.created | dateFormat}} ({{PostObject.created | dateFromNow}})
 				.meta-actions
 					.meta-permalink(ng-show="PostObject._id")
-						a(href!='/post/{{PostObject._id}}', title="{{PostObject.title}}") Permalink
+						a(ng-if="PostObject.type == 'post'", href!='/post/{{PostObject._id}}', title="{{PostObject.title}}") Permalink
+						a(ng-if="PostObject.type == 'foreign_post'", href!="{{PostObject.user.domain}}/post/{{PostObject._id.slice(0, PostObject._id.indexOf('#'))}}", title="{{PostObject.title}}") Permalink
 					.meta-delete(ng-show="PostObject._id && login.token")
 						a(ng-click="delete(PostObject)") Löschen
 

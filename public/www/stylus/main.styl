@@ -175,7 +175,7 @@ header.MyFeedHeader
 		padding-left:0
 		border-right-width: 1px
 		border-style: dotted
-		flex(3)
+		flex(2)
 		flex-display()
 		flex-direction(column)
 		flex-align-items(center)
@@ -191,6 +191,8 @@ header.MyFeedHeader
 		padding-right:0
 		flex(6)
 		.content-content p:last-of-type
+			@extend $FONTSIZE-BIG
+			@extend $LINE-HEIGHT-NORMAL
 			@extend $MARGIN-BOTTOM-NO
 
 header.post-header

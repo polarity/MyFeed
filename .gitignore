@@ -10,4 +10,4 @@ js/
 dev/
 bower_components/
 
-/public/www/_pouchdb/
+/public/www/_pouchdb*

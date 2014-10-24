@@ -93,9 +93,6 @@ tokenStrategy = new TokenStrategy (token, done)->
 passport.use(localStrategy)
 passport.use(tokenStrategy)
 
-sortByDate = (a,b)->
-	return (new Date(a.doc.created).getTime()) - (new Date(b.doc.created).getTime())
-
 # database migration? 
 # change keys to current
 correctDocKeys = (docs)->
@@ -153,7 +150,7 @@ generateTitleFromPost = (doc)->
 		return "rnd-"+Math.random()
 
 # app modules
-require('./cronjob.coffee')(pdb, 50000)
+require('./cronjob.coffee')(pdb, (10 * 60000)) # every 10 minutes
 
 
 # routes
@@ -268,16 +265,18 @@ app.get "/api/deleteforeign", (req, res)->
 # get the feed via json api
 app.post "/api/feed", (req, res)->
 
-	# query/map method
-	map = (doc, emit)=>
-		# get own and foreign posts when 
-		# api is used to get the timeline
-		if req.body.type == "timeline"
+	# get own and foreign posts when 
+	# api is used to get the timeline
+	if req.body.type == "timeline"
+		# query/map method
+		map = (doc, emit)=>
 			emit(doc._id) if doc.type == 'post' || doc.type == 'foreign_post'
 
-		# only emit our own posts
-		# when no type specified
-		else
+	# only emit our own posts
+	# when no type specified
+	else
+		# query/map method
+		map = (doc, emit)=>
 			emit(doc._id) if doc.type == 'post'
 
 	# query options
@@ -381,6 +380,7 @@ app.post "/api/follow", passport.authenticate('token', { session: false }), (req
 
 # list all followers
 app.get "/api/followed", (req, res)->
+
 	# query/map method
 	query = (doc, emit)=>
 		emit(doc._id, doc) if doc.type == 'follow'

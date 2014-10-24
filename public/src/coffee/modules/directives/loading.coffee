@@ -2,7 +2,7 @@ Directive = ($http)->
 	restrict: 'E'
 	replace: true
 	transclude: true
-	template: '<div class="loading"><span class="loadingText">Loading....</span><div ng-transclude style="display: none"></div></div>'
+	template: '<div class="loading"><a href="http://scriptshit.de/lena-game/" class="loadingText">Loading....</a><div ng-transclude style="display: none"></div></div>'
 	link: (scope, element, attr)->
 
 		scope.isLoading = ()->
@@ -10,10 +10,10 @@ Directive = ($http)->
 
 		scope.$watch scope.isLoading, (val)->
 			if (val)
-				$(element).find('span').show()
+				$(element).find('a').show()
 				$(element).find('div').hide()
 			else
-				$(element).find('span').hide()
+				$(element).find('a').hide()
 				$(element).find('div').show()
 
 # Angular Foo

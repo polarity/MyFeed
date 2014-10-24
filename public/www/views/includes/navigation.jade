@@ -1,4 +1,6 @@
 mixin Navigation(options)
+	if !options
+		- var options = {active: ''}
 
 	nav.MainNavi
 		a.navi-logo(href="https://github.com/polarity/MyFeed") MyFeed

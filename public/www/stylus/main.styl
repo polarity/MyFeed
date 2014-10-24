@@ -76,9 +76,14 @@ button.showMore
 	@extend $CENTER
 	display: block
 
-span.loadingText
+a.loadingText, a.loadingText:link, a.loadingText:visited
 	@extend $COLOR-DARKGREY
 	@extend $TEXT-CENTER
+	@extend $PADDING-V-NORMAL
+	text-decoration: none
+	background-image: url("data:image/gif;base64,R0lGODlhFAAPAPMAAFZWVltbW2tra29vb4KCgpaWlqGhobOzs7m5uQAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BA0KAAkAIf8LTkVUU0NBUEUyLjADAQAAACwAAAAAFAAPAAAETDDJSSeqOKer+0agVyHHAHLaoRKD4RoodrBDTYjJXAc2TvMAws1TCvACrJNGyBsEWYnBsFKTAgCDQmHauSIJLq5HWBUvhZKeqEZhVyIAIfkEDQoADAAsAAAAABQADwCDVlZWW1tba2trb29vdXV1goKClpaWoaGhra2ts7Ozubm54eHhAAAAAAAAAAAAAAAABFOQyUmnqjizq/tWyuJVSjKAYpeshYIYCMJlSTHcg6HDWn0Ht8KIYRsAAQOhxxQ4Fp4bzRM4ADxPoEySQAXoBoykNhiwHg7KYfgJVa+D7jAhDMZEAAAh+QQNCgAIACwAAAAAFAAPAINWVlZbW1tvb2+CgoKWlpahoaGzs7O5ubkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAESRDJSeepOKOr+z6gVx2GAHKaoQ5C4RYoZrBCPYjIXAc2TvOAwc1TCvACrJNGyBMEWQjBsFLbAQQEwrQD6ApdW49UGBazyuJqJwIAOw==")
+	background-repeat: no-repeat
+	background-position: center top
 	display: block
 
 nav.MainNavi

@@ -1,13 +1,10 @@
 mixin Stream(options)
 
-	// Stream Start
-	.Stream(class="ng-cloak" ng-cloak)
+	+CreatePost()
 
-		+CreatePost()
+	.Posts(ng-controller="PostListController", ng-init="getPosts(false, false, '#{options.type}')")
+		.iterate(ng-repeat="PostObject in Posts | orderBy:'created':true track by $index")
+			+Post({type: ''})
 
-		.Posts(ng-controller="PostListController", ng-init="getPosts(false, false, '#{options.type}')")
-			.iterate(ng-repeat="PostObject in Posts | orderBy:'created':true track by $index")
-				+Post({type: ''})
-
-			loading
-				button.showMore(ng-click="showMore()") show more
+		loading
+			button.showMore(ng-click="showMore()") show more

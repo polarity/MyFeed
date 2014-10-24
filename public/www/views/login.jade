@@ -9,13 +9,9 @@ block head
 
 // extend block body
 block body
-
 	.Background
-
-	header.Siteheader
-		// Auth Module
+	+Navigation({active: 3})
+	.ContentWrapper
 		+AuthModule()
-
 		+FollowerModule()
-
 		+SettingsModule()

@@ -19,4 +19,6 @@ block head
 // extend block body
 block body
 	.Background
-	+Stream({type: 'timeline'})
+	+Navigation({active: 2})
+	.ContentWrapper(class="ng-cloak" ng-cloak)
+		+Stream({type: 'timeline'})

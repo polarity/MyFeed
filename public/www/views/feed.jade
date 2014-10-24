@@ -19,5 +19,7 @@ block head
 // extend block body
 block body
 	.Background
-	+Header()
-	+Stream({type: false})
+	+Navigation({active: 1})
+	.ContentWrapper(class="ng-cloak" ng-cloak)
+		+Header()
+		+Stream({type: false})

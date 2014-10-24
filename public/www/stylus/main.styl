@@ -1,6 +1,7 @@
 $space = 20px
 
 @import url('http://fonts.googleapis.com/css?family=Roboto+Condensed:300')
+@import url('http://fonts.googleapis.com/css?family=Exo+2:400,800')
 
 @import reset
 @import fonts
@@ -59,6 +60,7 @@ input
 	@extend $BG-WHITE
 	@extend $COLOR-BLACK
 	@extend $MARGIN-BOTTOM-NORMAL
+	@extend $MARGIN-RIGHT-SMALL
 
 button
 	@extend $BG-LIGHTBLUE
@@ -78,6 +80,37 @@ span.loadingText
 	@extend $COLOR-DARKGREY
 	@extend $TEXT-CENTER
 	display: block
+
+nav.MainNavi
+	@extend $BG-BLACK
+	@extend $COLOR-WHITE
+	@extend $PADDING-NORMAL
+	@extend $TEXT-CENTER
+	col(12,12)
+	position: fixed
+	z-index: 1
+	opacity: 0.9
+
+a.navi-item, a.navi-item:link, a.navi-item:visited
+	@extend $FONT-NAVI
+	@extend $MARGIN-RIGHT-BIG
+	@extend $COLOR-WHITE
+	text-decoration: none
+	transition: all 0.5s ease
+	cursor: pointer
+
+a.navi-item.active
+	text-decoration: underline
+
+a.navi-item:hover, a.navi-item:active
+	@extend $COLOR-LIGHTGREY
+	text-decoration: underline
+
+a.navi-logo, a.navi-logo:link,a.navi-logo:visited
+	@extend $MARGIN-RIGHT-BIG
+	@extend $COLOR-LIGHTGREY
+	@extend $FONT-LOGO
+	text-decoration: none
 
 .FrontendModule
 	@extend $PADDING-NORMAL
@@ -131,16 +164,22 @@ header.MyFeedHeader
 			@extend $CENTER
 			opacity: 0.5
 			max-width: 60%
+		a:link, a:visited
+			@extend $COLOR-BLACK
+		a:hover, a:active
+			@extend $COLOR-DARKGREY
 
-
-.Stream
+.ContentWrapper
 	@extend $BORDER-BOX
 	@extend $CENTER
 	@extend $PADDING-SMALL
 	max-width: 800px
+	position: relative
+	top: $space * 4
 
-.Single
-	@extend .Stream
+.ContentWrapperSingle
+	@extend .ContentWrapper
+	top: 0
 	min-height: 100%
 	flex-display()
 	flex-align-items(center)

@@ -1,6 +1,6 @@
 mixin FollowerModule()
 
-	.FollowerModule.FrontendModule(ng-controller="FollowerController")
+	.FollowerModule.FrontendModule(ng-controller="FollowerController", ng-show="login.token")
 
 		h2.ModuleTitle Follower
 		p Add or remove MyFeed domains to follow on your timeline

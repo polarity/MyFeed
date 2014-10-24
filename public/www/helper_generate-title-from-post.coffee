@@ -1,3 +1,6 @@
+markdown = require("node-markdown").Markdown
+truncate = require('truncate')
+
 # generates a title from the post information
 # when theres no content, we take the
 # title of the first attachment

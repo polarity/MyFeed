@@ -1,3 +1,10 @@
+urlify = require('urlify').create
+	addEToUmlauts:true,
+	szToSs:true,
+	spaces:"-",
+	nonPrintable:"-",
+	trim:true
+
 # database migration? 
 # change keys to current
 module.exports = (docs)->

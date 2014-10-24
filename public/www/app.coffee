@@ -93,63 +93,9 @@ tokenStrategy = new TokenStrategy (token, done)->
 passport.use(localStrategy)
 passport.use(tokenStrategy)
 
-# database migration? 
-# change keys to current
-correctDocKeys = (docs)->
-	# change db keys if wrong
-	docs.rows.forEach (doc)->
-		# create new doc
-		newDoc = {}
-		newDoc.title = generateTitleFromPost(doc.doc)
-		newDoc._id = doc.doc.created+'-'+urlify(newDoc.title)
-		newDoc.created = doc.doc.created
-		newDoc.content = doc.doc.content
-		newDoc.attachments = doc.doc.attachments
-		newDoc.type = doc.doc.type
-		newDoc.user = doc.doc.user
-
-		# delete old doc
-		pdb.remove(doc.doc._id, doc.doc._rev)
-			.then (res)->
-				# save new doc!
-				pdb.put(newDoc)
-					.then (res)->
-						# console.log "Success Save New Doc: ",newDoc
-						return
-					.catch (err)->
-						console.log "Fehler Save New Doc: ",err
-
-			.catch (err)->
-				console.log "Fehler Delete Old Doc: ",err
-
-
-# generates a title from the post information
-# when theres no content, we take the
-# title of the first attachment
-generateTitleFromPost = (doc)->
-	# are there some content?
-	if doc.content && doc.content.length > 0
-		strippedContent = markdown(doc.content).replace(/<(?:.|\n)*?>/gm, '').trim()
-		# console.log strippedContent
-		# try to get the first line (100chars max) & until a line break
-		strippedTitle = strippedContent.match(/^([\S\s]{0,100}\n)/g)
-		if strippedTitle
-			strippedTitle = strippedTitle[0].replace(/(\n)+/g, '')
-			# take the first 80 chars and use it as a title
-			return strippedTitle
-		else
-			# nothing found? just take 100 chars off the content
-			return truncate(strippedContent, 100)
-
-	# no content? maybe some attachments there?
-	else if doc.attachments && doc.attachments.length > 0 && doc.attachments[0].title
-		# take the title of the first 
-		# attachment and use it as title
-		return doc.attachments[0].title
-	else
-		return "rnd-"+Math.random()
-
 # app modules
+generateTitleFromPost = require('./helper_generate-title-from-post.coffee')
+correctDocKeys = require('./helper_correct-doc-keys.coffee')
 require('./cronjob.coffee')(pdb, (10 * 60000)) # every 10 minutes
 
 

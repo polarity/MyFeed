@@ -1,6 +1,6 @@
 # MyFeed
 
-You can now have your own news feed (like a facebook profile) on your own domain/webserver. Put links, images and text into a text field, let the app parse everything nicely for you and get a nice looking web feed for your audience. You can follow other peoples domains and get their content into your own stream.
+You can now have your own news feed (like a facebook profile) on your own domain/webserver. Put links, images and text into a text field, let the app parse everything nicely for you and get a nice looking web feed for your audience. You can follow other peoples domains and get their content into your own stream. (demo on my own domain [http://robert-agthe.de](http://robert-agthe.de))
 
 # current frontend features
 - Avatars via Gravtar :)

@@ -4,7 +4,7 @@ extends includes/_layout
 // extend block head
 block head
 	+global_headstuff({
-		title: doc.title+" ~ "+user.username+"MyFeed",
+		title: doc.title+" ~ "+user.username+" MyFeed",
 		favicon: "http://www.gravatar.com/avatar/"+user.emailhash,
 		description: truncate(markdown(doc.content).replace(/<(?:.|\n)*?>|[\n\r]/gm, ''), 230),
 		fb_title: doc.title+" ~ "+user.username+" MyFeed",

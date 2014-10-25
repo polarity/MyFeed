@@ -183,7 +183,11 @@ app.get "/post/:id", (req, res)->
 		# return 404
 		else
 			res.status 404
-			res.type('txt').send('404 not found')
+			res.render("404", {
+				user: user
+				markdown: markdown
+				environment: process.env.USE
+			})
 
 # get the feed overview
 app.get "/login", (req, res)->
@@ -349,7 +353,11 @@ app.post "/api/remove_follow", passport.authenticate('token', { session: false }
 # 404 page
 app.use (req, res, next)->
 	res.status 404
-	res.type('txt').send('404 not found')
+	res.render("404", {
+		user: user
+		markdown: markdown
+		environment: process.env.USE
+	})
 
 server = app.listen process.env.SERVERPORT, ()->
 	console.log "Listening....", server.address().port

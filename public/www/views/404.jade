@@ -1,0 +1,18 @@
+// extend layout1
+extends includes/_layout
+
+// extend block head
+block head
+	+global_headstuff({
+		title: "404 Not Found",
+		description: "Not Found",
+	})
+
+// extend block body
+block body
+	.Background
+	.ContentWrapperSingle
+		.ErrorPage 
+			h1 404 Not Found
+			p Your page was not found. 
+				a(href=user.domain) Try the homepage instead!

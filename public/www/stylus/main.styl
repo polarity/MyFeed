@@ -76,6 +76,17 @@ button.showMore
 	@extend $CENTER
 	display: block
 
+.ErrorPage
+	@extend $CENTER
+	h1
+		@extend $FONTSIZE-MEGA
+		@extend $FONT-LOGO
+		@extend $LINE-HEIGHT-NORMAL
+	p
+		@extend $FONT-MAIN
+		@extend $FONTSIZE-NORMAL
+		@extend $LINE-HEIGHT-NORMAL
+
 a.loadingText, a.loadingText:link, a.loadingText:visited
 	@extend $COLOR-DARKGREY
 	@extend $TEXT-CENTER
@@ -99,7 +110,7 @@ nav.MainNavi
 		@extend $CENTER
 		@extend $PADDING-V-NORMAL
 		@extend $PADDING-H-SMALL
-		max-width: 800px
+		max-width: 400px
 		flex-display()
 		flex-align-items(center)
 		flex-justify-content(space-around)
@@ -114,7 +125,9 @@ a.navi-item, a.navi-item:link, a.navi-item:visited
 	cursor: pointer
 
 a.navi-item.active
-	text-decoration: underline
+	@extend $BORDER-WHITE
+	border-style: solid
+	border-bottom-width: 1px
 
 a.navi-item:hover, a.navi-item:active
 	@extend $COLOR-LIGHTGREY

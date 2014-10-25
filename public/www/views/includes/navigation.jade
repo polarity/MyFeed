@@ -3,7 +3,8 @@ mixin Navigation(options)
 		- var options = {active: ''}
 
 	nav.MainNavi
-		a.navi-logo(href="https://github.com/polarity/MyFeed") MyFeed
-		a.navi-item.navi-home(href="/", class=((options.active==1)?'active':'')) Home
-		a.navi-item.navi-timeline(href="/timeline", class=((options.active==2)?'active':'')) Timeline
-		a.navi-item.navi-settings(href="/login", class=((options.active==3)?'active':'')) Settings
+		.Wrapper
+			a.navi-logo(href="https://github.com/polarity/MyFeed") MyFeed
+			a.navi-item.navi-home(href="/", class=((options.active==1)?'active':'')) Home
+			a.navi-item.navi-timeline(href="/timeline", class=((options.active==2)?'active':'')) Timeline
+			a.navi-item.navi-settings(href="/login", class=((options.active==3)?'active':'')) Settings

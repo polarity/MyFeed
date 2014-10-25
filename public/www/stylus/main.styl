@@ -89,17 +89,26 @@ a.loadingText, a.loadingText:link, a.loadingText:visited
 nav.MainNavi
 	@extend $BG-BLACK
 	@extend $COLOR-WHITE
-	@extend $PADDING-NORMAL
-	@extend $TEXT-CENTER
+	@extend $FONTSIZE-NORMAL
 	col(12,12)
 	position: fixed
 	z-index: 1
 	opacity: 0.9
+	.Wrapper
+		@extend $BORDER-BOX
+		@extend $CENTER
+		@extend $PADDING-V-NORMAL
+		@extend $PADDING-H-SMALL
+		max-width: 800px
+		flex-display()
+		flex-align-items(center)
+		flex-justify-content(space-around)
+
 
 a.navi-item, a.navi-item:link, a.navi-item:visited
 	@extend $FONT-NAVI
-	@extend $MARGIN-RIGHT-BIG
 	@extend $COLOR-WHITE
+	@extend $TEXT-CENTER
 	text-decoration: none
 	transition: all 0.5s ease
 	cursor: pointer
@@ -112,9 +121,9 @@ a.navi-item:hover, a.navi-item:active
 	text-decoration: underline
 
 a.navi-logo, a.navi-logo:link,a.navi-logo:visited
-	@extend $MARGIN-RIGHT-BIG
 	@extend $COLOR-LIGHTGREY
 	@extend $FONT-LOGO
+	@extend $TEXT-CENTER
 	text-decoration: none
 
 .FrontendModule

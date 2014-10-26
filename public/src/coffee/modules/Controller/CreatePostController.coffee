@@ -42,7 +42,6 @@ Controller = ($scope, LoginService, $timeout, $http, PostsService) ->
 				# scrape url only when 
 				# is not scraped yet
 				if !attachmentFound
-					console.log $scope.PostObject.attachments, attachmentFound
 					$scope.scrapeUrls(url)
 
 	# just parse all found url
@@ -71,6 +70,7 @@ Controller = ($scope, LoginService, $timeout, $http, PostsService) ->
 			$timeout ()->
 				$scope.PostObject._id = doc.id
 				$scope.PostObject._rev = doc.rev
+				$scope.PostObject.type = 'post'
 				# push the post object to the PostList
 				$scope.posts.push($scope.PostObject)
 				# create a new post object on init

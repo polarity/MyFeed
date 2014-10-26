@@ -1,6 +1,6 @@
 mixin Post(config)
 
-	// Post Element - can be normal or a tweet if short content
+	// Post Element - can be normal or a tweet if short content!
 	.Post(
 		ng-show="PostObject.content || PostObject.attachments.length > 0", 
 		ng-class="{tweet: PostObject.content.length < 141 && PostObject.attachments.length < 1}", 

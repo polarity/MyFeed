@@ -3,6 +3,7 @@ path = require('path')
 bower_json = require('bower-json')
 coffee = require('coffee-script')
 
+# recursive directory scan
 walk = (dir, done) ->
 	results = []
 	fs.readdir dir, (err, list) ->
@@ -22,6 +23,10 @@ walk = (dir, done) ->
 						results.push file
 					done null, results	unless --pending
 
+# concats everything in /coffee.
+# bootstrap.coffee is prepended
+# main.coffee is appended
+# every coffee/module is in between
 concatApp = (libFile)->
 	app = ''
 	app = app+fs.readFileSync(path.resolve('./coffee/bootstrap.coffee'),{encoding: 'utf8'})
@@ -38,6 +43,10 @@ concatApp = (libFile)->
 		app = coffee.compile(app)
 		fs.writeFileSync(path.resolve('./_js/complete.js'), libFile+app)
 
+# concat all bower libraries
+# call concatApp when finished
+# and serve a libfile string with alle concatenated
+# libs in it!
 concatBower = ()->
 	pkgs = []
 	libFile = ''

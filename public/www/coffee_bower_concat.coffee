@@ -2,6 +2,7 @@ fs = require('fs')
 path = require('path')
 bower_json = require('bower-json')
 coffee = require('coffee-script')
+UglifyJS = require("uglify-js")
 
 # recursive directory scan
 walk = (dir, done) ->
@@ -39,9 +40,12 @@ concatApp = (libFile)->
 		# write app
 		if !fs.existsSync(path.resolve("./_js/"))
 			fs.mkdirSync(path.resolve("./_js/"))
-
+		# compile coffeescript
 		app = coffee.compile(app)
-		fs.writeFileSync(path.resolve('./_js/complete.js'), libFile+app)
+		# uglify javascript
+		uglified =  UglifyJS.minify( libFile+app, {fromString: true})
+		# save to disk
+		fs.writeFileSync(path.resolve('./_js/complete.js'), uglified.code)
 
 # concat all bower libraries
 # call concatApp when finished

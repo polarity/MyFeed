@@ -9,4 +9,4 @@ css/
 _js/
 bower_components/
 
-/public/www/_pouchdb*
+_pouchdb*

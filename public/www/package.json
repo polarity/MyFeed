@@ -35,6 +35,7 @@
     "rss": "~1.0.0",
     "coffee-middleware": "~0.2.1",
     "urlify": "~0.3.5",
-    "request": "~2.45.0"
+    "request": "~2.45.0",
+    "bower-json": "~0.4.0"
   }
 }

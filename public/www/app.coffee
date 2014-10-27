@@ -42,7 +42,7 @@ pdb = new PouchDB(__dirname + '/_pouchdb')
 app.set 'view engine', 'jade'
 app.use stylus.middleware({src: __dirname + '/stylus', dest: __dirname + '/css'})
 app.use '/css', Express.static(__dirname + '/css')
-app.use '/js', Express.static(__dirname + '/js')
+app.use '/js', Express.static(__dirname + '/_js')
 app.set 'views', __dirname + '/views'
 app.use bodyParser.json()
 app.use passport.initialize()
@@ -96,8 +96,10 @@ passport.use(tokenStrategy)
 # app modules
 generateTitleFromPost = require('./helper_generate-title-from-post.coffee')
 correctDocKeys = require('./helper_correct-doc-keys.coffee')
-require('./cronjob.coffee')(pdb, (10 * 60000)) # every 10 minutes
-
+# concat bower libs, coffe, and parse everything
+require('./coffee_bower_concat.coffee')()
+# every 10 minutes
+require('./cronjob.coffee')(pdb, (10 * 60000))
 
 # routes
 #

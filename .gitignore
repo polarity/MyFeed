@@ -6,8 +6,7 @@ node_modules
 .DS_Store
 .env
 css/
-js/
-dev/
+_js/
 bower_components/
 
 /public/www/_pouchdb*

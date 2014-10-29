@@ -7,7 +7,6 @@ stylus = require 'stylus'
 bodyParser = require 'body-parser'
 myFeedScrape = require 'myfeed-scrape'
 jwt = require('jwt-simple')
-secret = '9w384uwioejrkkweroo9i9o'
 livereload = require('express-livereload')
 truncate = require('truncate')
 PouchDB = require('pouchdb')
@@ -81,7 +80,7 @@ localStrategy = new LocalStrategy (username, password, done)->
 # define the app auth strategy
 tokenStrategy = new TokenStrategy (token, done)->
 	# wrong password?
-	decodedToken = jwt.decode(token, secret)
+	decodedToken = jwt.decode(token, process.env.SECRET)
 
 	if user.password != decodedToken.password
 		return done null, false, { message: 'Incorrect token, sorry!' }
@@ -314,7 +313,7 @@ app.post '/api/login', passport.authenticate('local', { session: false }), (req,
 			username: req.user.username, 
 			password: req.user.password
 		}, 
-		secret)
+		process.env.SECRET)
 	})
 
 # scrape a website url

@@ -18,8 +18,7 @@ block head
 
 // extend block body
 block body
-	if settings.bgimage
-		.Background(style="background-image: url("+settings.bgimage+");")
+	.Background(style="background-image: url("+settings.bgimage+");")
 	+Navigation({active: 2})
 	.ContentWrapper(class="ng-cloak" ng-cloak)
 		+Stream({type: 'timeline'})

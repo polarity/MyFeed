@@ -34,7 +34,7 @@ Directive = ($timeout)->
 					# only firefox can do this
 					if typeof document.createElement('canvas').toBlob != 'undefined'
 						blobReady = (blob)-> callback(blob)
-						canvas.toBlob(blobReady, "image/png")
+						canvas.toBlob(blobReady, "image/jpeg")
 
 					# chrome/webkit implementation
 					if typeof document.createElement('canvas').toBlob == 'undefined'
@@ -63,7 +63,7 @@ Directive = ($timeout)->
 								type: contentType
 							)
 						# get blob from a DataURL
-						blob = dataURLToBlob(canvas.toDataURL("image/png"))
+						blob = dataURLToBlob(canvas.toDataURL("image/jpeg"))
 						# and call our callback
 						callback(blob)
 
@@ -78,9 +78,9 @@ Directive = ($timeout)->
 					img = new Image
 					img.src = URL.createObjectURL(resizedFile)
 					img.onload = ()-> 
-						stackBlurImage( img, canvas, 5)
-						$('.Background').css({'background-image': 'url("'+canvas.toDataURL("image/jpg")+'")'})
-						scope.bgimgurl({datauri: canvas.toDataURL("image/jpg")})
+						stackBlurImage( img, canvas, 20)
+						$('.Background').css({'background-image': 'url("'+canvas.toDataURL("image/jpeg",0.8)+'")'})
+						scope.bgimgurl({datauri: canvas.toDataURL("image/jpeg")})
 
 			# read from blob and return a DataURL
 			filereader.readAsDataURL(event.target.files[0])

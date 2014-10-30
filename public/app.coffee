@@ -58,6 +58,7 @@ user.domain = process.env.DOMAIN_URL
 
 # generate settings document
 pdb.get("settings").catch (err)->
+	doc = {}
 	doc._id = "settings"
 	doc.type = "settings"
 	pdb.put(doc).catch (err)-> console.log('cant create settings doc ...')
@@ -138,7 +139,7 @@ app.get "/timeline", (req, res)->
 app.get "/rss", (req, res)->
 	# query/map method
 	map = (doc, emit)=>
-		emit(doc._id, doc) if !doc.type || doc.type == 'post' 
+		emit(doc._id, doc) if doc.type == 'post'
 
 	# query options
 	options = {
@@ -157,7 +158,7 @@ app.get "/rss", (req, res)->
 				pubDate: new Date()
 			})
 			docs.rows.forEach (item)->
-				if item.doc.content || item.doc.attachments.length > 0
+				if item.doc.content || (item.doc.attachments && item.doc.attachments.length > 0)
 					feed.item({
 						title: item.doc.title
 						description: item.doc.content
@@ -182,7 +183,7 @@ app.get "/post/:id", (req, res)->
 		if doc
 
 			# what kind of og:image
-			if doc.attachments.length > 0 && doc.attachments[0].thumbnail
+			if doc.attachments && doc.attachments.length > 0 && doc.attachments[0].thumbnail
 				thumbnail = doc.attachments[0].thumbnail
 			else
 				thumbnail = "http://www.gravatar.com/avatar/"+user.emailhash+'?s=1200'

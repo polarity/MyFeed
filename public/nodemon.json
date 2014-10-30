@@ -1,0 +1,4 @@
+{
+  "verbose": true,
+  "ignore": ["coffee/*", "_js/*", "_pouchdb*", "css/*"]
+}

@@ -9,7 +9,8 @@ block head
 
 // extend block body
 block body
-	.Background
+	if settings.bgimage
+		.Background(style="background-image: url("+settings.bgimage+");")
 	+Navigation({active: 3})
 	.ContentWrapper
 		+AuthModule()

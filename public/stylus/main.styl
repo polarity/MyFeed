@@ -50,7 +50,7 @@ input, button
 	@extend $FONTSIZE-SMALL
 	@extend $FONT-MAIN
 	@extend $PADDING-SMALL
-	@extend $BORDER-GREY
+	@extend $BORDER-GREY-OP
 	border-radius: 4px
 	border-style: solid
 	border-width: 1px
@@ -91,6 +91,7 @@ a.loadingText, a.loadingText:link, a.loadingText:visited
 	@extend $COLOR-DARKGREY
 	@extend $TEXT-CENTER
 	@extend $PADDING-V-NORMAL
+	text-shadow: 0px 0px 10px rgba(255, 255, 255, 1),0px 0px 20px rgba(255, 255, 255, 1)
 	text-decoration: none
 	background-image: url("data:image/gif;base64,R0lGODlhFAAPAPMAAFZWVltbW2tra29vb4KCgpaWlqGhobOzs7m5uQAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BA0KAAkAIf8LTkVUU0NBUEUyLjADAQAAACwAAAAAFAAPAAAETDDJSSeqOKer+0agVyHHAHLaoRKD4RoodrBDTYjJXAc2TvMAws1TCvACrJNGyBsEWYnBsFKTAgCDQmHauSIJLq5HWBUvhZKeqEZhVyIAIfkEDQoADAAsAAAAABQADwCDVlZWW1tba2trb29vdXV1goKClpaWoaGhra2ts7Ozubm54eHhAAAAAAAAAAAAAAAABFOQyUmnqjizq/tWyuJVSjKAYpeshYIYCMJlSTHcg6HDWn0Ht8KIYRsAAQOhxxQ4Fp4bzRM4ADxPoEySQAXoBoykNhiwHg7KYfgJVa+D7jAhDMZEAAAh+QQNCgAIACwAAAAAFAAPAINWVlZbW1tvb2+CgoKWlpahoaGzs7O5ubkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAESRDJSeepOKOr+z6gVx2GAHKaoQ5C4RYoZrBCPYjIXAc2TvOAwc1TCvACrJNGyBMEWQjBsFLbAQQEwrQD6ApdW49UGBazyuJqJwIAOw==")
 	background-repeat: no-repeat
@@ -141,7 +142,7 @@ a.navi-logo, a.navi-logo:link,a.navi-logo:visited
 
 .FrontendModule
 	@extend $PADDING-NORMAL
-	@extend $BG-WHITE
+	@extend $BG-WHITE-OP
 	@extend $MARGIN-BOTTOM-NORMAL
 	@extend $BORDER-GREY
 	border-width: 1px
@@ -185,10 +186,12 @@ header.MyFeedHeader
 			@extend $MARGIN-BOTTOM-SMALL
 			@extend $LINE-HEIGHT-SMALL
 			text-transform: uppercase
+			text-shadow: 0px 0px 70px rgba(255, 255, 255, 1),0px 0px 20px rgba(255, 255, 255, 0.5)
 		p
 			@extend $FONTSIZE-SMALL
 			@extend $LINE-HEIGHT-NORMAL
 			@extend $CENTER
+			text-shadow: 0px 0px 12px rgba(255, 255, 255, 1),0px 0px 4px rgba(255, 255, 255, 0.2)
 			opacity: 0.5
 			max-width: 60%
 		a:link, a:visited
@@ -214,7 +217,7 @@ header.MyFeedHeader
 
 .Post
 	@extend $PADDING-NORMAL
-	@extend $BG-WHITE
+	@extend $BG-WHITE-OP
 	@extend $MARGIN-BOTTOM-NORMAL
 	@extend $BORDER-GREY
 	border-width: 1px
@@ -471,9 +474,9 @@ article.post-article
 	@extend $FONT-MAIN
 	@extend $FONTSIZE-NORMAL
 	@extend $BORDER-BOX
-	@extend $BORDER-GREY
 	@extend $PADDING-NORMAL
-	@extend $BG-WHITE
+	@extend $BG-WHITE-OP
+	@extend $BORDER-GREY-OP
 	border-radius: 4px
 	-webkit-appearance: none
 	-moz-appearance: none

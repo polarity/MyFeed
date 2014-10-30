@@ -56,6 +56,12 @@ user.password = process.env.USER_PASSWORD
 user.username = process.env.USER_NAME
 user.domain = process.env.DOMAIN_URL
 
+# generate settings document
+pdb.get("settings").catch (err)->
+	doc._id = "settings"
+	doc.type = "settings"
+	pdb.put(doc).catch (err)-> console.log('cant create settings doc ...')
+
 # Passport session setup.
 # To support persistent login sessions, Passport needs to be able to
 # serialize users into and deserialize users out of the session.  Typically,
@@ -105,19 +111,29 @@ require('./cronjob.coffee')(pdb, (10 * 60000))
 
 # get the feed overview
 app.get "/", (req, res)->
-	res.render("feed", {
+	renderOptions = {
 		user: user
 		markdown: markdown
 		environment: process.env.USE
-	})
+	}
+	pdb.get("settings")
+	.then (settings)->
+		renderOptions.settings = settings
+		res.render("feed", renderOptions)
+
+	.catch (err)->
+		# no settings avaiable
+		res.render("feed", renderOptions)
 
 # get the feed overview
 app.get "/timeline", (req, res)->
-	res.render("timeline", {
-		user: user
-		markdown: markdown
-		environment: process.env.USE
-	})
+	pdb.get("settings").then (settings)->
+		res.render("timeline", {
+			user: user
+			markdown: markdown
+			environment: process.env.USE
+			settings: settings
+		})
 
 app.get "/rss", (req, res)->
 	# query/map method
@@ -171,14 +187,16 @@ app.get "/post/:id", (req, res)->
 			else
 				thumbnail = "http://www.gravatar.com/avatar/"+user.emailhash+'?s=1200'
 
-			res.render("single", {
-				doc: doc
-				user: user
-				markdown: markdown
-				truncate: truncate
-				thumbnail: thumbnail
-				environment: process.env.USE
-			})
+			pdb.get("settings").then (settings)->
+				res.render("single", {
+					doc: doc
+					user: user
+					markdown: markdown
+					truncate: truncate
+					thumbnail: thumbnail
+					environment: process.env.USE
+					settings: settings
+				})
 
 		# doc/page not found
 		# return 404
@@ -192,12 +210,13 @@ app.get "/post/:id", (req, res)->
 
 # get the feed overview
 app.get "/login", (req, res)->
-	res.render("login", {
-		user: user
-		domain: process.env.DOMAIN_URL
-		markdown: markdown
-		environment: process.env.USE
-	})
+	pdb.get("settings").then (settings)->
+		res.render("login", {
+			user: user
+			domain: process.env.DOMAIN_URL
+			markdown: markdown
+			settings: settings
+		})
 
 # get the feed via json api
 app.get "/api/deleteforeign", (req, res)->
@@ -350,6 +369,18 @@ app.post "/api/remove_follow", passport.authenticate('token', { session: false }
 		res.end("true")
 	.catch (err)->
 		console.log err
+
+app.post "/api/settings/bgimage", passport.authenticate('token', { session: false }), (req, res)->
+	if req.body.datauri
+		doc = {}
+		pdb.get("settings").then (otherDoc)->
+			doc._id = otherDoc._id
+			doc._rev = otherDoc._rev
+			doc.bgimage = req.body.datauri
+			pdb.put(doc).then (response)->
+				# doc saved?
+				res.json(response)
+		.catch (err)-> console.log "no settings doc available? ", err
 
 # 404 page
 app.use (req, res, next)->

@@ -2,6 +2,15 @@ Controller = ($scope, LoginService, $http, $timeout) ->
 
 	$scope.login = LoginService
 
+	$scope.upload =  (datauri)->
+		$http({
+			url: "/api/settings/bgimage"
+			method: "POST"
+			data: {datauri: datauri, "access_token": $scope.login.token}
+		})
+		.success (doc)-> console.log doc
+		.error( (err)-> console.log err )
+
 # Angular Foo
 # Since Angular infers the controller's dependencies from the 
 # names of arguments to the controller's constructor function, 

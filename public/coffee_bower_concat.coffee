@@ -30,22 +30,22 @@ walk = (dir, done) ->
 # every coffee/module is in between
 concatApp = (libFile)->
 	app = ''
-	app = app+fs.readFileSync(path.resolve('./coffee/bootstrap.coffee'),{encoding: 'utf8'})
-	walk path.resolve("./coffee/modules"), (err, result)->
+	app = app+fs.readFileSync(path.resolve(__dirname, 'coffee/bootstrap.coffee'),{encoding: 'utf8'})
+	walk path.resolve(__dirname, "coffee/modules"), (err, result)->
 		result.forEach (dir)->
-			app = app+'\n'+fs.readFileSync(path.resolve(dir),{encoding: 'utf8'})
+			app = app+'\n'+fs.readFileSync(path.resolve(__dirname, dir),{encoding: 'utf8'})
 
-		app = app+'\n'+fs.readFileSync(path.resolve('./coffee/main.coffee'),{encoding: 'utf8'})
+		app = app+'\n'+fs.readFileSync(path.resolve(__dirname, 'coffee/main.coffee'),{encoding: 'utf8'})
 
 		# write app
-		if !fs.existsSync(path.resolve("./_js/"))
-			fs.mkdirSync(path.resolve("./_js/"))
+		if !fs.existsSync(path.resolve(__dirname, "_js/"))
+			fs.mkdirSync(path.resolve(__dirname, "_js/"))
 		# compile coffeescript
 		app = coffee.compile(app)
 		# uglify javascript
 		uglified =  UglifyJS.minify( libFile+app, {fromString: true})
 		# save to disk
-		fs.writeFileSync(path.resolve('./_js/complete.js'), uglified.code)
+		fs.writeFileSync(path.resolve(__dirname, '_js/complete.js'), uglified.code)
 
 # concat all bower libraries
 # call concatApp when finished
@@ -55,7 +55,7 @@ concatBower = ()->
 	pkgs = []
 	libFile = ''
 	componentsDirClean = []
-	componentsDir = fs.readdirSync('./bower_components')
+	componentsDir = fs.readdirSync(path.resolve(__dirname, 'bower_components'))
 	componentsDir.forEach (dir)->
 		if dir[0] != '.'
 			componentsDirClean.push dir
@@ -63,7 +63,7 @@ concatBower = ()->
 	i = 1
 	componentsDirClean.forEach (dir)->
 		data = false
-		component = path.resolve('./bower_components/' + dir)
+		component = path.resolve(__dirname, 'bower_components/' + dir)
 		if fs.existsSync(component+'/bower.json')
 			component = component+'/bower.json'
 
@@ -71,14 +71,14 @@ concatBower = ()->
 			component = component+'/.bower.json'
 
 		bower_json.read component, (err, file)->
-			libpath = path.resolve('./bower_components/' + dir+'/'+file.main)
+			libpath = path.resolve(__dirname, 'bower_components/' + dir+'/'+file.main)
 			libFile = libFile+'\n\n'+fs.readFileSync(libpath, {encoding: 'utf8'})
 			if componentsDirClean.length != i
 				i++
 			else
 				# write libfile
-				if !fs.existsSync(path.resolve("./_js/"))
-					fs.mkdirSync(path.resolve("./_js/"))
+				if !fs.existsSync(path.resolve(__dirname, "_js/"))
+					fs.mkdirSync(path.resolve(__dirname, "_js/"))
 
 				concatApp(libFile)
 

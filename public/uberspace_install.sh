@@ -16,7 +16,7 @@ bower install
 
 # create environment
 printf "\n\nCreating .env file. Please answer some questions!"
-touch /MyFeed/public/.env
+touch ~/MyFeed/public/.env
 
 printf "\n\nPlease enter the serverport you want the service to use:"
 read serverport

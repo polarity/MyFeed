@@ -15,6 +15,7 @@
     "markdown": "~0.5.0",
     "angular-sanitize": "~1.2.23",
     "momentjs": "~2.8.3",
-    "es6-shim": "~0.18.0"
+    "es6-shim": "~0.18.0",
+    "stackblur-agthe": "*"
   }
 }

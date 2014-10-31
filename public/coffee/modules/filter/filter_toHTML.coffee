@@ -1,6 +1,6 @@
 Filter = ()->
 	(text)->
-		markdown.toHTML(text)
+		markdown.render(text)
 
 # Angular Foo
 # Since Angular infers the controller's dependencies from the 

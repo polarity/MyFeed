@@ -161,7 +161,7 @@ app.get "/rss", (req, res)->
 				if item.doc.content || (item.doc.attachments && item.doc.attachments.length > 0)
 					feed.item({
 						title: item.doc.title
-						description: item.doc.content
+						description: markdown(item.doc.content).replace(/<(?:.|\n)*?>|[\n\r]/gm, '')
 						url: process.env.DOMAIN_URL+'post/'+item.doc._id
 						author: process.env.USER_NAME
 						date: new Date(item.doc.created)

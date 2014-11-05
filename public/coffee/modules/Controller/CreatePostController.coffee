@@ -42,6 +42,9 @@ Controller = ($scope, LoginService, $timeout, $http, PostsService) ->
 				# scrape url only when 
 				# is not scraped yet
 				if !attachmentFound
+					# push url first, so we only parse it once
+					$scope.PostObject.attachments.push({url: url})
+					# then scrape the url completely
 					$scope.scrapeUrls(url)
 
 	# just parse all found url
@@ -51,8 +54,16 @@ Controller = ($scope, LoginService, $timeout, $http, PostsService) ->
 			method: "POST"
 			data: {'url': url, "access_token": $scope.login.token}
 		})
-		.success( (data)-> $scope.PostObject.attachments.push(data) )
-		.error( (err)-> console.log err )
+
+		.success (data)-> 
+			# get temporary url object
+			index = $scope.PostObject.attachments.findIndex (attachment)-> 
+				attachment.url == url
+			# overwrite url object
+			$scope.PostObject.attachments[index] = data
+
+		.error (err)-> 
+			console.log err
 
 	# removes an attachment from the array
 	$scope.removeAttachment = (attachment)->

@@ -7,5 +7,5 @@ mixin Stream(options)
 		.iterate(ng-repeat="PostObject in Posts | orderBy:'created':true track by $index")
 			+Post({type: ''})
 
-		loading(ng-show="Posts.length > 0")
-			button.showMore(ng-click="showMore()") show more
+		loading()
+			button.showMore(ng-show="Posts.length > 0", ng-click="showMore()") show more

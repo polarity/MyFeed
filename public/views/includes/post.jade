@@ -23,7 +23,7 @@ mixin Post(config)
 						a(ng-if="PostObject.type == 'post'", href!='/post/{{PostObject._id}}', title="{{PostObject.title}}") Permalink
 						a(ng-if="PostObject.type == 'foreign_post'", href!="{{PostObject.user.domain}}/post/{{PostObject._id.slice(0, PostObject._id.indexOf('#'))}}", title="{{PostObject.title}}") Permalink
 					.meta-delete(ng-show="PostObject._id && login.token")
-						a(ng-click="delete(PostObject)") Löschen
+						a(ng-click="delete(PostObject)") delete
 
 		// Main Content of the Post
 		article.post-article
@@ -38,7 +38,7 @@ mixin Post(config)
 			.SoundAttachment(ng-repeat="attachment in PostObject.attachments | filter:{type: 'sound'} track by $index")
 				if config.type == 'new'
 					// remove this attachment
-					.attachment-remove(ng-click="removeAttachment(attachment)") entfernen
+					button.attachment-remove(ng-click="removeAttachment(attachment)") delete
 
 				.sound-embed
 					sound-embed(code="{{attachment.embed}}")
@@ -52,7 +52,7 @@ mixin Post(config)
 
 				if config.type == 'new'
 					// remove this attachment
-					.attachment-remove(ng-click="removeAttachment(attachment)") entfernen
+					button.attachment-remove(ng-click="removeAttachment(attachment)") delete
 
 				.video-embed
 					video-embed(code="{{attachment.url}}")
@@ -67,7 +67,7 @@ mixin Post(config)
 
 				if config.type == 'new'
 					// remove this attachment
-					.attachment-remove(ng-click="removeAttachment(attachment)") entfernen
+					button.attachment-remove(ng-click="removeAttachment(attachment)") delete
 
 				.image-thumb
 					a(href="{{attachment.url}}")
@@ -82,7 +82,7 @@ mixin Post(config)
 
 				if config.type == 'new'
 					// remove this attachment
-					.attachment-remove(ng-click="removeAttachment(attachment)") entfernen
+					button.attachment-remove(ng-click="removeAttachment(attachment)") delete
 
 				.url-thumb(ng-if="attachment.thumbnail")
 					img(ng-src="{{attachment.thumbnail}}")

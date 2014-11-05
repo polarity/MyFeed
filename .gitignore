@@ -1,12 +1,5 @@
+.*
+_*
 node_modules
-.SyncID
-.SyncIgnore
-.SyncArchive
-.sass-cache
-.DS_Store
-.env
 css/
-_js/
 bower_components/
-
-_pouchdb*

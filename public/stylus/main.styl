@@ -63,7 +63,7 @@ input
 	@extend $MARGIN-RIGHT-SMALL
 
 button
-	@extend $BG-LIGHTBLUE
+	@extend $BG-BLUE-OP
 	@extend $COLOR-WHITE
 	@extend $MARGIN-BOTTOM-NO
 	transition: all 0.5s ease-out
@@ -87,17 +87,6 @@ button.showMore
 		@extend $FONTSIZE-NORMAL
 		@extend $LINE-HEIGHT-NORMAL
 
-a.loadingText, a.loadingText:link, a.loadingText:visited
-	@extend $COLOR-DARKGREY
-	@extend $TEXT-CENTER
-	@extend $PADDING-V-NORMAL
-	text-shadow: 0px 0px 10px rgba(255, 255, 255, 1),0px 0px 20px rgba(255, 255, 255, 1)
-	text-decoration: none
-	background-image: url("data:image/gif;base64,R0lGODlhFAAPAPMAAFZWVltbW2tra29vb4KCgpaWlqGhobOzs7m5uQAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BA0KAAkAIf8LTkVUU0NBUEUyLjADAQAAACwAAAAAFAAPAAAETDDJSSeqOKer+0agVyHHAHLaoRKD4RoodrBDTYjJXAc2TvMAws1TCvACrJNGyBsEWYnBsFKTAgCDQmHauSIJLq5HWBUvhZKeqEZhVyIAIfkEDQoADAAsAAAAABQADwCDVlZWW1tba2trb29vdXV1goKClpaWoaGhra2ts7Ozubm54eHhAAAAAAAAAAAAAAAABFOQyUmnqjizq/tWyuJVSjKAYpeshYIYCMJlSTHcg6HDWn0Ht8KIYRsAAQOhxxQ4Fp4bzRM4ADxPoEySQAXoBoykNhiwHg7KYfgJVa+D7jAhDMZEAAAh+QQNCgAIACwAAAAAFAAPAINWVlZbW1tvb2+CgoKWlpahoaGzs7O5ubkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAESRDJSeepOKOr+z6gVx2GAHKaoQ5C4RYoZrBCPYjIXAc2TvOAwc1TCvACrJNGyBMEWQjBsFLbAQQEwrQD6ApdW49UGBazyuJqJwIAOw==")
-	background-repeat: no-repeat
-	background-position: center top
-	display: block
-
 nav.MainNavi
 	@extend $BG-BLACK
 	@extend $COLOR-WHITE
@@ -109,7 +98,7 @@ nav.MainNavi
 	.Wrapper
 		@extend $BORDER-BOX
 		@extend $CENTER
-		@extend $PADDING-V-NORMAL
+		@extend $PADDING-V-SMALL
 		@extend $PADDING-H-SMALL
 		max-width: 400px
 		flex-display()
@@ -122,23 +111,17 @@ a.navi-item, a.navi-item:link, a.navi-item:visited
 	@extend $COLOR-WHITE
 	@extend $TEXT-CENTER
 	text-decoration: none
-	transition: all 0.5s ease
+	transition: all 0.1s ease
 	cursor: pointer
 
 a.navi-item.active
 	@extend $BORDER-WHITE
 	border-style: solid
-	border-bottom-width: 1px
+	text-decoration: underline
 
 a.navi-item:hover, a.navi-item:active
 	@extend $COLOR-LIGHTGREY
 	text-decoration: underline
-
-a.navi-logo, a.navi-logo:link,a.navi-logo:visited
-	@extend $COLOR-LIGHTGREY
-	@extend $FONT-LOGO
-	@extend $TEXT-CENTER
-	text-decoration: none
 
 .FrontendModule
 	@extend $PADDING-NORMAL
@@ -165,6 +148,7 @@ header.Siteheader
 	@extend $PADDING-NORMAL
 	@extend $MARGIN-BOTTOM-NORMAL
 	@extend $CENTER
+	padding-top: 0
 	max-width: 800px
 
 header.MyFeedHeader
@@ -180,18 +164,19 @@ header.MyFeedHeader
 		@extend $PADDING-H-NORMAL
 		@extend $COLOR-BLACK
 		@extend $LINE-HEIGHT-SMALL
+		padding-top: 0
 		h1
 			@extend $FONTSIZE-GIGA
 			@extend $FONT-HEAD
 			@extend $MARGIN-BOTTOM-SMALL
 			@extend $LINE-HEIGHT-SMALL
 			text-transform: uppercase
-			text-shadow: 0px 0px 70px rgba(255, 255, 255, 1),0px 0px 20px rgba(255, 255, 255, 0.5)
+			text-shadow: 1px 1px 2px rgba(255, 255, 255, 1),1px 1px 2px rgba(255, 255, 255, 0.5)
 		p
 			@extend $FONTSIZE-SMALL
 			@extend $LINE-HEIGHT-NORMAL
 			@extend $CENTER
-			text-shadow: 0px 0px 12px rgba(255, 255, 255, 1),0px 0px 4px rgba(255, 255, 255, 0.2)
+			text-shadow: 1px 1px 1px rgba(255, 255, 255, 1),1px 1px 1px rgba(255, 255, 255, 0.2)
 			opacity: 0.5
 			max-width: 60%
 		a:link, a:visited
@@ -386,15 +371,16 @@ article.post-article
 	a:active, a:hover
 		@extend $COLOR-BLUE
 	.attachment-remove
-		@extend $FONTSIZE-TINY
-		@extend $MARGIN-BOTTOM-SMALL
-		cursor: pointer
-		text-decoration: underline
+		position: absolute
+		right: -10px
+		top: -10px
+		z-index: 1
 
 	.UrlAttachment
 		@extend $LINE-HEIGHT-NORMAL
 		@extend $MARGIN-BOTTOM-NORMAL
 		@extend $COLOR-DARKGREY
+		position: relative
 		clearfix()
 		flex-display()
 		flex-align-items(center)
@@ -426,6 +412,7 @@ article.post-article
 
 	.ImageAttachment
 		@extend $MARGIN-BOTTOM-NORMAL
+		position: relative
 		clearfix()
 		.image-thumb
 			@extend $TEXT-CENTER
@@ -440,6 +427,7 @@ article.post-article
 
 	.VideoAttachment
 		@extend $MARGIN-BOTTOM-NORMAL
+		position: relative
 		clearfix()
 		.video-embed
 			clearfix()
@@ -454,6 +442,7 @@ article.post-article
 
 	.SoundAttachment
 		@extend $MARGIN-BOTTOM-NORMAL
+		position: relative
 		clearfix()
 		.sound-embed
 			clearfix()
@@ -490,7 +479,17 @@ article.post-article
 	flex-display()
 	flex-justify-content(flex-end)
 
-	
+// loading animation
+a.loadingText, a.loadingText:link, a.loadingText:visited
+	@extend .Post
+	@extend $TEXT-CENTER
+	@extend $BORDER-BOX
+	@extend $COLOR-DARKGREY
+	@extend $CENTER
+	max-width: 200px
+	text-transform: lowercase
+	display: block
+	text-decoration: none
 
 .ng-cloak, .x-ng-cloak {
 	display: none !important

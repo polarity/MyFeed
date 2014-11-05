@@ -162,7 +162,7 @@ app.get "/rss", (req, res)->
 					feed.item({
 						title: item.doc.title
 						description: markdown(item.doc.content).replace(/<(?:.|\n)*?>|[\n\r]/gm, '')
-						url: process.env.DOMAIN_URL+'post/'+item.doc._id
+						url: process.env.DOMAIN_URL+'/post/'+item.doc._id
 						author: process.env.USER_NAME
 						date: new Date(item.doc.created)
 						guid: item.doc._id

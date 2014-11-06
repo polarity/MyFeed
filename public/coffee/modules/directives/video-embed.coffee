@@ -10,7 +10,7 @@ Directive = ($sce)->
 				platform = 'vimeo'
 				video_id = newVal.match(/\/(\d+)/)[1]
 
-			if(newVal.indexOf('youtube.com') != -1)
+			if(newVal.indexOf('youtube.com') != -1 || newVal.indexOf('youtu.be') != -1)
 				platform = 'youtube'
 				video_id = newVal.match(/.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/)[1]
 

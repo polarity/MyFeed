@@ -4,6 +4,6 @@ mixin Navigation(options)
 	// !
 	nav.MainNavi
 		.Wrapper
-			a.navi-item.navi-home(href!=user.domain, class=((options.active==1)?'active':'')) #{user.domain.replace('http://','').replace('/','')}
+			a.navi-item.navi-home(href!=user.domain, class=((options.active==1)?'active':'')) Home
 			a.navi-item.navi-timeline(href="/timeline", class=((options.active==2)?'active':'')) Network
 			a.navi-item.navi-settings(href="/login", class=((options.active==3)?'active':'')) Settings

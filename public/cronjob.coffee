@@ -51,7 +51,6 @@ onFollowerResponse = (error, response, html, domain)->
 				# create a new entry (no _rev)
 				db.put(newDoc)
 					# doc saved?
-					.then (response)-> console.log response
 					.catch (err)-> console.log err
 
 # when the pouchdb responds with an array

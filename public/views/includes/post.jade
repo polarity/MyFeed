@@ -34,6 +34,19 @@ mixin Post(config)
 		// Attachments
 		.Attachments(ng-show="PostObject.attachments.length > 0", ng-class="{only: PostObject.content.length < 1}")
 
+			// oEmbed Attachment
+			.oEmbedAttachment(ng-repeat="attachment in PostObject.attachments | filter:{type: 'oembed'} track by $index")
+				if config.type == 'new'
+					// remove this attachment
+					button.attachment-remove(ng-click="removeAttachment(attachment)") delete
+
+				.oembed-embed
+					oembed(code="{{attachment.embed}}")
+
+				.oembed-link
+					p Quelle:&nbsp;
+						a(ng-href="{{attachment.url}}") {{attachment.url}}
+
 			// Sound Attachment
 			.SoundAttachment(ng-repeat="attachment in PostObject.attachments | filter:{type: 'sound'} track by $index")
 				if config.type == 'new'
@@ -41,7 +54,7 @@ mixin Post(config)
 					button.attachment-remove(ng-click="removeAttachment(attachment)") delete
 
 				.sound-embed
-					sound-embed(code="{{attachment.embed}}")
+					oembed(code="{{attachment.embed}}")
 
 				.sound-link
 					p Quelle:&nbsp;

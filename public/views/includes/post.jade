@@ -34,16 +34,16 @@ mixin Post(config)
 		// Attachments
 		.Attachments(ng-show="PostObject.attachments.length > 0", ng-class="{only: PostObject.content.length < 1}")
 
-			// oEmbed Attachment
-			.oEmbedAttachment(ng-repeat="attachment in PostObject.attachments | filter:{type: 'oembed'} track by $index")
+			// Article Attachment (twitter, myfeed etc.)
+			.ArticleAttachment(ng-repeat="attachment in PostObject.attachments | filter:{type: 'article'} track by $index")
 				if config.type == 'new'
 					// remove this attachment
 					button.attachment-remove(ng-click="removeAttachment(attachment)") delete
 
-				.oembed-embed
+				.article-embed
 					oembed(code="{{attachment.embed}}")
 
-				.oembed-link
+				.article-link
 					p Quelle:&nbsp;
 						a(ng-href="{{attachment.url}}") {{attachment.url}}
 
@@ -68,7 +68,7 @@ mixin Post(config)
 					button.attachment-remove(ng-click="removeAttachment(attachment)") delete
 
 				.video-embed
-					video-embed(code="{{attachment.url}}")
+					oembed(code="{{attachment.embed}}")
 
 				.video-link
 					p Quelle:&nbsp;
@@ -82,7 +82,9 @@ mixin Post(config)
 					// remove this attachment
 					button.attachment-remove(ng-click="removeAttachment(attachment)") delete
 
-				.image-thumb
+				.image-thumb(ng-if="attachment.embed")
+					oembed(code="{{attachment.embed}}")
+				.image-thumb(ng-if="!attachment.embed")
 					a(ng-href="{{attachment.url}}")
 						img(ng-src="{{attachment.thumbnail}}")
 

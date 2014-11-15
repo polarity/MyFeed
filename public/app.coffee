@@ -296,20 +296,23 @@ app.post "/api/feed", (req, res)->
 
 # post a new post
 app.post "/api/create", passport.authenticate('token', { session: false }), (req, res)->
-	doc = {}
-	doc = req.body.doc
-	doc.title = generateTitleFromPost(doc)
-	doc._id = doc.created+'-'+urlify(doc.title)
-	doc.type = "post"
-	doc.user = {
-		email: user.email
-		emailhash: user.emailhash
-		username: user.username
-		domain: user.domain
-	}
-	pdb.put(doc).then (response)->
-		# doc saved?
-		res.json(response)
+	if(req.body.doc.content || req.body.doc.attachments.length > 0)
+		doc = {}
+		doc = req.body.doc
+		doc.title = generateTitleFromPost(doc)
+		doc._id = doc.created+'-'+urlify(doc.title)
+		doc.type = "post"
+		doc.user = {
+			email: user.email
+			emailhash: user.emailhash
+			username: user.username
+			domain: user.domain
+		}
+		pdb.put(doc).then (response)->
+			# doc saved?
+			res.json(response)
+	else
+		res.send('Fail');
 
 # post a new post
 app.post "/api/delete", passport.authenticate('token', { session: false }), (req, res)->

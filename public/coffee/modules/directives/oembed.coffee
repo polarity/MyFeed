@@ -2,7 +2,7 @@ Directive = ($sce, $timeout)->
 	restrict: 'EA'
 	scope: { code: '@'}
 	replace: true
-	template: '<div style="width:100%; height="450" ng-bind-html="embedHTML"></div>'
+	template: '<div class="oembedWrapper" ng-bind-html="embedHTML"></div>'
 	link: (scope)->
 		scope.$watch 'code', (newVal)->
 			scope.embedHTML = $sce.trustAsHtml(newVal)

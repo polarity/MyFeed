@@ -53,7 +53,7 @@ mixin Post(config)
 					// remove this attachment
 					button.attachment-remove(ng-click="removeAttachment(attachment)") delete
 
-				.sound-embed
+				.sound-embed()
 					oembed(code="{{attachment.embed}}")
 
 				.sound-link
@@ -67,8 +67,10 @@ mixin Post(config)
 					// remove this attachment
 					button.attachment-remove(ng-click="removeAttachment(attachment)") delete
 
-				.video-embed
+				.video-embed(ng-if="attachment.embed")
 					oembed(code="{{attachment.embed}}")
+				.video-embed(ng-if="!attachment.embed")
+					video-embed(code="{{attachment.url}}")
 
 				.video-link
 					p Quelle:&nbsp;

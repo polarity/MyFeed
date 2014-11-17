@@ -433,8 +433,14 @@ article.post-article
 			clearfix()
 			@extend $TEXT-CENTER
 			padding-left: 0
-			img
+			div.oembedWrapper
+				width:100%
+				height:0
+				padding-bottom: 56%
+				position: relative
+			iframe
 				width: 100%
+				height: 100%
 		.video-link
 			@extend $FONTSIZE-TINY
 			@extend $OVERFLOW-NICE

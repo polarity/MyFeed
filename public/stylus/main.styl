@@ -376,6 +376,23 @@ article.post-article
 		top: -10px
 		z-index: 1
 
+	.ArticleAttachment
+		@extend $MARGIN-BOTTOM-NORMAL
+		position: relative
+		clearfix()
+		.article-embed
+			clearfix()
+			@extend $TEXT-CENTER
+			padding-left: 0
+			div.oembedWrapper
+				width:100%
+				position: relative
+
+		.article-link
+			@extend $FONTSIZE-TINY
+			@extend $OVERFLOW-NICE
+			@extend $TEXT-CENTER
+
 	.UrlAttachment
 		@extend $LINE-HEIGHT-NORMAL
 		@extend $MARGIN-BOTTOM-NORMAL

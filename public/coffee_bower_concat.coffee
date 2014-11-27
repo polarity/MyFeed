@@ -7,22 +7,26 @@ UglifyJS = require("uglify-js")
 # recursive directory scan
 walk = (dir, done) ->
 	results = []
-	fs.readdir dir, (err, list) ->
-		return done(err) if err
-		pending = list.length
-		return done(null, results) unless pending
-		list.forEach (file) ->
-			file = dir + "/" + file
-			fs.stat file, (err, stat) ->
-				if stat and stat.isDirectory()
-					walk file, (err, res) ->
-						results = results.concat(res)
-						done null, results	unless --pending
 
-				else
-					if file.substr(-6) == "coffee"
-						results.push file
-					done null, results	unless --pending
+	list = fs.readdirSync(dir)
+
+	pending = list.length
+
+	return done(null, results) unless pending
+
+	list.forEach (file) ->
+		file = dir + "/" + file
+		stat = fs.statSync(file)
+
+		if stat and stat.isDirectory()
+			walk file, (err, res) ->
+				results = results.concat(res)
+				done null, results	unless --pending
+
+		else
+			if file.substr(-6) == "coffee"
+				results.push file
+			done null, results	unless --pending
 
 # concats everything in /coffee.
 # bootstrap.coffee is prepended
@@ -31,6 +35,7 @@ walk = (dir, done) ->
 concatApp = (libFile)->
 	app = ''
 	app = app+fs.readFileSync(path.resolve(__dirname, 'coffee/bootstrap.coffee'),{encoding: 'utf8'})
+
 	walk path.resolve(__dirname, "coffee/modules"), (err, result)->
 		result.forEach (dir)->
 			app = app+'\n'+fs.readFileSync(path.resolve(__dirname, dir),{encoding: 'utf8'})

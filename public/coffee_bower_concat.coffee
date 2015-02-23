@@ -3,6 +3,9 @@ path = require('path')
 bower_json = require('bower-json')
 coffee = require('coffee-script')
 UglifyJS = require("uglify-js")
+Promise = require('bluebird')
+
+resolver = Promise.pending()
 
 # recursive directory scan
 walk = (dir, done) ->
@@ -86,6 +89,9 @@ concatBower = ()->
 					fs.mkdirSync(path.resolve(__dirname, "_js/"))
 
 				concatApp(libFile)
+				resolver.resolve("compiling done!")
+
+	return resolver.promise
 
 # sorry, but just a dirty dirty hack to concat all coffee files
 module.exports = concatBower

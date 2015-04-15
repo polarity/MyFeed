@@ -59,6 +59,23 @@ Controller = ($scope, LoginService, $timeout, $http, PostsService) ->
 			# get temporary url object
 			index = $scope.PostObject.attachments.findIndex (attachment)-> 
 				attachment.url == url
+
+			# thumbnail exists?
+			if data.thumbnail
+
+				# thumb relative url from root
+				# prepend domain to make it work
+				if data.thumbnail.substring(0,1) == "/"
+					urlObj = new URL(url)
+					data.thumbnail = urlObj.protocol+"//"+urlObj.hostname + data.thumbnail
+
+				else if data.thumbnail.substring(0,7) != "http://"
+					# thumb relative to document linked
+					# prepend domain and document path
+					urlDomainPath = url.substr(0, url.lastIndexOf("/"))
+					data.thumbnail =  urlDomainPath + data.thumbnail
+
+
 			# overwrite url object
 			$scope.PostObject.attachments[index] = data
 

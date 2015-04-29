@@ -69,7 +69,7 @@ Controller = ($scope, LoginService, $timeout, $http, PostsService) ->
 					urlObj = new URL(url)
 					data.thumbnail = urlObj.protocol+"//"+urlObj.hostname + data.thumbnail
 
-				else if data.thumbnail.substring(0,7) != "http://" && data.thumbnail.substring(0,7) != "https://"
+				else if data.thumbnail.substring(0,7) != "http://" && data.thumbnail.substring(0,8) != "https://"
 					# thumb relative to document linked
 					# prepend domain and document path
 					urlDomainPath = url.substr(0, url.lastIndexOf("/"))

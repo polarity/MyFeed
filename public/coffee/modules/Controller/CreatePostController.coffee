@@ -60,32 +60,8 @@ Controller = ($scope, LoginService, $timeout, $http, PostsService) ->
 			index = $scope.PostObject.attachments.findIndex (attachment)-> 
 				attachment.url == url
 
-			# thumbnail exists?
-			if data.thumbnail
-
-				if data.thumbnail.substring(0,1) == "/" && data.thumbnail.substring(1,2) != "/"
-					# thumb on the same domain
-					# thumb relative url from root
-					# lacking protocol + domain
-					# -> "/path/absolute/thumb.gif"
-					# prepend domain to make it work
-					urlObj = new URL(url)
-					data.thumbnail = urlObj.protocol+"//"+urlObj.hostname + data.thumbnail
-
-				else if data.thumbnail.substring(0,1) != "/"
-					# thumb on the same domain
-					# thumb relative to document linked
-					# lacking protocol + domain + root slash
-					# -> "path/relative/thumb.gif"
-					# prepend domain and document path
-					urlDomainPath = url.substr(0, url.lastIndexOf("/"))
-					data.thumbnail =  urlDomainPath + data.thumbnail
-
-				else if data.thumbnail.substring(0,2) == "//"
-					# thumb on another domain, url lacking protocol
-					# lacking protocol
-					# -> "//domain/path/thumb.gif"
-					data.thumbnail =  "http:"+data.thumbnail
+			# parse thumb url 
+			data.thumbnail = HELP.thumbnailUrlConvert(data.thumbnail, url)
 
 			# overwrite url object
 			$scope.PostObject.attachments[index] = data

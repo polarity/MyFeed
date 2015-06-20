@@ -35,6 +35,7 @@
     "pouchdb": "~3.0.5",
     "request": "~2.45.0",
     "rss": "~1.0.0",
+    "rssparser": "0.0.10",
     "stylus": "~0.47.3",
     "truncate": "~1.0.2",
     "uglify-js": "~2.4.15",

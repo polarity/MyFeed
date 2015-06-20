@@ -12,7 +12,13 @@ mixin Post(config)
 			.Avatar
 				a(ng-href="http://{{PostObject.user.domain}}")
 					img(
+						ng-if="PostObject.user.emailhash"
 						ng-src="https://www.gravatar.com/avatar/{{PostObject.user.emailhash}}"
+						title="{{PostObject.user.username}} ~ {{PostObject.created | dateFromNow}} ~ {{PostObject.created | dateFormat}}"
+					)
+					img(
+						ng-if="!PostObject.user.emailhash && PostObject.user.thumbnail"
+						ng-src="{{PostObject.user.thumbnail}}"
 						title="{{PostObject.user.username}} ~ {{PostObject.created | dateFromNow}} ~ {{PostObject.created | dateFormat}}"
 					)
 			.Meta

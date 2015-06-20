@@ -10,18 +10,19 @@ mixin Post(config)
 		// The Header - Avatar, Metadata and Stuff
 		header.post-header
 			.Avatar
-				a(ng-href="{{PostObject.user.domain}}")
+				a(ng-href="http://{{PostObject.user.domain}}")
 					img(
 						ng-src="https://www.gravatar.com/avatar/{{PostObject.user.emailhash}}"
 						title="{{PostObject.user.username}} ~ {{PostObject.created | dateFromNow}} ~ {{PostObject.created | dateFormat}}"
 					)
 			.Meta
-				.meta-username: a(href=user.domain) {{PostObject.user.username}}
+				.meta-username: a(href="http://{{PostObject.user.domain}}") {{PostObject.user.username}}
 				.meta-postcreated {{PostObject.created | dateFormat}} ({{PostObject.created | dateFromNow}})
 				.meta-actions
 					.meta-permalink(ng-show="PostObject._id")
 						a(ng-if="PostObject.type == 'post'", href!='/post/{{PostObject._id}}', title="{{PostObject.title}}") Permalink
 						a(ng-if="PostObject.type == 'foreign_post'", href!="{{PostObject.user.domain}}/post/{{PostObject._id.slice(0, PostObject._id.indexOf('#'))}}", title="{{PostObject.title}}") Permalink
+						a(ng-if="PostObject.type == 'rss_post'", href!="/post/{{PostObject._id}}", title="{{PostObject.title}}") Permalink
 					.meta-delete(ng-show="PostObject._id && login.token")
 						a(ng-click="delete(PostObject)") delete
 

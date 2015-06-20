@@ -244,7 +244,7 @@ require('./coffee_bower_concat.coffee')().then (message)->
 		if req.body.type == "timeline"
 			# query/map method
 			map = (doc, emit)=>
-				emit(doc._id) if doc.type == 'post' || doc.type == 'foreign_post'
+				emit(doc._id) if doc.type == 'post' || doc.type == 'foreign_post' || doc.type == 'rss_post'
 
 		# only emit our own posts
 		# when no type specified

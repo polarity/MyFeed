@@ -1,4 +1,13 @@
+URL = require('url');
 request = require('request')
+feedparser = require('rssparser')
+urlify = require('urlify').create
+	addEToUmlauts:true,
+	szToSs:true,
+	spaces:"-",
+	nonPrintable:"-",
+	trim:true
+
 db = false
 
 # when the other myfeed api responds,
@@ -9,7 +18,7 @@ onFollowerResponse = (error, response, html, domain)->
 	return false if response.statusCode != 200
 
 	# clean the received domain string
-	cleanDomain = domain
+	cleanDomain = URL.parse(domain).hostname
 		.replace('http://','')
 		.replace('https://','')
 		.replace('www.', '')
@@ -25,7 +34,7 @@ onFollowerResponse = (error, response, html, domain)->
 		newDoc = {}
 		newDoc = row.doc
 		newDoc.type = "foreign_post"
-		newDoc._id = row.doc._id+'#'+cleanDomain
+		newDoc._id = row.doc._id+'-'+cleanDomain
 		delete newDoc._rev # remove this key
 
 		# check received domain strings
@@ -53,13 +62,90 @@ onFollowerResponse = (error, response, html, domain)->
 					# doc saved?
 					.catch (err)-> console.log err
 
+onFollowerRssResponse = (err, response, domain)->
+	return false if err
+
+	# clean the received domain string
+	cleanDomain = URL.parse(domain).hostname
+		.replace('http://','')
+		.replace('https://','')
+		.replace('www.', '')
+		.replace(/\-/g, '_')
+		.replace(/\./g, '_')
+		.replace(/\//g, '_')
+
+	# each item
+	response.items.forEach (row)->
+		# create a new doc to insert
+		newDoc = {}
+		newDoc.type = "rss_post"
+		newDoc.title = ""
+		newDoc.content = ""
+		newDoc.created = row.published_at
+		newDoc._id = row.published_at+'-'+urlify(row.title)+'-'+cleanDomain
+		newDoc.user = {
+			username: row.author
+			email: ""
+			emailhash: ""
+			domain: URL.parse(domain).hostname
+		}
+		newDoc.attachments = [
+			{
+				title: row.title
+				# strip html tags
+				description: row.summary.replace(/<(?:.|\n)*?>|[\n\r]/gm, '')
+				type: "url"
+				url: row.url
+			}
+		]
+
+		# add only docs with correct pubDate
+		# somtetimes rss feeds have
+		# wrong date formats
+
+		if isNaN(row.published_at) == false
+			# look for existing doc in db
+			db.get(newDoc._id).then (otherDoc)->
+					return true
+					#db.remove(otherDoc._id, otherDoc._rev)
+					#
+					# current: dont update existing docs
+					# it creates only new revisions and clutters
+					# the db. only insert new docs
+
+					# use the old revision hash
+					# newDoc._rev = otherDoc._rev
+
+					# update existing entry
+					# db.put(newDoc).catch (err)-> console.log err
+
+				# catch when theres no doc in the db
+				.catch (err)->
+					# create a new entry (no _rev)
+					db.put(newDoc)
+						# doc saved?
+						.catch (err)-> console.log err
+
+
 # when the pouchdb responds with an array
 # of followed myfeeds
 onDbResponse = (err, docs)->
 	return false if !docs
 	docs.rows.forEach (row)->
+		# parse myfeed
 		request.post row.doc.domain+'/api/feed', (error, response, html)->
-				onFollowerResponse(error, response, html, row.doc.domain)
+			# is myfeed? post should give 200 and app/json header
+			if response.statusCode == 200 && response.headers['content-type']=='application/json'
+				# parse myfeed
+				onFollowerResponse(error, response, html, row.doc.domain) if !error 
+			else
+				# try get instead / without api path
+				request.get row.doc.domain, (error, response, html)->
+					# should be rss: text/xml
+					# and give a 200
+					if response.statusCode == 200 && /text\/xml/.test(response.headers['content-type'])
+						feedparser.parseURL row.doc.domain, {}, (err, response)->
+							onFollowerRssResponse(err, response, row.doc.domain)
 
 # called every nth time
 # as long the app runs

@@ -19,6 +19,7 @@
     "bluebird": "~2.9.12",
     "body-parser": "~1.7.0",
     "bower-json": "~0.4.0",
+    "cheerio": "^0.19.0",
     "coffee-middleware": "~0.2.1",
     "coffee-script": "*",
     "dotenv": "~0.2.8",

@@ -279,7 +279,12 @@ require('./coffee_bower_concat.coffee')().then (message)->
 				res.setHeader 'Content-Type', 'application/json'
 				res.end JSON.stringify {
 					rows: docs
-					user: user
+					user: {
+						email: user.email
+						emailhash: user.emailhash
+						username: user.username
+						domain: user.domain
+					}
 					markdown: markdown
 				}
 

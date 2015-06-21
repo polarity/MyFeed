@@ -8,4 +8,4 @@ mixin Stream(options)
 			+Post({type: ''})
 
 		loading()
-			button.showMore(ng-show="Posts.length > 0", ng-click="showMore()") show more
+			button.showMore(ng-show="Posts.length > 0", ng-click="showMore('#{options.type}')") show more

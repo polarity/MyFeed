@@ -31,8 +31,8 @@ Controller = ($scope, $timeout, $http, PostsService, LoginService) ->
 			)
 			.error( (err)-> console.log err )
 
-		$scope.showMore = ()->
-			$scope.getPosts(false, $scope.end)
+		$scope.showMore = (type)->
+			$scope.getPosts(false, $scope.end, type)
 
 		$scope.delete = (PostObject)->
 			# no login, no delete

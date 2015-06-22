@@ -187,20 +187,8 @@ onFollowerRssResponse = (err, response, domain)->
 		# so try to get one. avatarUrl is empty on fail
 		getAlternateAvatar URL.parse(domain).hostname,(avatarUrl)->
 
-			# create a new doc to insert
-			newDoc = {}
-			newDoc.type = "rss_post"
-			newDoc.title = ""
-			newDoc.content = ""
-			newDoc.created = row.published_at
-			newDoc._id = row.published_at+'-'+urlify(row.title)+'-'+cleanDomain
-			newDoc.user = {
-				username: row.author
-				email: ""
-				emailhash: ""
-				domain: URL.parse(domain).hostname
-				thumbnail: avatarUrl
-			}
+			# get title
+			title = row.title || "Kein Titel"
 
 			# get and edit excerpt
 			summary = ""
@@ -208,6 +196,21 @@ onFollowerRssResponse = (err, response, domain)->
 				summary = row.summary
 					.replace(/<(?:.|\n)*?>|[\n\r]/gm, '') # strip html tags
 					.replace('&#8230;', '...') # replace sgml stuff
+
+			# create a new doc to insert
+			newDoc = {}
+			newDoc.type = "rss_post"
+			newDoc.title = ""
+			newDoc.content = ""
+			newDoc.created = row.published_at
+			newDoc._id = row.published_at+'-'+urlify(title)+'-'+cleanDomain
+			newDoc.user = {
+				username: row.author
+				email: ""
+				emailhash: ""
+				domain: URL.parse(domain).hostname
+				thumbnail: avatarUrl
+			}
 
 			# make the post an attachment 
 			newDoc.attachments = [

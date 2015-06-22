@@ -196,6 +196,7 @@ onFollowerRssResponse = (err, response, domain)->
 				summary = row.summary
 					.replace(/<(?:.|\n)*?>|[\n\r]/gm, '') # strip html tags
 					.replace('&#8230;', '...') # replace sgml stuff
+				summary.length = 250
 
 			# create a new doc to insert
 			newDoc = {}

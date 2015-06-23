@@ -1,0 +1,24 @@
+{
+  "name": "MyFeed Frontend",
+  "version": "0.0.1",
+  "description": "",
+  "scripts": {
+    "concat": "find ./modules/ -type f -name '*.coffee' -exec cat {} \\; -exec echo \\; -exec echo \\; > _concat.coffee",
+    "browserify": "browserify -t coffeeify main.coffee > ../_js/complete.js",
+    "prestart": "npm run concat && npm run browserify"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "angular": "*",
+    "angular-sanitize": "*",
+    "jquery": "^2.1.4",
+    "moment": "*",
+    "remarkable": "*",
+    "stackblur-agthe": "*",
+    "twitter-widgets": "0.0.1"
+  },
+  "devDependencies": {
+    "coffeeify": "^1.1.0"
+  }
+}

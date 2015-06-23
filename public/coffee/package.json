@@ -19,6 +19,7 @@
     "twitter-widgets": "0.0.1"
   },
   "devDependencies": {
-    "coffeeify": "^1.1.0"
+    "coffeeify": "^1.1.0",
+    "browserify": "*"
   }
 }

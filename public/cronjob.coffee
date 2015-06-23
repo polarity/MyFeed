@@ -68,7 +68,7 @@ getAlternateAvatar = (hostname,  callback)->
 	request.get "http://"+hostname+"/favicon.ico", (error, response, html)->
 		# should deliver an 200 and shouldnt be 0 bytes
 		# some webserver (microsoft) deliver 200 AND an ico with 0 bytes
-		if response.statusCode == 200 && response.headers['content-length'] != "0"
+		if !error && response.statusCode == 200 && response.headers['content-length'] != "0"
 			callback("http://"+hostname+"/favicon.ico") 
 		else
 			# try to get ANY image from the index webpage 

@@ -1,3 +1,5 @@
+twttr = require("twitter-widgets")
+
 Directive = ($sce, $timeout)->
 	restrict: 'EA'
 	scope: { code: '@'}
@@ -8,9 +10,11 @@ Directive = ($sce, $timeout)->
 			scope.embedHTML = $sce.trustAsHtml(newVal)
 			$timeout ()->
 				# load the twitter widgets after drawing
-				twttr.widgets.load()
+				if twttr
+					twttr.load()
 				# parse instagram pics on every repaint
-				instgrm.Embeds.process()
+				if instgrm
+					instgrm.Embeds.process()
 
 # Angular Foo
 # Since Angular infers the controller's dependencies from the 

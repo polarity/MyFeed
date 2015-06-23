@@ -1,3 +1,6 @@
+$ = require 'jquery'
+stackBlurImage = require 'stackblur-agthe'
+
 # watches the file input and uses the name
 # attribute to server a file blob to 
 # scope.currentItem[ attr.name ]

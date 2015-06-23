@@ -1,3 +1,5 @@
+moment = require 'moment'
+
 Filter = () ->
 	return (date) ->
 		moment(date).format("DD.MM.YYYY")

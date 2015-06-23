@@ -1,3 +1,5 @@
+require("es6-shim")
+
 Controller = ($scope, LoginService, $timeout, $http, PostsService) ->
 
 	$scope.posts = PostsService

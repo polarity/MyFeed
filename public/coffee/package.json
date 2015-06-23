@@ -12,6 +12,7 @@
   "dependencies": {
     "angular": "*",
     "angular-sanitize": "*",
+    "es6-shim": "^0.32.2",
     "jquery": "^2.1.4",
     "moment": "*",
     "remarkable": "*",

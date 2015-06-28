@@ -252,7 +252,7 @@ app.post "/api/feed", (req, res)->
 
 	# query options
 	options = {
-		limit: 15
+		limit: 25
 		include_docs: true
 		descending: true
 	}

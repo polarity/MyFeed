@@ -1,5 +1,5 @@
 $ = require 'jquery'
-stackBlurImage = require 'stackblur-agthe'
+sb = require 'stackblur-agthe'
 
 # watches the file input and uses the name
 # attribute to server a file blob to 
@@ -81,7 +81,7 @@ Directive = ($timeout)->
 					img = new Image
 					img.src = URL.createObjectURL(resizedFile)
 					img.onload = ()-> 
-						stackBlurImage( img, canvas, 20)
+						sb.stackBlurImage( img, canvas, 20)
 						$('.Background').css({'background-image': 'url("'+canvas.toDataURL("image/jpeg",0.8)+'")'})
 						scope.bgimgurl({datauri: canvas.toDataURL("image/jpeg")})
 

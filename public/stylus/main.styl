@@ -258,18 +258,24 @@ header.post-header
 		max-width: 50px
 		min-height: 30px
 		max-height: 50px
-		img
+		a
 			@extend $BORDER-DARKGREY
 			@extend $BORDER-BOX
 			display: block
 			border-width: 1px
 			border-style: solid
 			border-radius: 40px
+			width: 50px
+			height: 50px
 			overflow: hidden
-			width: 100%
-		img:hover
+			position: relative
+
+		a:hover
 			@extend $BORDER-BLUE
 			border-width: 2px
+		img
+			display: block
+			height: 100%
 
 	.Meta
 		@extend $PADDING-H-SMALL

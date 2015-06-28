@@ -13,6 +13,9 @@
     "newsfeed",
     "timeline"
   ],
+  "scripts": {
+    "start": "node index.js"
+    },
   "author": "Robert Agthe",
   "license": "ISC",
   "dependencies": {

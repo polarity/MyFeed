@@ -4,7 +4,7 @@
   "description": "Just like a tumblr but more like facebook. if you know what i mean.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
   "keywords": [
     "facebook",
@@ -13,9 +13,6 @@
     "newsfeed",
     "timeline"
   ],
-  "scripts": {
-    "start": "node index.js"
-    },
   "author": "Robert Agthe",
   "license": "ISC",
   "dependencies": {
@@ -28,6 +25,7 @@
     "dotenv": "~0.2.8",
     "express": "^4.1.1",
     "express-livereload": "0.0.24",
+    "he": "^0.5.0",
     "jade": "^1.3.1",
     "jwt-simple": "~0.2.0",
     "md5": "~1.0.0",
@@ -41,7 +39,7 @@
     "rss": "~1.0.0",
     "rssparser": "0.0.10",
     "stylus": "~0.47.3",
-    "truncate": "~1.0.2",
+    "truncate": "^1.0.4",
     "uglify-js": "~2.4.15",
     "urlify": "~0.3.5"
   }

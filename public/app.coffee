@@ -139,7 +139,7 @@ app.get "/timeline", (req, res)->
 app.get "/rss", (req, res)->
 	# query/map method
 	map = (doc, emit)=>
-		emit(doc._id, doc) if doc.type == 'post'
+		emit(doc._id) if doc.type == 'post'
 
 	# query options
 	options = {
@@ -362,7 +362,7 @@ app.get "/api/followed", (req, res)->
 
 	# query/map method
 	query = (doc, emit)=>
-		emit(doc._id, doc) if doc.type == 'follow'
+		emit(doc._id) if doc.type == 'follow'
 
 	pdb.query query, {include_docs: true}, (err, docs)->
 		if docs

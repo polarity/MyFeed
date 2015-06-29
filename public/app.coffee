@@ -36,7 +36,7 @@ if process.env.USE == "DEVELOPMENT"
 	livereload(app, {watchDir: __dirname+'/stylus'})
 
 # database
-pdb = new PouchDB(__dirname + '/_pouchdb')
+pdb = new PouchDB(__dirname + '/_pouchdb', {auto_compaction: true})
 
 # middleware
 app.set 'view engine', 'jade'

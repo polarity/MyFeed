@@ -193,7 +193,7 @@ onFollowerRssResponse = (err, response, domain)->
 
 			# get and edit excerpt
 			summary = ""
-			if row.summary
+			if row.summary && typeof row.summary == "string"
 				summary = row.summary
 					.replace(/<(?:.|\n)*?>|[\n\r]/gm, '') # strip html tags
 					.replace('&#8230;', '...') # replace sgml stuff
@@ -231,18 +231,19 @@ onFollowerRssResponse = (err, response, domain)->
 			if isNaN(row.published_at) == false
 				# look for existing doc in db
 				db.get(newDoc._id).then (otherDoc)->						
-						# return true
+						return true
 						#console.log db.remove(otherDoc._id, otherDoc._rev)
+
 						#
 						# current: dont update existing docs
 						# it creates only new revisions and clutters
 						# the db. only insert new docs
 
 						# use the old revision hash
-						newDoc._rev = otherDoc._rev
+						#newDoc._rev = otherDoc._rev
 
 						# update existing entry
-						db.put(newDoc).catch (err)-> console.log err
+						#db.put(newDoc).catch (err)-> console.log err
 
 					# catch when theres no doc in the db
 					.catch (err)->

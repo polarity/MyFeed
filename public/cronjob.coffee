@@ -189,8 +189,12 @@ onFollowerRssResponse = (err, response, domain)->
 			# so try to get one. avatarUrl is empty on fail
 			getAlternateAvatar URL.parse(domain).hostname,(avatarUrl)->
 
-				# get title
+				# get title of this post
 				title = row.title || "Kein Titel"
+
+				# get author name
+				# when no author given, use <title> of the feed channel
+				author = row.author || response.title || "Kein Name vergeben"
 
 				# get and edit excerpt
 				summary = ""
@@ -201,6 +205,20 @@ onFollowerRssResponse = (err, response, domain)->
 					summary = he.decode(summary)
 					summary = truncate(summary, 350)
 
+				# get website / domain of the blog
+				# 
+				# use the feed url to parse the root url!
+				# sometimes its just feed.feedburner.com :(
+				# so not very good, but be have something to
+				# work with
+				website = URL.parse(domain).hostname 
+
+				# when possible, use the article permanent url
+				# to get root url. better because the article 
+				# should be on the original website not on the
+				# feedproxy
+				website = URL.parse(row.url).hostname if row.url
+
 				# create a new doc to insert
 				newDoc = {}
 				newDoc.type = "rss_post"
@@ -209,10 +227,10 @@ onFollowerRssResponse = (err, response, domain)->
 				newDoc.created = row.published_at
 				newDoc._id = row.published_at+'-'+urlify(title)+'-'+cleanDomain
 				newDoc.user = {
-					username: row.author
+					username: author
 					email: ""
 					emailhash: ""
-					domain: URL.parse(domain).hostname
+					domain: website
 					thumbnail: avatarUrl
 				}
 

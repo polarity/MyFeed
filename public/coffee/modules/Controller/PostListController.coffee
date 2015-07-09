@@ -9,16 +9,16 @@ Controller = ($scope, $timeout, $http, PostsService, LoginService) ->
 		# get all posts from the backend
 		$scope.getPosts = (id, start, type)->
 			id = false if !id
-			start = false if !start
-			type = false if !type
+			$scope.start = if !start then false  else start
+			$scope.type = if !type then false else type
 
 			$http({
 				url: "/api/feed"
 				method: "POST"
 				data: {
 					id: id
-					start: start
-					type: type
+					start: $scope.start
+					type: $scope.type
 				}
 			})
 			.success( (data)->

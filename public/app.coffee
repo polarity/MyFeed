@@ -178,7 +178,7 @@ app.get "/rss", (req, res)->
 		descending: true
 	}
 
-	pdb.query "get_timeline", options, (err, docs)->
+	pdb.query "get_profile", options, (err, docs)->
 		if docs
 			# RSS Feed Setup
 			feed = new RSS({

@@ -19,6 +19,22 @@ urlify = require('urlify').create
 	nonPrintable:"-",
 	trim:true
 
+# pouchDB View creator
+# Since there's a lot of boilerplate involved 
+# in creating views, you can use the following 
+# helper function to create a simple 
+# design doc based on a name and a map function:
+# via http://pouchdb.com/2014/05/01/secondary-indexes-have-landed-in-pouchdb.html
+createDesignDoc = (name, mapFunction)->
+	ddoc = {
+		_id: '_design/' + name,
+		views: {}
+	}
+	ddoc.views[name] = {
+		map: mapFunction.toString()
+	}
+	return ddoc
+
 # passport authenticate
 passport = require('passport')
 LocalStrategy = require('passport-local').Strategy
@@ -37,6 +53,24 @@ if process.env.USE == "DEVELOPMENT"
 
 # database
 pdb = new PouchDB(__dirname + '/_pouchdb', {auto_compaction: true})
+
+# create some views
+# get all profile docs
+pdb.put createDesignDoc 'get_profile', (doc)->
+	emit(doc._id) if doc.type == 'post'
+
+# get all timeline docs
+pdb.put createDesignDoc 'get_timeline', (doc)->
+	emit(doc._id) if doc.type == 'post' || doc.type == 'foreign_post' || doc.type == 'rss_post'
+
+# get all foreign posts docs
+pdb.put createDesignDoc 'get_foreign_post', (doc)->
+	emit(doc._id) if doc.type == 'foreign_post'
+
+# get all follower
+pdb.put createDesignDoc 'get_follower', (doc)->
+	emit(doc._id) if doc.type == 'follow'
+
 
 # middleware
 app.set 'view engine', 'jade'
@@ -137,9 +171,6 @@ app.get "/timeline", (req, res)->
 		})
 
 app.get "/rss", (req, res)->
-	# query/map method
-	map = (doc, emit)=>
-		emit(doc._id) if doc.type == 'post'
 
 	# query options
 	options = {
@@ -147,7 +178,7 @@ app.get "/rss", (req, res)->
 		descending: true
 	}
 
-	pdb.query map, options, (err, docs)->
+	pdb.query "get_timeline", options, (err, docs)->
 		if docs
 			# RSS Feed Setup
 			feed = new RSS({
@@ -222,10 +253,7 @@ app.get "/login", (req, res)->
 # get the feed via json api
 app.get "/api/deleteforeign", (req, res)->
 
-	map = (doc, emit)=>
-		emit(doc._id) if doc.type == 'foreign_post'
-
-	pdb.query map, {include_docs: true}, (err, docs)->
+	pdb.query "get_foreign_post", {include_docs: true}, (err, docs)->
 		if docs
 			docs.rows.forEach (doc)->
 				console.log("delete: ", doc.id)
@@ -235,20 +263,6 @@ app.get "/api/deleteforeign", (req, res)->
 
 # get the feed via json api
 app.post "/api/feed", (req, res)->
-
-	# get own and foreign posts when 
-	# api is used to get the timeline
-	if req.body.type == "timeline"
-		# query/map method
-		map = (doc, emit)=>
-			emit(doc._id) if doc.type == 'post' || doc.type == 'foreign_post' || doc.type == 'rss_post'
-
-	# only emit our own posts
-	# when no type specified
-	else
-		# query/map method
-		map = (doc, emit)=>
-			emit(doc._id) if doc.type == 'post'
 
 	# query options
 	options = {
@@ -296,8 +310,17 @@ app.post "/api/feed", (req, res)->
 		# get one entry
 		pdb.get req.body.id, callback
 	else
-		# query db for more
-		pdb.query map, options, callback
+		# get own and foreign posts when 
+		# api is used to get the timeline
+		if req.body.type == "timeline"
+			# query db for more
+			pdb.query "get_timeline", options, callback
+		# only emit our own posts
+		# when no type specified
+		else
+			# query db for more
+			pdb.query "get_profile", options, callback
+
 
 # post a new post
 app.post "/api/create", passport.authenticate('token', { session: false }), (req, res)->
@@ -360,11 +383,7 @@ app.post "/api/follow", passport.authenticate('token', { session: false }), (req
 # list all followers
 app.get "/api/followed", (req, res)->
 
-	# query/map method
-	query = (doc, emit)=>
-		emit(doc._id) if doc.type == 'follow'
-
-	pdb.query query, {include_docs: true}, (err, docs)->
+	pdb.query "get_follower", {include_docs: true}, (err, docs)->
 		if docs
 			res.setHeader 'Content-Type', 'application/json'
 			res.end JSON.stringify {

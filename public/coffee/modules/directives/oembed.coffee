@@ -10,10 +10,10 @@ Directive = ($sce, $timeout)->
 			scope.embedHTML = $sce.trustAsHtml(newVal)
 			$timeout ()->
 				# load the twitter widgets after drawing
-				if twttr
+				if typeof twttr != "undefined"
 					twttr.load()
 				# parse instagram pics on every repaint
-				if instgrm
+				if typeof instgrm != "undefined"
 					instgrm.Embeds.process()
 
 # Angular Foo

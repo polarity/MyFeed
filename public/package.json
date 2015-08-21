@@ -4,7 +4,7 @@
   "description": "Just like a tumblr but more like facebook. if you know what i mean.",
   "main": "index.js",
   "scripts": {
-    "start": "cd coffee && npm run prestart && cd .. && node index.js"
+    "start": "cd coffee && npm run prestart & cd .. & node index.js"
   },
   "keywords": [
     "facebook",

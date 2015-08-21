@@ -4,8 +4,8 @@
   "description": "",
   "scripts": {
     "concat": "find ./modules/ -type f -name '*.coffee' -exec cat {} \\; -exec echo \\; -exec echo \\; > _concat.coffee",
-    "browserify": "browserify -t coffeeify main.coffee > ../_js/complete.js",
-    "prestart": "npm run concat && npm run browserify"
+    "browserify": "watchify -t coffeeify main.coffee  -o ../_js/complete.js",
+    "prestart": "npm run concat & npm run browserify"
   },
   "author": "",
   "license": "ISC",
@@ -20,7 +20,8 @@
     "twitter-widgets": "0.0.1"
   },
   "devDependencies": {
+    "browserify": "*",
     "coffeeify": "^1.1.0",
-    "browserify": "*"
+    "watchify": "^3.3.1"
   }
 }

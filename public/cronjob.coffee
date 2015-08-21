@@ -51,15 +51,15 @@ thumbnailUrlConvert = (thumbnailUrl, posturl)->
 	return thumbnailUrl
 
 getParams = (str) ->
-  params = str.split(';').reduce(((params, param) ->
-    parts = param.split('=').map((part) ->
-      part.trim()
-    )
-    if parts.length == 2
-      params[parts[0]] = parts[1]
-    params
-  ), {})
-  params
+	params = str.split(';').reduce(((params, param) ->
+		parts = param.split('=').map((part) ->
+			part.trim()
+		)
+		if parts.length == 2
+		  params[parts[0]] = parts[1]
+		params
+	), {})
+	params
 
 # try to get an Avatar or thumbnail for a
 # website. favicon, logo.png or some random
@@ -75,32 +75,33 @@ getAlternateAvatar = (hostname,  callback)->
 			# try to get ANY image from the index webpage 
 			# of the feed
 			request.get  "http://"+hostname, (error, response, html)->
-				# where trying to get different images
-				# from the webpage
-				thumbnail = undefined
+				if !error
+					# where trying to get different images
+					# from the webpage
+					thumbnail = undefined
 
-				# get all image tags from the webpage
-				$ = cheerio.load(html)
-				images = $("img")
+					# get all image tags from the webpage
+					$ = cheerio.load(html)
+					images = $("img")
 
-				# images is array?
-				if images.length > 0
-					# step each image
-					images.each (index, img)->
-						# try to sneak logo :)
-						if /logo/.test($(img).attr("src"))
-							thumbnail = $(img).attr("src")
+					# images is array?
+					if images.length > 0
+						# step each image
+						images.each (index, img)->
+							# try to sneak logo :)
+							if /logo/.test($(img).attr("src"))
+								thumbnail = $(img).attr("src")
 
-				# still no image? get ANY img you find
-				if !thumbnail
-					thumbnail = $("img").attr("src")
+					# still no image? get ANY img you find
+					if !thumbnail
+						thumbnail = $("img").attr("src")
 
-				# convert url
-				if(thumbnail)
-					thumbnail = thumbnailUrlConvert(thumbnail, "http://"+hostname)
+					# convert url
+					if(thumbnail)
+						thumbnail = thumbnailUrlConvert(thumbnail, "http://"+hostname)
 
-				# return
-				callback(thumbnail)
+					# return
+					callback(thumbnail)
 
 # when the other myfeed api responds,
 # do something with the data
@@ -270,9 +271,6 @@ onFollowerRssResponse = (err, response, domain)->
 							db.put(newDoc)
 								# doc saved?
 								.catch (err)-> console.log err
-
-	else
-		console.log "no domain given ", domain
 
 # when the pouchdb responds with an array
 # of followed myfeeds

@@ -17,7 +17,14 @@ html(lang="de", ng-app="myFeed")
 	head
 		block head
 
-	body
-		block body
+	body(ng-init="$rootScope.currentUrl = 'http://scriptshit.de'")
+		side-tab(
+			sidebar-status="sidebarStatus", 
+			current-url="$rootScope.currentUrl", 
+			style="display: none;"
+		)
+		div.maintab(ng-class="{'sidetab-active': sidebarStatus == 'open'}")
+			block body
+
 
 include scripts

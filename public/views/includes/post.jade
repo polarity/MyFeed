@@ -52,7 +52,8 @@ mixin Post(config)
 
 				.article-link
 					p Quelle:&nbsp;
-						a(ng-href="{{attachment.url}}") {{attachment.url}}
+						a(ng-href="{{attachment.url}}") {{attachment.url}} 
+						a(ng-click="$rootScope.currentUrl = attachment.url") [sidebar]
 
 			// Sound Attachment
 			.SoundAttachment(ng-repeat="attachment in PostObject.attachments | filter:{type: 'sound'} track by $index")
@@ -65,7 +66,8 @@ mixin Post(config)
 
 				.sound-link
 					p Quelle:&nbsp;
-						a(ng-href="{{attachment.url}}") {{attachment.url}}
+						a(ng-href="{{attachment.url}}") {{attachment.url}} 
+						a(ng-click="$rootScope.currentUrl = attachment.url") [sidebar]
 
 			// Video Attachment
 			.VideoAttachment(ng-repeat="attachment in PostObject.attachments | filter:{type: 'video'} track by $index")
@@ -81,7 +83,8 @@ mixin Post(config)
 
 				.video-link
 					p Quelle:&nbsp;
-						a(ng-href="{{attachment.url}}") {{attachment.url}}
+						a(ng-href="{{attachment.url}}") {{attachment.url}} 
+						a(ng-click="$rootScope.currentUrl = attachment.url") [sidebar]
 					
 
 			// Image Attachment
@@ -99,7 +102,8 @@ mixin Post(config)
 
 				.image-link
 					p Quelle:&nbsp;
-						a(ng-href="{{attachment.url}}") {{attachment.url}}
+						a(ng-href="{{attachment.url}}") {{attachment.url}} 
+						a(ng-click="$rootScope.currentUrl = attachment.url") [sidebar]
 
 			// URL Attachment
 			.UrlAttachment(ng-repeat="attachment in PostObject.attachments | filter:{type: 'url'}  track by $index")
@@ -113,10 +117,12 @@ mixin Post(config)
 
 				.url-meta(ng-if="attachment.thumbnail")
 					.url-link
-						a(ng-href="{{attachment.url}}", title="{{attachment.title}}") {{attachment.title}}
+						a(ng-href="{{attachment.url}}", title="{{attachment.title}}") {{attachment.title}} 
+						a(ng-click="$rootScope.currentUrl = attachment.url") [sidebar]
 					.url-excerpt {{attachment.description | limitTo: 350}}
 
 				.url-meta-wide(ng-if="!attachment.thumbnail")
 					.url-link
-						a(ng-href="{{attachment.url}}", title="{{attachment.title}}") {{attachment.title}}
+						a(ng-href="{{attachment.url}}", title="{{attachment.title}}") {{attachment.title}} 
+						a(ng-click="$rootScope.currentUrl = attachment.url") [sidebar]
 					.url-excerpt {{attachment.description}}

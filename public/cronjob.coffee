@@ -247,7 +247,6 @@ onFollowerRssResponse = (err, response, domain)->
 				# add only docs with correct pubDate
 				# somtetimes rss feeds have
 				# wrong date formats
-
 				if isNaN(row.published_at) == false
 					# look for existing doc in db
 					db.get(newDoc._id).then (otherDoc)->						

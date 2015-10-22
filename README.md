@@ -2,6 +2,8 @@
 
 You can now have your own news feed (like a facebook profile) on your own domain/webserver. Put links, images and text into a text field, let the app parse everything nicely for you and get a nice looking web feed for your audience. You can follow other peoples domains and get their content into your own stream. (demo on my own domain [http://robert-agthe.de](http://robert-agthe.de))
 
+![MyFeed](http://pub.scriptshit.de//MyFeed-20151023-011033.jpg)
+
 # current frontend features
 - Post content to create a profile/blog/website/feed
 - Avatars via Gravtar :)
@@ -27,7 +29,7 @@ You can now have your own news feed (like a facebook profile) on your own domain
 # future
 - basic settins of your MyFeed for personalisation with background images, colours, fonts and so forth
 - make this thing work without a server. (later)
-- mport api. Stuff your MyFeed from other sources.
+- import api. Stuff your MyFeed from other sources (current RSS, MyFeed)
 
 # install on [uberspace.de](https://uberspace.de/)
 Use "uberspace_install.sh" via shell. This downloads the software into ~/MyFeed/, installs every npm/bower module, creates an .env with your data and setup a new service via daemon tools. It creates also a .htaccess in ~/html/ to redirect every apache request to the nodejs service. The Install script asks for your desired port, username, pw, email and so forth.

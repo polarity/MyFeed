@@ -20,7 +20,7 @@
     "body-parser": "~1.7.0",
     "bower-json": "~0.4.0",
     "cheerio": "^0.19.0",
-    "coffee-middleware": "~0.2.1",
+    "coffee-middleware": "*",
     "coffee-script": "*",
     "dotenv": "~0.2.8",
     "express": "^4.1.1",

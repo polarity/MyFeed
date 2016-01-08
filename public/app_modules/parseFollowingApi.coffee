@@ -33,7 +33,7 @@ module.exports = onFollowerResponse = (error, response, html, domain, db)->
 			newDoc.user.domain = newDoc.user.domain.slice(0,-1)
 
 		# look for existing doc in db
-		db.get(newDoc._id).then (otherDoc)->
+		if db then db.get(newDoc._id).then (otherDoc)->
 				return true
 				#db.remove(otherDoc._id, otherDoc._rev)
 				# current: dont update existing docs

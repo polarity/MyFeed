@@ -20,9 +20,9 @@ urlify = require('urlify').create
 	trim:true
 
 # pouchDB View creator
-# Since there's a lot of boilerplate involved 
-# in creating views, you can use the following 
-# helper function to create a simple 
+# Since there's a lot of boilerplate involved
+# in creating views, you can use the following
+# helper function to create a simple
 # design doc based on a name and a map function:
 # via http://pouchdb.com/2014/05/01/secondary-indexes-have-landed-in-pouchdb.html
 createDesignDoc = (name, mapFunction)->
@@ -54,14 +54,25 @@ if process.env.USE == "DEVELOPMENT"
 # database
 pdb = new PouchDB(__dirname + '/_pouchdb', {auto_compaction: true})
 
+pdb.viewCleanup()
+	.then (err)->
+		console.log err
+	.catch (err)->
+		console.log err
+
 # create some views
+# check for already scraped posts
+pdb.put createDesignDoc 'get_scrapecheck', (doc)->
+	emit(doc._id) if doc.type == 'rss_post'
+
 # get all profile docs
 pdb.put createDesignDoc 'get_profile', (doc)->
 	emit(doc._id) if doc.type == 'post'
 
 # get all timeline docs
 pdb.put createDesignDoc 'get_timeline', (doc)->
-	emit(doc._id) if doc.type == 'post' || doc.type == 'foreign_post' || doc.type == 'rss_post'
+	#emit(doc._id) if doc.type == 'post' || doc.type == 'foreign_post' || doc.type == 'rss_post'
+	emit(doc._id) if doc.type == 'rss_post'
 
 # get all foreign posts docs
 pdb.put createDesignDoc 'get_foreign_post', (doc)->
@@ -82,7 +93,7 @@ app.use bodyParser.json()
 app.use passport.initialize()
 app.use passport.session()
 
-# admin user 
+# admin user
 user = {}
 user.id = "myid"
 user.email = process.env.USER_EMAIL
@@ -111,7 +122,7 @@ passport.deserializeUser (id, done)->
 
 # define the app auth strategy
 localStrategy = new LocalStrategy (username, password, done)->
-	
+
 	# wrong password?
 	if user.password != password
 		return done null, false, { message: 'Incorrect password.' }
@@ -135,11 +146,11 @@ passport.use(localStrategy)
 passport.use(tokenStrategy)
 
 # app modules
-generateTitleFromPost = require('./helper_generate-title-from-post.coffee')
-correctDocKeys = require('./helper_correct-doc-keys.coffee')
+generateTitleFromPost = require('./app_modules/generate-title.coffee')
+correctDocKeys = require('./app_modules/correct-docids.coffee')
 
 # every 10 minutes
-require('./cronjob.coffee')(pdb, (10 * 60000))
+require('./app_modules/cronjob.coffee')(pdb, (10 * 60000))
 
 # routes
 #
@@ -273,7 +284,7 @@ app.post "/api/feed", (req, res)->
 
 	# after the db query
 	callback = (err, docs)->
-		if err 
+		if err
 			console.log err
 
 		if docs
@@ -310,7 +321,7 @@ app.post "/api/feed", (req, res)->
 		# get one entry
 		pdb.get req.body.id, callback
 	else
-		# get own and foreign posts when 
+		# get own and foreign posts when
 		# api is used to get the timeline
 		if req.body.type == "timeline"
 			# query db for more
@@ -361,9 +372,9 @@ app.post '/api/login', passport.authenticate('local', { session: false }), (req,
 			username: user.username
 		},
 		token: jwt.encode({
-			username: req.user.username, 
+			username: req.user.username,
 			password: req.user.password
-		}, 
+		},
 		process.env.SECRET)
 	})
 

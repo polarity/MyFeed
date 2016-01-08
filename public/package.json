@@ -4,7 +4,9 @@
   "description": "Just like a tumblr but more like facebook. if you know what i mean.",
   "main": "index.js",
   "scripts": {
-    "start": "cd coffee && npm run prestart & cd .. & node index.js"
+    "start": "npm run concat & npm run browserify & node index.js",
+	"concat": "find coffee/modules/ -type f -name '*.coffee' -exec cat {} \\; -exec echo \\; -exec echo \\; > coffee/_concat.coffee",
+    "browserify": "watchify -t coffeeify coffee/main.coffee  -o _js/complete.js"
   },
   "keywords": [
     "facebook",
@@ -16,6 +18,14 @@
   "author": "Robert Agthe",
   "license": "ISC",
   "dependencies": {
+	  "angular": "*",
+    "angular-sanitize": "*",
+    "es6-shim": "^0.32.2",
+    "jquery": "^2.1.4",
+    "moment": "*",
+    "remarkable": "*",
+    "stackblur-agthe": "*",
+    "twitter-widgets": "0.0.1",
     "bluebird": "~2.9.12",
     "body-parser": "~1.7.0",
     "bower-json": "~0.4.0",
@@ -42,5 +52,10 @@
     "truncate": "^1.0.4",
     "uglify-js": "~2.4.15",
     "urlify": "~0.3.5"
-  }
+  },
+	"devDependencies": {
+	  "browserify": "*",
+	  "coffeeify": "^1.1.0",
+	  "watchify": "^3.3.1"
+	}
 }

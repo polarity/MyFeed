@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "npm run concat & npm run browserify & node index.js",
-	"concat": "find coffee/modules/ -type f -name '*.coffee' -exec cat {} \\; -exec echo \\; -exec echo \\; > coffee/_concat.coffee",
+    "concat": "find coffee/modules/ -type f -name '*.coffee' -exec cat {} \\; -exec echo \\; -exec echo \\; > coffee/_concat.coffee",
     "browserify": "watchify -t coffeeify coffee/main.coffee  -o _js/complete.js"
   },
   "keywords": [
@@ -20,12 +20,6 @@
   "dependencies": {
     "angular": "*",
     "angular-sanitize": "*",
-    "es6-shim": "^0.32.2",
-    "jquery": "^2.1.4",
-    "moment": "*",
-    "remarkable": "*",
-    "stackblur-agthe": "*",
-    "twitter-widgets": "0.0.1",
     "bluebird": "~2.9.12",
     "body-parser": "~1.7.0",
     "bower-json": "~0.4.0",
@@ -33,29 +27,35 @@
     "coffee-middleware": "*",
     "coffee-script": "*",
     "dotenv": "~0.2.8",
+    "es6-shim": "^0.32.2",
     "express": "^4.1.1",
     "express-livereload": "0.0.24",
     "he": "^0.5.0",
     "jade": "^1.3.1",
+    "jquery": "^2.1.4",
     "jwt-simple": "~0.2.0",
     "md5": "~1.0.0",
+    "moment": "*",
     "myfeed-scrape": "*",
     "node-markdown": "~0.1.1",
     "passport": "~0.2.1",
     "passport-local": "~1.0.0",
     "passport-token-auth": "~0.1.2",
     "pouchdb": "*",
+    "remarkable": "*",
     "request": "~2.45.0",
     "rss": "~1.0.0",
-    "rssparser": "*",
+    "rssparser": "git+https://github.com/polarity/node-rssparser.git",
+    "stackblur-agthe": "*",
     "stylus": "~0.47.3",
     "truncate": "^1.0.4",
+    "twitter-widgets": "0.0.1",
     "uglify-js": "~2.4.15",
     "urlify": "~0.3.5"
   },
-	"devDependencies": {
-	  "browserify": "*",
-	  "coffeeify": "^1.1.0",
-	  "watchify": "^3.3.1"
-	}
+  "devDependencies": {
+    "browserify": "*",
+    "coffeeify": "^1.1.0",
+    "watchify": "^3.3.1"
+  }
 }

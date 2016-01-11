@@ -27,13 +27,15 @@ module.exports = onFollowerRssResponse = (err, response, domain, db)->
 		else
 			domain = false
 	else
-		console.log("\n\n------------------------------------------\n\n")
+		console.log("\n\n------------------------------------------\n")
+		console.log("Somethings wrong with this feed\n")
 		if response.items.length < 1
 			console.log domain, "no items"
 		if response.items.length > 0 && !response.items[0].guid
 			console.log domain, "no guid"
-		console.log("\n\n****\n\n")
+		console.log("\n****\n")
 		console.log(response)
+		console.log("\n****\n")
 
 	# extract the hostname
 	hostname = URL.parse(domain).hostname
@@ -117,14 +119,13 @@ module.exports = onFollowerRssResponse = (err, response, domain, db)->
 						url: row.url
 					}
 				]
-
 				# add only docs with correct pubDate
 				# somtetimes rss feeds have
 				# wrong date formats
 				if isNaN(row.published_at) == false && db
-					console.log "dont check, just put", newDoc
 					# look for existing doc in db
 					db.get(newDoc._id).then (otherDoc)->
+							console.log("doc already in db (correct date):", otherDoc._id)
 							return true
 							#console.log db.remove(otherDoc._id, otherDoc._rev)
 							# current: dont update existing docs
@@ -137,28 +138,33 @@ module.exports = onFollowerRssResponse = (err, response, domain, db)->
 
 						# catch when theres no doc in the db
 						.catch (err)->
-							console.log "Put new doc (correct date): ", newDoc
+							console.log "put new doc (correct date): ", newDoc
 							# create a new entry (no _rev)
 							db.put(newDoc)
 								# doc saved?
 								.catch (err)-> console.log err
 				else if db
-					console.log "check for", newDoc
 					# try to get the date out of the db
 					# maybe the post is already in the db
 					# and we assigned a new date a first scrape
-					db.query("get_scrapecheck", {
+					db.query("get_checks", {
 							key: newDoc.check,
 							include_docs: true
 						})
-						.then (err, otherDoc) ->
-							console.log("doc already in db")
-							console.log(err, otherDoc)
+						.then (otherDoc) ->
+							if otherDoc.rows.length == 0
+								console.log "put new doc (gen. date): ", newDoc.check
+								# create a new entry (no _rev)
+								db.put(newDoc).catch (err)-> console.log err
+							else
+								console.log("doc already in db (gen. date): ", newDoc.check, "rows ->", otherDoc.total_rows, otherDoc.rows.length)
 						.catch (err) ->
 							if err.status == 404
-								console.log "Put new doc (gen. date)", newDoc
+								console.log "Put new doc (gen. date): ", newDoc
 								# create a new entry (no _rev)
 								db.put(newDoc).catch (err)-> console.log err
 
 				else
 					console.log "no db!"
+	else
+		console.log("no hostname!", domain)

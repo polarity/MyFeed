@@ -54,16 +54,10 @@ if process.env.USE == "DEVELOPMENT"
 # database
 pdb = new PouchDB(__dirname + '/_pouchdb', {auto_compaction: true})
 
-pdb.viewCleanup()
-	.then (err)->
-		console.log err
-	.catch (err)->
-		console.log err
-
 # create some views
 # check for already scraped posts
-pdb.put createDesignDoc 'get_scrapecheck', (doc)->
-	emit(doc._id) if doc.type == 'rss_post'
+pdb.put createDesignDoc 'get_checks', (doc)->
+	emit(doc.check) if doc.type == 'rss_post'
 
 # get all profile docs
 pdb.put createDesignDoc 'get_profile', (doc)->
@@ -71,7 +65,10 @@ pdb.put createDesignDoc 'get_profile', (doc)->
 
 # get all timeline docs
 pdb.put createDesignDoc 'get_timeline', (doc)->
-	#emit(doc._id) if doc.type == 'post' || doc.type == 'foreign_post' || doc.type == 'rss_post'
+	emit(doc._id) if doc.type == 'post' || doc.type == 'foreign_post' || doc.type == 'rss_post'
+
+# get all rss docs
+pdb.put createDesignDoc 'get_rss', (doc)->
 	emit(doc._id) if doc.type == 'rss_post'
 
 # get all foreign posts docs

@@ -27,14 +27,15 @@ parseRssFeed = (domain, db, error, response, html)->
 			console.log("-> Code: ", response.statusCode, ", Header:", response.headers['content-type'], " -> ", domain)
 
 # parse the response from the foreign website
-onUrlResponse = (domain, db, error, response, html)->
+onUrlResponse = (url, db, error, response, html)->
 	# is myfeed? post should give 200 and app/json header:
 	if !error && response.statusCode == 200 && response.headers['content-type']=='application/json'
 		# parse myfeed!
-		onFollowerResponse(error, response, html, domain, db) if !error
+		onFollowerResponse(error, response, html, url, db) if !error
 	else
+		rssUrl = url.replace("/api/feed", "")
 		# try get RSS feed instead / without api path
-		request.get domain, parseRssFeed.bind(undefined, domain.replace("/api/feed", ""), db)
+		request.get rssUrl, parseRssFeed.bind(undefined, rssUrl, db)
 
 module.exports = parseFollowing = (url, db)->
-	request.post url, onUrlResponse.bind(undefined, url, db)
+	request.get url, onUrlResponse.bind(undefined, url, db)

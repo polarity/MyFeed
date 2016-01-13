@@ -1,7 +1,9 @@
+URL = require('url')
+
 # takes the a thumb "url of og:image" tag and the
 # "url of the html document" and convert the thumb
 # urls to correct absolute urls
-# 
+#
 # "//domain.tld/path/img.gif" -> "http://domain.tld/path/img.gif"
 # "/path/img.gif" -> "http://domain.tld/path/img.gif"
 # "img.gif" -> "http://domain.tld/path/img.gif"

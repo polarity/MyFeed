@@ -1,4 +1,4 @@
-URL = require('url');
+URL = require('url')
 
 # when the other myfeed api responds,
 # do something with the data

@@ -25,17 +25,10 @@ module.exports = onFollowerRssResponse = (err, response, domain, db)->
 		else if  response.items[0].url
 			domain = response.items[0].url
 		else
-			domain = false
-	else
-		console.log("\n\n------------------------------------------\n")
-		console.log("Somethings wrong with this feed\n")
-		if response.items.length < 1
-			console.log domain, "no items"
-		if response.items.length > 0 && !response.items[0].guid
-			console.log domain, "no guid"
-		console.log("\n****\n")
-		console.log(response)
-		console.log("\n****\n")
+			# keep the address of the feed
+			# as a domain. hopefully it isnt
+			# feedburner
+			domain = domain
 
 	# extract the hostname
 	hostname = URL.parse(domain).hostname

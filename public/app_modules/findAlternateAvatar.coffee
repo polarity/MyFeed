@@ -5,15 +5,16 @@ thumbnailUrlConvert = require("./ogImageUrlConvert.coffee")
 # try to get an Avatar or thumbnail for a
 # website. favicon, logo.png or some random
 # image from the page. we need this for
-# a nice interface 
+# a nice interface
 module.exports = (hostname,  callback)->
+	# try to get a favicon!
 	request.get "http://"+hostname+"/favicon.ico", (error, response, html)->
 		# should deliver an 200 and shouldnt be 0 bytes
 		# some webserver (microsoft) deliver 200 AND an ico with 0 bytes
 		if !error && response.statusCode == 200 && response.headers['content-length'] != "0"
-			callback("http://"+hostname+"/favicon.ico") 
+			callback("http://"+hostname+"/favicon.ico")
 		else
-			# try to get ANY image from the index webpage 
+			# try to get ANY image from the index webpage
 			# of the feed
 			request.get  "http://"+hostname, (error, response, html)->
 				if !error

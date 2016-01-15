@@ -118,7 +118,6 @@ module.exports = onFollowerRssResponse = (err, response, domain, db)->
 				if isNaN(row.published_at) == false && db
 					# look for existing doc in db
 					db.get(newDoc._id).then (otherDoc)->
-							console.log("doc already in db (correct date):", otherDoc._id)
 							return true
 							#console.log db.remove(otherDoc._id, otherDoc._rev)
 							# current: dont update existing docs
@@ -131,7 +130,6 @@ module.exports = onFollowerRssResponse = (err, response, domain, db)->
 
 						# catch when theres no doc in the db
 						.catch (err)->
-							console.log "put new doc (correct date): ", newDoc
 							# create a new entry (no _rev)
 							db.put(newDoc)
 								# doc saved?
@@ -146,18 +144,12 @@ module.exports = onFollowerRssResponse = (err, response, domain, db)->
 						})
 						.then (otherDoc) ->
 							if otherDoc.rows.length == 0
-								console.log "put new doc (gen. date): ", newDoc.check
 								# create a new entry (no _rev)
 								db.put(newDoc).catch (err)-> console.log err
-							else
-								console.log("doc already in db (gen. date): ", newDoc.check, "rows ->", otherDoc.total_rows, otherDoc.rows.length)
 						.catch (err) ->
 							if err.status == 404
-								console.log "Put new doc (gen. date): ", newDoc
 								# create a new entry (no _rev)
 								db.put(newDoc).catch (err)-> console.log err
 
 				else
 					console.log "no db!"
-	else
-		console.log("no hostname!", domain)

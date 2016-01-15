@@ -20,11 +20,11 @@ parseRssFeed = (domain, db, error, response, html)->
 		charset = getParams(response.headers['content-type'] || '').charset || "UTF-8"
 		feedparser.parseURL domain, {rssEncoding: charset}, (err, response)->
 			onFollowerRssResponse(err, response, domain, db)
-	else
-		if error
-			console.log("-> RSS Fehler", error, " -> ", domain)
-		if response
-			console.log("-> Code: ", response.statusCode, ", Header:", response.headers['content-type'], " -> ", domain)
+	# else
+		# if error
+			# console.log("-> RSS Fehler", error, " -> ", domain)
+		# if response
+			# console.log("-> Code: ", response.statusCode, ", Header:", response.headers['content-type'], " -> ", domain)
 
 # parse the response from the foreign website
 onUrlResponse = (url, db, error, response, html)->

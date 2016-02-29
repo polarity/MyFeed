@@ -27,7 +27,7 @@
     "coffee-middleware": "*",
     "coffee-script": "*",
     "dotenv": "~0.2.8",
-    "es6-shim": "^0.32.2",
+    "es6-shim": "*",
     "express": "^4.1.1",
     "express-livereload": "0.0.24",
     "he": "^0.5.0",

@@ -147,7 +147,7 @@ generateTitleFromPost = require('./app_modules/generate-title.coffee')
 correctDocKeys = require('./app_modules/correct-docids.coffee')
 
 # every 10 minutes
-require('./app_modules/cronjob.coffee')(pdb, (10 * 60000))
+require('./app_modules/cronjob.coffee')(pdb, (60 * 60000))
 
 # routes
 #

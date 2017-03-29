@@ -14,7 +14,7 @@ Controller = ($scope, LoginService, $http, $timeout) ->
 			}
 		})
 
-		.success (data)-> 
+		.then (data)-> 
 			# store only the token and some
 			# infos on the browser localStorage
 			if window.localStorage
@@ -33,7 +33,7 @@ Controller = ($scope, LoginService, $http, $timeout) ->
 				$scope.login.emailhash = data.user.emailhash
 				$scope.login.info = ""
 
-		.error (err)-> 
+		.catch (err)-> 
 			# something went wrong
 			# not logged in, set a info message
 			$scope.login.info = "Kein Login möglich: " + err

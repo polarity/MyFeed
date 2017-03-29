@@ -21,15 +21,15 @@ Controller = ($scope, $timeout, $http, PostsService, LoginService) ->
 					type: $scope.type
 				}
 			})
-			.success( (data)->
-				data.rows.forEach (item)->
-					$scope.Posts.push(item.doc)
+			.then( (data)->
+				if data && data.rows && data.rows.length > 1
+					data.rows.forEach (item)->
+						$scope.Posts.push(item.doc)
 
-				# remember last id
-				if data.rows.length > 1
+					# remember last id
 					$scope.end = data.rows[data.rows.length-1].id
 			)
-			.error( (err)-> console.log err )
+			.catch( (err)-> console.log err )
 
 		$scope.showMore = (type)->
 			$scope.getPosts(false, $scope.end, type)
@@ -55,10 +55,10 @@ Controller = ($scope, $timeout, $http, PostsService, LoginService) ->
 					"access_token": $scope.login.token
 				}
 			})
-			.success( (data)->
+			.then( (data)->
 				console.log 'gelöscht!'
 			)
-			.error( (err)-> console.log err )
+			.catch( (err)-> console.log err )
 
 # Angular Foo
 # Since Angular infers the controller's dependencies from the 

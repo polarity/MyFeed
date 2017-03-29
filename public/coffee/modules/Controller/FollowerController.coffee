@@ -8,11 +8,12 @@ Controller = ($scope, LoginService, $http, $timeout) ->
 			url: "/api/followed"
 			method: "GET"
 		})
-		.success( (data)->
-			data.rows.forEach (item)->
-				$scope.followed.push(item.doc)
+		.then( (data)->
+			if data
+				data.rows.forEach (item)->
+					$scope.followed.push(item.doc)
 		)
-		.error( (err)-> console.log err )
+		.catch( (err)-> console.log err )
 
 	$scope.getFollowed()
 
@@ -31,9 +32,9 @@ Controller = ($scope, LoginService, $http, $timeout) ->
 			}
 		})
 
-		.success (doc)-> 
+		.then (doc)->
 			$scope.followed.push(doc)
-		.error (err)-> 
+		.catch (err)->
 			console.log(err)
 
 	$scope.removeFollower = (follower)->
@@ -55,10 +56,10 @@ Controller = ($scope, LoginService, $http, $timeout) ->
 				"access_token": $scope.login.token
 			}
 		})
-		.success( (data)->
+		.then( (data)->
 			console.log 'gelöscht!'
 		)
-		.error( (err)-> console.log err )
+		.catch( (err)-> console.log err )
 
 # Angular Foo
 # Since Angular infers the controller's dependencies from the 

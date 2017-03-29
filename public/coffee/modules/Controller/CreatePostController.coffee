@@ -57,7 +57,7 @@ Controller = ($scope, LoginService, $timeout, $http, PostsService) ->
 			data: {'url': url, "access_token": $scope.login.token}
 		})
 
-		.success (data)-> 
+		.then (data)-> 
 			# get temporary url object
 			index = $scope.PostObject.attachments.findIndex (attachment)-> 
 				attachment.url == url
@@ -68,7 +68,7 @@ Controller = ($scope, LoginService, $timeout, $http, PostsService) ->
 			# overwrite url object
 			$scope.PostObject.attachments[index] = data
 
-		.error (err)-> 
+		.catch (err)-> 
 			console.log err
 
 	# removes an attachment from the array
@@ -83,7 +83,7 @@ Controller = ($scope, LoginService, $timeout, $http, PostsService) ->
 			method: "POST"
 			data: {doc: PostObject, "access_token": $scope.login.token}
 		})
-		.success (doc)-> 
+		.then (doc)-> 
 			$timeout ()->
 				$scope.PostObject._id = doc.id
 				$scope.PostObject._rev = doc.rev
@@ -93,7 +93,7 @@ Controller = ($scope, LoginService, $timeout, $http, PostsService) ->
 				# create a new post object on init
 				$scope.initCurrentPost()
 
-		.error( (err)-> console.log err )
+		.catch( (err)-> console.log err )
 
 # Angular Foo
 # Since Angular infers the controller's dependencies from the 

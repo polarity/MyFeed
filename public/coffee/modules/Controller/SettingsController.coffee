@@ -8,8 +8,8 @@ Controller = ($scope, LoginService, $http, $timeout) ->
 			method: "POST"
 			data: {datauri: datauri, "access_token": $scope.login.token}
 		})
-		.success (doc)-> console.log doc
-		.error( (err)-> console.log err )
+		.then (doc)-> console.log doc
+		.catch( (err)-> console.log err )
 
 # Angular Foo
 # Since Angular infers the controller's dependencies from the 
